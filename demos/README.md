@@ -89,9 +89,30 @@ théorie ; la version projet montre l'organisation cible (celle du fil rouge).
 
 ### Comment ces projets ont été créés (à refaire en live)
 
-Exemple pour la démo du module 5 — les mêmes commandes valent pour tous
-(seul le nom change : `DemoHeritage`, `DemoInterfaces`, `DemoTypes`,
-`DemoCollections`, `DemoLinq`, `DemoExceptions`, `DemoFichiers`).
+Les commandes exactes, **projet par projet**, exécutées depuis `demos/`
+(`-n` = nom du projet et du namespace, `-o` = dossier de destination) :
+
+```bash
+dotnet new console -n DemoClasses     -o module-05-classes-objets-projet
+dotnet new console -n DemoHeritage    -o module-06-encapsulation-heritage-projet
+dotnet new console -n DemoInterfaces  -o module-07-interfaces-polymorphisme-projet
+dotnet new console -n DemoTypes       -o module-08-types-specialises-projet
+dotnet new console -n DemoCollections -o module-09-collections-generiques-projet
+dotnet new console -n DemoLinq        -o module-10-linq-projet
+dotnet new console -n DemoExceptions  -o module-11-exceptions-projet
+dotnet new console -n DemoFichiers    -o module-12-nullabilite-fichiers-projet
+```
+
+Puis le `.gitignore` .NET dans chaque projet — soit dossier par dossier
+(`cd module-05-classes-objets-projet && dotnet new gitignore`), soit en une
+fois pour les huit :
+
+```bash
+for d in module-*-projet; do (cd "$d" && dotnet new gitignore); done
+```
+
+Le nom passé à `-n` est aussi le `namespace` à mettre en tête de chaque
+fichier du projet (`namespace DemoClasses;`, `namespace DemoHeritage;`, etc.).
 
 **Anatomie des commandes** :
 
@@ -106,31 +127,9 @@ Exemple pour la démo du module 5 — les mêmes commandes valent pour tous
 | `dotnet run fichier.cs` | exécute un **fichier autonome** (file-based app), sans projet — le mode des démos mono-fichier |
 | `dotnet project convert fichier.cs` | transforme un fichier autonome en projet (dossier + `.csproj` + conversion des directives `#:`) |
 
-```bash
-cd demos
-```
-
-```bash
-dotnet new console -n DemoClasses -o module-05-classes-objets-projet
-```
-
-```bash
-cd module-05-classes-objets-projet
-```
-
-```bash
-dotnet new gitignore
-```
-
-Puis : créer un fichier par type (`Livre.cs`, `Membre.cs`) avec la même ligne
-`namespace DemoClasses;` en tête, garder les top-level statements dans
-`Program.cs` seulement, et exécuter :
-
-```bash
-dotnet run
-```
-
-(ou depuis `demos/` : `dotnet run --project module-05-classes-objets-projet`)
+Une fois le projet créé : un fichier par type (`Livre.cs`, `Membre.cs`…),
+les top-level statements dans `Program.cs` seulement, puis `dotnet run`
+depuis le dossier du projet (ou `dotnet run --project <dossier>` depuis `demos/`).
 
 Autre chemin possible en live : partir de la démo mono-fichier et laisser la
 CLI générer le projet, puis éclater les types en fichiers :

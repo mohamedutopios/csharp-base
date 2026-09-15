@@ -55,9 +55,33 @@ solution éclatée en un fichier par type (+ `.csproj`), à lancer avec
 
 ### Les commandes pour créer un projet comme ceux-ci
 
-C'est la séquence que les apprenants doivent connaître (exemple du TP 5 ;
-noms utilisés pour les autres : `TpEquipe`, `TpFormes`, `TpColis`,
-`TpInventaire`, `TpMediatheque`, `TpDistributeur`, `TpContacts`).
+Les commandes exactes qui ont créé les 8 `solution-projet/`, exécutées depuis
+`tps/` (`-n` = nom du projet et du namespace, `-o` = dossier de destination) :
+
+```bash
+dotnet new console -n TpBanque       -o module-05-classes-objets/solution-projet
+dotnet new console -n TpEquipe       -o module-06-encapsulation-heritage/solution-projet
+dotnet new console -n TpFormes       -o module-07-interfaces-polymorphisme/solution-projet
+dotnet new console -n TpColis        -o module-08-types-specialises/solution-projet
+dotnet new console -n TpInventaire   -o module-09-collections-generiques/solution-projet
+dotnet new console -n TpMediatheque  -o module-10-linq/solution-projet
+dotnet new console -n TpDistributeur -o module-11-exceptions/solution-projet
+dotnet new console -n TpContacts     -o module-12-nullabilite-fichiers/solution-projet
+```
+
+Puis le `.gitignore` .NET dans chaque projet — dossier par dossier
+(`cd module-05-classes-objets/solution-projet && dotnet new gitignore`),
+ou en une fois pour les huit :
+
+```bash
+for d in module-*/solution-projet; do (cd "$d" && dotnet new gitignore); done
+```
+
+Le nom passé à `-n` est aussi le `namespace` en tête de chaque fichier du
+projet (`namespace TpBanque;`, `namespace TpEquipe;`, etc.).
+
+Voici maintenant la séquence détaillée que les apprenants doivent connaître,
+sur l'exemple du TP 5.
 
 **Anatomie des commandes** (à expliquer en séance, pas seulement à taper) :
 
