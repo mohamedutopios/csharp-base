@@ -3,6 +3,7 @@
 // Démo : classe, instance, champs, propriétés (auto, init, required),
 //        constructeurs, this, membres statiques, object initializer
 // Exécution : dotnet run module-05-classes-objets.cs
+// Version projet (une classe = un fichier) : module-05-classes-objets-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 5 : classes et objets ===\n");

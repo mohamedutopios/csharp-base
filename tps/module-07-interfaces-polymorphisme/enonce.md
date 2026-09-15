@@ -52,3 +52,8 @@ et aiguiller par type avec `is`/`as` et le pattern matching.
   et constater que les trois classes en profitent sans rien écrire.
 - Trier la liste par aire croissante (`List.Sort` + `CompareTo`… ou patienter
   jusqu'au module 10 et LINQ `OrderBy`).
+
+> **Organisation en projet** : un fichier par contrat et par classe
+> (`IForme.cs`, `IExportable.cs`, `Cercle.cs`, `Rectangle.cs`,
+> `TriangleRectangle.cs`), le scénario et `Decrire` dans `Program.cs`.
+> Le résultat attendu est dans `solution-projet/` (`dotnet run --project solution-projet`).

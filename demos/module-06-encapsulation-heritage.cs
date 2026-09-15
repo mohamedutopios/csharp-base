@@ -3,6 +3,7 @@
 // Démo : modificateurs d'accès, base, virtual/override/sealed,
 //        classes abstraites, ToString/Equals
 // Exécution : dotnet run module-06-encapsulation-heritage.cs
+// Version projet (une classe = un fichier) : module-06-encapsulation-heritage-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 6 : encapsulation et héritage ===\n");

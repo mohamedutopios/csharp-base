@@ -58,3 +58,8 @@ comportements et égalité de contenu.
 - Ajouter dans `Manager` une méthode `Recruter()` qui incrémente `TailleEquipe` :
   que devient son salaire ? (montrer que le calcul est dynamique)
 - Marquer `SalaireMensuel` de `Stagiaire` `sealed override` et expliquer la nuance.
+
+> **Organisation en projet** : comme au TP 5, travaillez avec un fichier par
+> classe (`Employe.cs`, `Developpeur.cs`, `Manager.cs`, `Stagiaire.cs`,
+> `Badge.cs`) et un `Program.cs` qui ne contient que le scénario. Le résultat
+> attendu est dans `solution-projet/` (`dotnet run --project solution-projet`).

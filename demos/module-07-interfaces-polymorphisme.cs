@@ -3,6 +3,7 @@
 // Démo : déclaration/implémentation, interface vs héritage,
 //        is / as, pattern matching sur types
 // Exécution : dotnet run module-07-interfaces-polymorphisme.cs
+// Version projet (une classe = un fichier) : module-07-interfaces-polymorphisme-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 7 : interfaces et polymorphisme ===\n");

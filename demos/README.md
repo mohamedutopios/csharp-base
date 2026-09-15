@@ -12,6 +12,28 @@ dotnet run module-01-ecosysteme.cs
 
 > La première exécution d'un fichier est un peu lente (compilation), les suivantes sont instantanées (cache).
 
+## Versions projet multi-fichiers (modules 5, 6, 7)
+
+Les démos POO existent aussi en **vrai projet console**, avec la structure
+professionnelle *une classe = un fichier* — à utiliser en séance pour montrer
+comment on organise réellement le code :
+
+| Dossier | Fichiers |
+|---|---|
+| `module-05-classes-objets-projet/` | `Program.cs`, `Livre.cs`, `Membre.cs` |
+| `module-06-encapsulation-heritage-projet/` | `Program.cs`, `Animal.cs`, `Chien.cs`, `Chat.cs`, `CompteBancaire.cs`, `Point.cs` |
+| `module-07-interfaces-polymorphisme-projet/` | `Program.cs`, `INotifiable.cs`, `Email.cs`, `Sms.cs`, `Drone.cs` |
+
+```bash
+dotnet run --project module-05-classes-objets-projet
+```
+
+Points à faire passer en démo : le compilateur inclut automatiquement **tous
+les `.cs` du dossier du projet** (aucun « import de fichier ») ; un seul fichier
+(`Program.cs`) porte les top-level statements ; même `namespace` partout et
+classes `public`. Le fichier mono-fichier reste pratique pour dérouler la
+théorie ; la version projet montre l'organisation cible (celle du fil rouge).
+
 ## Sommaire
 
 | Jour | Fichier | Module | Contenu démontré |

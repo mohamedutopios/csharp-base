@@ -56,3 +56,25 @@ constructeurs et membres statiques.
 - `TauxLivret` : propriété statique (`3.0m` %) et méthode d'instance
   `InteretsAnnuels()` → `Solde × TauxLivret / 100`.
 - Que se passe-t-il si on oublie `Nom` dans l'object initializer ? Tester.
+
+## Partie E — Organiser le code en fichiers (la vraie structure d'un projet)
+
+À partir de ce module, on travaille comme sur un vrai projet : **une classe = un
+fichier**, portant le nom de la classe.
+
+15. Dans votre projet console (`dotnet new console -n TpBanque`), déplacer :
+    - `CompteBancaire` dans `CompteBancaire.cs`,
+    - `Banque` dans `Banque.cs`,
+    - `Program.cs` ne garde **que** le scénario (les top-level statements).
+16. Donner le même `namespace TpBanque;` aux trois fichiers (namespace de
+    fichier, une ligne en tête) et marquer les classes `public`.
+17. Exécuter avec `dotnet run` : **rien d'autre à faire** — le compilateur
+    inclut automatiquement tous les `.cs` du dossier du projet dans la
+    compilation. Il n'y a ni `import` de fichier ni liste à maintenir.
+18. Questions :
+    - Pourquoi un seul fichier peut-il contenir des top-level statements ?
+    - Que se passe-t-il si deux fichiers déclarent chacun une classe `Banque`
+      dans le même namespace ? Tester et lire l'erreur.
+
+> Le dossier `solution-projet/` contient le résultat attendu :
+> `dotnet run --project solution-projet` pour l'exécuter.
