@@ -53,7 +53,56 @@ solution éclatée en un fichier par type (+ `.csproj`), à lancer avec
 - TP 12 : `Contact.cs` + `CarnetContacts.cs` (la persistance devient une classe
   dédiée) — et plus besoin de la directive `#:property` du mono-fichier.
 
-Pour migrer un fichier autonome vers un vrai projet : `dotnet project convert solution.cs`.
+### Les commandes pour créer un projet comme ceux-ci
+
+C'est la séquence que les apprenants doivent connaître (exemple du TP 5 ;
+noms utilisés pour les autres : `TpEquipe`, `TpFormes`, `TpColis`,
+`TpInventaire`, `TpMediatheque`, `TpDistributeur`, `TpContacts`) :
+
+```bash
+cd tps/module-05-classes-objets
+```
+
+Créer le projet console dans un sous-dossier :
+
+```bash
+dotnet new console -n TpBanque -o solution-projet
+```
+
+Générer le `.gitignore` .NET dans le projet :
+
+```bash
+cd solution-projet
+```
+
+```bash
+dotnet new gitignore
+```
+
+Créer ensuite un fichier par type (`CompteBancaire.cs`, `Banque.cs`…), tous
+avec la même ligne `namespace TpBanque;` en tête et des types `public` ;
+`Program.cs` garde uniquement le scénario (top-level statements). Exécuter :
+
+```bash
+dotnet run
+```
+
+(ou depuis le dossier du TP : `dotnet run --project solution-projet`)
+
+Dans le cadre de la formation (solution `FormationCSharp.sln` de l'étape zéro),
+on rattache le projet à la solution :
+
+```bash
+dotnet sln add solution-projet/TpBanque.csproj
+```
+
+Enfin, pour migrer une solution mono-fichier existante vers un vrai projet,
+la CLI fait le squelette toute seule (elle crée le dossier, le `.csproj` et
+convertit les directives `#:` en propriétés MSBuild) :
+
+```bash
+dotnet project convert solution.cs
+```
 
 ## Sommaire
 

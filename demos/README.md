@@ -40,6 +40,45 @@ les `.cs` du dossier du projet** (aucun « import de fichier ») ; un seul fichi
 classes `public`. Le fichier mono-fichier reste pratique pour dérouler la
 théorie ; la version projet montre l'organisation cible (celle du fil rouge).
 
+### Comment ces projets ont été créés (à refaire en live)
+
+Exemple pour la démo du module 5 — les mêmes commandes valent pour tous
+(seul le nom change : `DemoHeritage`, `DemoInterfaces`, `DemoTypes`,
+`DemoCollections`, `DemoLinq`, `DemoExceptions`, `DemoFichiers`) :
+
+```bash
+cd demos
+```
+
+```bash
+dotnet new console -n DemoClasses -o module-05-classes-objets-projet
+```
+
+```bash
+cd module-05-classes-objets-projet
+```
+
+```bash
+dotnet new gitignore
+```
+
+Puis : créer un fichier par type (`Livre.cs`, `Membre.cs`) avec la même ligne
+`namespace DemoClasses;` en tête, garder les top-level statements dans
+`Program.cs` seulement, et exécuter :
+
+```bash
+dotnet run
+```
+
+(ou depuis `demos/` : `dotnet run --project module-05-classes-objets-projet`)
+
+Autre chemin possible en live : partir de la démo mono-fichier et laisser la
+CLI générer le projet, puis éclater les types en fichiers :
+
+```bash
+dotnet project convert module-05-classes-objets.cs
+```
+
 ## Sommaire
 
 | Jour | Fichier | Module | Contenu démontré |
