@@ -3,6 +3,12 @@
 Une démo exécutable par module du programme, sous forme de **fichiers C# autonomes**
 (« file-based apps », .NET 10) : pas de `.csproj`, pas de solution — un fichier = une démo.
 
+> Une solution `CSharpBase.slnx` existe **à la racine de `csharp-base/`** : elle
+> regroupe les 16 versions projet (démos + TP, modules 5 à 12). Ouvrir ce dossier
+> racine dans VS Code / Rider donne accès à tout, et `dotnet build` à la racine
+> compile l'ensemble d'un coup. Les démos mono-fichier de ce dossier n'en font
+> pas partie : une file-based app ne s'inscrit pas dans une solution.
+
 ## Exécution
 
 ```bash
@@ -85,7 +91,20 @@ théorie ; la version projet montre l'organisation cible (celle du fil rouge).
 
 Exemple pour la démo du module 5 — les mêmes commandes valent pour tous
 (seul le nom change : `DemoHeritage`, `DemoInterfaces`, `DemoTypes`,
-`DemoCollections`, `DemoLinq`, `DemoExceptions`, `DemoFichiers`) :
+`DemoCollections`, `DemoLinq`, `DemoExceptions`, `DemoFichiers`).
+
+**Anatomie des commandes** :
+
+| Élément | Signification |
+|---|---|
+| `dotnet new console` | génère un projet à partir du **modèle** `console` (lister les modèles : `dotnet new list`) |
+| `-n DemoClasses` | **name** : le nom du projet → `DemoClasses.csproj`, namespace par défaut, nom de l'exécutable |
+| `-o module-05-...-projet` | **output** : le dossier où créer les fichiers (créé s'il n'existe pas). Sans `-o`, la CLI crée un dossier portant le nom donné à `-n` |
+| `dotnet new gitignore` | même mécanique : le modèle `gitignore` génère un `.gitignore` .NET dans le dossier courant |
+| `dotnet run` | compile **le projet du dossier courant** puis l'exécute |
+| `dotnet run --project chemin/` | désigne le dossier du projet quand on n'est **pas** dedans |
+| `dotnet run fichier.cs` | exécute un **fichier autonome** (file-based app), sans projet — le mode des démos mono-fichier |
+| `dotnet project convert fichier.cs` | transforme un fichier autonome en projet (dossier + `.csproj` + conversion des directives `#:`) |
 
 ```bash
 cd demos

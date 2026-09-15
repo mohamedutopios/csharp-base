@@ -1,0 +1,60 @@
+<Solution>
+  <Folder Name="/demos/" />
+  <Folder Name="/demos/module-05-classes-objets-projet/">
+    <Project Path="demos/module-05-classes-objets-projet/DemoClasses.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-06-encapsulation-heritage-projet/">
+    <Project Path="demos/module-06-encapsulation-heritage-projet/DemoHeritage.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-07-interfaces-polymorphisme-projet/">
+    <Project Path="demos/module-07-interfaces-polymorphisme-projet/DemoInterfaces.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-08-types-specialises-projet/">
+    <Project Path="demos/module-08-types-specialises-projet/DemoTypes.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-09-collections-generiques-projet/">
+    <Project Path="demos/module-09-collections-generiques-projet/DemoCollections.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-10-linq-projet/">
+    <Project Path="demos/module-10-linq-projet/DemoLinq.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-11-exceptions-projet/">
+    <Project Path="demos/module-11-exceptions-projet/DemoExceptions.csproj" />
+  </Folder>
+  <Folder Name="/demos/module-12-nullabilite-fichiers-projet/">
+    <Project Path="demos/module-12-nullabilite-fichiers-projet/DemoFichiers.csproj" />
+  </Folder>
+  <Folder Name="/tps/" />
+  <Folder Name="/tps/module-05-classes-objets/" />
+  <Folder Name="/tps/module-05-classes-objets/solution-projet/">
+    <Project Path="tps/module-05-classes-objets/solution-projet/TpBanque.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-06-encapsulation-heritage/" />
+  <Folder Name="/tps/module-06-encapsulation-heritage/solution-projet/">
+    <Project Path="tps/module-06-encapsulation-heritage/solution-projet/TpEquipe.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-07-interfaces-polymorphisme/" />
+  <Folder Name="/tps/module-07-interfaces-polymorphisme/solution-projet/">
+    <Project Path="tps/module-07-interfaces-polymorphisme/solution-projet/TpFormes.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-08-types-specialises/" />
+  <Folder Name="/tps/module-08-types-specialises/solution-projet/">
+    <Project Path="tps/module-08-types-specialises/solution-projet/TpColis.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-09-collections-generiques/" />
+  <Folder Name="/tps/module-09-collections-generiques/solution-projet/">
+    <Project Path="tps/module-09-collections-generiques/solution-projet/TpInventaire.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-10-linq/" />
+  <Folder Name="/tps/module-10-linq/solution-projet/">
+    <Project Path="tps/module-10-linq/solution-projet/TpMediatheque.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-11-exceptions/" />
+  <Folder Name="/tps/module-11-exceptions/solution-projet/">
+    <Project Path="tps/module-11-exceptions/solution-projet/TpDistributeur.csproj" />
+  </Folder>
+  <Folder Name="/tps/module-12-nullabilite-fichiers/" />
+  <Folder Name="/tps/module-12-nullabilite-fichiers/solution-projet/">
+    <Project Path="tps/module-12-nullabilite-fichiers/solution-projet/TpContacts.csproj" />
+  </Folder>
+</Solution>

@@ -57,7 +57,21 @@ solution éclatée en un fichier par type (+ `.csproj`), à lancer avec
 
 C'est la séquence que les apprenants doivent connaître (exemple du TP 5 ;
 noms utilisés pour les autres : `TpEquipe`, `TpFormes`, `TpColis`,
-`TpInventaire`, `TpMediatheque`, `TpDistributeur`, `TpContacts`) :
+`TpInventaire`, `TpMediatheque`, `TpDistributeur`, `TpContacts`).
+
+**Anatomie des commandes** (à expliquer en séance, pas seulement à taper) :
+
+| Élément | Signification |
+|---|---|
+| `dotnet new console` | génère un projet à partir du **modèle** `console` (lister les modèles : `dotnet new list`) |
+| `-n TpBanque` | **name** : le nom du projet → fichier `TpBanque.csproj`, namespace par défaut, nom de l'exécutable |
+| `-o solution-projet` | **output** : le dossier où créer les fichiers (créé s'il n'existe pas). Sans `-o`, la CLI crée un dossier portant le nom donné à `-n` ; sans `-n` ni `-o`, elle utilise le dossier courant et son nom |
+| `dotnet new gitignore` | même mécanique : `gitignore` est un modèle qui génère un `.gitignore` .NET dans le dossier courant |
+| `dotnet run` | compile **le projet du dossier courant** puis l'exécute |
+| `dotnet run --project chemin/` | désigne le dossier du projet à exécuter quand on n'est **pas** dedans |
+| `dotnet run fichier.cs` | tout autre chose : exécute un **fichier autonome** (file-based app), sans projet |
+| `dotnet sln add chemin/X.csproj` | inscrit le projet dans le fichier `.sln` du dossier courant (le retirer : `dotnet sln remove`) |
+| `dotnet project convert fichier.cs` | transforme un fichier autonome en projet : crée le dossier, le `.csproj`, et convertit les directives `#:` |
 
 ```bash
 cd tps/module-05-classes-objets
@@ -89,12 +103,18 @@ dotnet run
 
 (ou depuis le dossier du TP : `dotnet run --project solution-projet`)
 
-Dans le cadre de la formation (solution `FormationCSharp.sln` de l'étape zéro),
+Dans le cadre de la formation (solution `FormationCSharp` de l'étape zéro),
 on rattache le projet à la solution :
 
 ```bash
 dotnet sln add solution-projet/TpBanque.csproj
 ```
+
+> C'est déjà fait pour ce dépôt : la solution `CSharpBase.slnx` **à la racine de
+> `csharp-base/`** référence les 16 projets (démos + TP). `dotnet build` à la
+> racine compile tout ; `dotnet sln list` les liste. À noter : avec .NET 10,
+> `dotnet new sln` génère le nouveau format `.slnx` (XML) — même usage que
+> l'ancien `.sln`, et c'est ce que les apprenants obtiendront aussi à l'étape zéro.
 
 Enfin, pour migrer une solution mono-fichier existante vers un vrai projet,
 la CLI fait le squelette toute seule (elle crée le dossier, le `.csproj` et

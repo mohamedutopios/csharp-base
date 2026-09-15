@@ -7,6 +7,18 @@
 Manipuler la CLI `dotnet` pour créer, organiser et exécuter des projets, sans IDE.
 Tout se fait **au terminal**.
 
+## Les options à connaître avant de commencer
+
+Les commandes `dotnet` suivent toutes le même schéma : `dotnet <verbe> <modèle> [options]`.
+
+| Option | Signification | Exemple |
+|---|---|---|
+| `-n` (name) | le **nom** de ce qu'on crée : fichier `.sln` ou `.csproj`, namespace par défaut | `dotnet new sln -n TpEcosysteme` → `TpEcosysteme.sln` |
+| `-o` (output) | le **dossier** où le créer, créé s'il n'existe pas. Sans `-o`, la CLI utilise un dossier au nom du `-n` | `dotnet new console -n Application -o src/Application` |
+| `--project` | pour `dotnet run` : **où est le projet**, quand on n'est pas dans son dossier | `dotnet run --project src/Application` |
+
+Autrement dit : `-n` répond à « comment ça s'appelle ? », `-o` à « où ça va ? ».
+
 ## Énoncé
 
 ### Partie A — Créer la structure
