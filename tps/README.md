@@ -34,16 +34,24 @@ devient : une classe = un fichier**, dans le projet console de l'apprenant :
   d'entrée ; les autres fichiers ne contiennent que des types ;
 - `dotnet run` compile l'ensemble et exécute.
 
-Les TP 5, 6 et 7 contiennent chacun un dossier `solution-projet/` : la même
-solution éclatée en un fichier par classe ou interface (+ `.csproj`), à lancer
-avec `dotnet run --project solution-projet` :
+Les TP 5 à 12 contiennent chacun un dossier `solution-projet/` : la même
+solution éclatée en un fichier par type (+ `.csproj`), à lancer avec
+`dotnet run --project solution-projet` :
 
 - TP 5 : `Program.cs` + `CompteBancaire.cs` + `Banque.cs` — et l'énoncé a une
   partie E qui fait faire cette réorganisation aux apprenants ;
 - TP 6 : un fichier par classe de la hiérarchie (`Employe.cs`, `Developpeur.cs`,
   `Manager.cs`, `Stagiaire.cs`, `Badge.cs`) ;
 - TP 7 : un fichier par contrat et par implémentation (`IForme.cs`,
-  `IExportable.cs`, `Cercle.cs`, `Rectangle.cs`, `TriangleRectangle.cs`).
+  `IExportable.cs`, `Cercle.cs`, `Rectangle.cs`, `TriangleRectangle.cs`) ;
+- TP 8 : records, enum et structs aussi ont leur fichier (`Colis.cs`,
+  `EtatColis.cs`, `Dimensions.cs`, `PointRelais.cs`) ;
+- TP 9 : la classe générique dans `PileBornee.cs` (sans le `<T>` dans le nom) ;
+- TP 10 : le modèle `Film.cs`, les requêtes dans `Program.cs` ;
+- TP 11 : un fichier par exception métier (`SoldeInsuffisantException.cs`,
+  `CoupureInvalideException.cs`) + `Distributeur.cs`, `JournalOperations.cs` ;
+- TP 12 : `Contact.cs` + `CarnetContacts.cs` (la persistance devient une classe
+  dédiée) — et plus besoin de la directive `#:property` du mono-fichier.
 
 Pour migrer un fichier autonome vers un vrai projet : `dotnet project convert solution.cs`.
 

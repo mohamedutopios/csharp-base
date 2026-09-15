@@ -66,3 +66,7 @@ var films = new List<Film>
   en une seule instruction chaînée terminée par `ToList`.
 - `SelectMany` : la liste de tous les mots de tous les titres.
 - Réécrire la requête 3 en **syntaxe de requête** (`from f in films where … select f`).
+
+> **Organisation en projet** : un type = un fichier (records, enums et structs
+> compris). Le résultat attendu est dans `solution-projet/`
+> (`dotnet run --project solution-projet`).

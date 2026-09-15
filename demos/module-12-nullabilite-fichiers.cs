@@ -3,6 +3,7 @@
 // Démo : nullable reference types, ?, !, ??=, System.IO (File, Path),
 //        System.Text.Json
 // Exécution : dotnet run module-12-nullabilite-fichiers.cs
+// Version projet (un type = un fichier) : module-12-nullabilite-fichiers-projet/
 // =====================================================================
 
 // Les file-based apps visent l'AOT par défaut, ce qui coupe la sérialisation

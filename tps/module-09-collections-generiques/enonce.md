@@ -60,3 +60,7 @@ classe générique avec contrainte.
   → le max de la liste ; tester avec `int` et `string`.
 - Que se passe-t-il si `PileBornee` interne utilisait un tableau ?
   Quel est l'intérêt pédagogique d'avoir les deux implémentations ?
+
+> **Organisation en projet** : un type = un fichier (records, enums et structs
+> compris). Le résultat attendu est dans `solution-projet/`
+> (`dotnet run --project solution-projet`).

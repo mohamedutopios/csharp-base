@@ -3,6 +3,7 @@
 // Démo : lambdas Func/Action, Where/Select/OrderBy/GroupBy/Count/
 //        Any/First, exécution différée, ToList
 // Exécution : dotnet run module-10-linq.cs
+// Version projet (un type = un fichier) : module-10-linq-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 10 : LINQ ===\n");

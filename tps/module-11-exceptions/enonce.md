@@ -56,3 +56,7 @@ métier, garantir le nettoyage avec `finally` et `using`.
 - Ajouter une propriété `Solde` et re-tester : après un échec, le solde
   doit être **intact** (une exception bien placée protège l'état).
 - `throw;` vs `throw ex;` dans un catch : chercher la différence (pile d'appels).
+
+> **Organisation en projet** : un type = un fichier (records, enums et structs
+> compris). Le résultat attendu est dans `solution-projet/`
+> (`dotnet run --project solution-projet`).

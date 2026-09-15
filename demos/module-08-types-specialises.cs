@@ -2,6 +2,7 @@
 // Module 8 — Types spécialisés (Jour 3, 10h45–12h00)
 // Démo : struct vs class, record, enum, tuples et déconstruction
 // Exécution : dotnet run module-08-types-specialises.cs
+// Version projet (un type = un fichier) : module-08-types-specialises-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 8 : types spécialisés ===\n");

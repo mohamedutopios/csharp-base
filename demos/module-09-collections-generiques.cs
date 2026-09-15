@@ -3,6 +3,7 @@
 // Démo : tableaux vs List<T>, Dictionary, HashSet, Queue, Stack,
 //        IEnumerable/IList, classes et méthodes génériques, where
 // Exécution : dotnet run module-09-collections-generiques.cs
+// Version projet (un type = un fichier) : module-09-collections-generiques-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 9 : collections et génériques ===\n");

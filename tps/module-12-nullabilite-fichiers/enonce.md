@@ -56,3 +56,7 @@ et persister des objets en JSON — la mécanique exacte de l'étape 3 du fil ro
   ligne par contact.
 - Que se passe-t-il si le JSON du fichier est corrompu (`"{ oops"`) ?
   Protéger `Charger` avec un `try/catch (JsonException)`.
+
+> **Organisation en projet** : un type = un fichier (records, enums et structs
+> compris). Le résultat attendu est dans `solution-projet/`
+> (`dotnet run --project solution-projet`).

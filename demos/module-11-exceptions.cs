@@ -3,6 +3,7 @@
 // Démo : try/catch/finally, exceptions personnalisées, throw,
 //        using et IDisposable
 // Exécution : dotnet run module-11-exceptions.cs
+// Version projet (un type = un fichier) : module-11-exceptions-projet/
 // =====================================================================
 
 Console.WriteLine("=== Démo Module 11 : gestion des exceptions ===\n");

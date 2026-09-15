@@ -53,3 +53,7 @@ les retours multiples.
   pour pouvoir intercaler des états plus tard : afficher les nouvelles valeurs.
 - `record struct PointRelais(string Code, string Ville)` : le meilleur des
   deux mondes ? Tester l'égalité et la copie.
+
+> **Organisation en projet** : un type = un fichier (records, enums et structs
+> compris). Le résultat attendu est dans `solution-projet/`
+> (`dotnet run --project solution-projet`).

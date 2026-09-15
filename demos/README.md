@@ -12,17 +12,23 @@ dotnet run module-01-ecosysteme.cs
 
 > La première exécution d'un fichier est un peu lente (compilation), les suivantes sont instantanées (cache).
 
-## Versions projet multi-fichiers (modules 5, 6, 7)
+## Versions projet multi-fichiers (modules 5 à 12)
 
-Les démos POO existent aussi en **vrai projet console**, avec la structure
-professionnelle *une classe = un fichier* — à utiliser en séance pour montrer
-comment on organise réellement le code :
+Toutes les démos qui définissent des types (classes, mais aussi interfaces,
+records, enums, structs, exceptions) existent aussi en **vrai projet console**,
+avec la structure professionnelle *un type = un fichier* — à utiliser en séance
+pour montrer comment on organise réellement le code :
 
 | Dossier | Fichiers |
 |---|---|
 | `module-05-classes-objets-projet/` | `Program.cs`, `Livre.cs`, `Membre.cs` |
 | `module-06-encapsulation-heritage-projet/` | `Program.cs`, `Animal.cs`, `Chien.cs`, `Chat.cs`, `CompteBancaire.cs`, `Point.cs` |
 | `module-07-interfaces-polymorphisme-projet/` | `Program.cs`, `INotifiable.cs`, `Email.cs`, `Sms.cs`, `Drone.cs` |
+| `module-08-types-specialises-projet/` | `Program.cs`, `Livre.cs` (record), `EtatEmprunt.cs` (enum), `PointStruct.cs`, `PointClass.cs` |
+| `module-09-collections-generiques-projet/` | `Program.cs`, `Boite.cs` (classe générique) |
+| `module-10-linq-projet/` | `Program.cs`, `Film.cs` (record) |
+| `module-11-exceptions-projet/` | `Program.cs`, `LivreIndisponibleException.cs`, `Bibliotheque.cs`, `RessourceDemo.cs` |
+| `module-12-nullabilite-fichiers-projet/` | `Program.cs`, `Livre.cs` — sans la directive `#:property` (inutile en projet) |
 
 ```bash
 dotnet run --project module-05-classes-objets-projet
