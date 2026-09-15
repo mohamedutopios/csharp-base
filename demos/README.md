@@ -12,6 +12,47 @@ dotnet run module-01-ecosysteme.cs
 
 > La première exécution d'un fichier est un peu lente (compilation), les suivantes sont instantanées (cache).
 
+## Comment ces démos ont été créées (il n'y a RIEN à créer)
+
+C'est le point qui surprend : pour une démo mono-fichier, **aucune commande de
+création de projet n'a été exécutée** — ni `dotnet new console`, ni solution.
+Une *file-based app* (.NET 10), c'est :
+
+1. créer un fichier `.cs` dans n'importe quel dossier (éditeur au choix) ;
+2. `dotnet run monfichier.cs`.
+
+C'est tout. Le SDK génère un projet **en mémoire** au moment du `run` (aucun
+`.csproj`, aucun `bin/` ni `obj/` dans le dossier — le cache de compilation va
+dans un dossier temporaire du système). Pour créer une nouvelle démo :
+
+```bash
+cd demos
+```
+
+```bash
+touch module-13-ma-demo.cs   # ou créer le fichier depuis VS Code
+```
+
+```bash
+dotnet run module-13-ma-demo.cs
+```
+
+Quand le fichier a besoin de configuration, elle se déclare **dans le fichier
+lui-même** avec les directives `#:` en tête (l'équivalent du `.csproj`) :
+
+- `#:property PublishAot=false` — utilisé par `module-12` pour réactiver la
+  sérialisation JSON par réflexion ;
+- `#:package Nom@Version` — référencer un paquet NuGet.
+
+**À ne pas confondre** avec les deux autres contextes de création, qui eux
+passent par `dotnet new` :
+
+| Contexte | Où c'est défini | Commandes |
+|---|---|---|
+| Démos mono-fichier (ce dossier) | ci-dessus | aucune — un fichier + `dotnet run fichier.cs` |
+| Versions projet des démos et TP | section suivante + `tps/README.md` | `dotnet new console -n Nom -o dossier`, `dotnet new gitignore` |
+| Projets des apprenants (Jour1…Jour4, fil rouge) | **étape zéro** de `programme-csharp-bases-4j-v1.0.md` | `dotnet new sln`, `dotnet new console`, `dotnet sln add`, `dotnet new gitignore` |
+
 ## Versions projet multi-fichiers (modules 5 à 12)
 
 Toutes les démos qui définissent des types (classes, mais aussi interfaces,
