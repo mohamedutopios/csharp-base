@@ -1,0 +1,1940 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Les bases du C# — Formation 4 jours — Utopios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0B4F9C;--blue-dark:#083A73;--blue-mid:#2F6FBF;--blue-light:#E7F0FB;--bg:#F4F7FB;--surface:#FFFFFF;--ink:#1A2433;--muted:#5A6B80;--line:#D5DFEC;--code-bg:#F7F9FD;--warn:#B45309;--warn-bg:#FFF7E6}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:var(--surface);box-shadow:0 10px 40px rgba(8,58,115,.12)}
+.slide{position:absolute;inset:0;display:none;padding:52px 64px 56px;flex-direction:column}
+.slide.active{display:flex}
+.slide h2{font-size:34px;font-weight:600;color:var(--blue-dark);line-height:1.15;padding-left:18px;border-left:6px solid var(--blue);margin-bottom:22px}
+.body{flex:1;min-height:0;font-size:calc(19px * var(--fit,1));line-height:1.45;overflow:hidden}
+.body p{margin-bottom:.6em}
+.body ul{list-style:none}
+.body li{position:relative;padding-left:20px;margin-bottom:.55em}
+.body li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:2px;background:var(--blue-mid)}
+.body li li::before{background:var(--line)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;height:100%;min-height:0}
+.two>div{min-height:0;overflow:hidden}.two>div.scroll,.body.scroll{overflow-y:auto;padding-right:6px;scrollbar-width:thin}
+code{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;background:var(--blue-light);color:var(--blue-dark);padding:1px 5px;border-radius:4px}
+.code{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.code+.code{margin-top:0}
+.code-title{font-size:.72em;color:var(--muted);padding:6px 14px;border-bottom:1px solid var(--line);background:#EEF3FA}
+.code pre{margin:0;padding:12px 14px;overflow:auto;white-space:pre}
+.code pre code{display:block;background:none;padding:0;color:var(--ink);font-size:calc(14px * var(--fit,1));line-height:1.38;white-space:pre}
+.k{color:#0B4F9C;font-weight:600}.t{color:#0E7C86}.s{color:#9A3412}.n{color:#6D28D9}.c{color:#7A8799;font-style:italic}.a{color:#B45309}
+table{width:100%;border-collapse:collapse;font-size:.92em;margin-bottom:14px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--blue-light);color:var(--blue-dark);font-weight:600}
+tr:nth-child(even) td{background:#FAFCFF}
+.note{border-left:4px solid var(--blue);background:var(--blue-light);padding:12px 16px;border-radius:0 8px 8px 0;font-size:.95em;margin-top:6px}
+.note.warn{border-color:var(--warn);background:var(--warn-bg)}
+.cover,.section{position:absolute;inset:0;background:linear-gradient(135deg,var(--blue-dark),var(--blue) 60%,var(--blue-mid));color:#fff;padding:80px 96px;display:flex;flex-direction:column;justify-content:center}
+.brand{font-size:22px;letter-spacing:.06em;opacity:.85;margin-bottom:28px}
+.cover h1{font-size:72px;font-weight:700;line-height:1.05;margin-bottom:20px}
+.cover .sub{font-size:30px;opacity:.95;margin-bottom:60px}
+.cover .meta{font-size:19px;opacity:.75}
+.section .day{font-size:26px;opacity:.85;margin-bottom:14px}
+.section h1{font-size:58px;font-weight:700;margin-bottom:36px;line-height:1.1}
+.section ul{list-style:none;font-size:26px;line-height:1.7}
+.section li{padding-left:28px;position:relative}
+.section li::before{content:"";position:absolute;left:0;top:.7em;width:12px;height:3px;background:#fff;opacity:.7}
+.slide.cover-slide,.slide.section-slide{padding:0}
+#foot{position:absolute;left:64px;right:150px;bottom:20px;display:flex;justify-content:space-between;font-size:14px;color:var(--muted);pointer-events:none}
+#foot .tag{color:var(--blue);font-weight:600}
+#bar{position:absolute;left:0;top:0;height:4px;background:var(--blue);width:0;transition:width .2s}
+.dark #foot{color:rgba(255,255,255,.75)}.dark #foot .tag{color:#fff}.dark #bar{background:#fff}
+#nav{position:fixed;right:18px;bottom:16px;display:flex;gap:6px;z-index:10}
+#nav button{width:40px;height:36px;border:1px solid var(--line);background:#fff;color:var(--blue-dark);border-radius:6px;font-size:18px;cursor:pointer}
+#nav button:hover{background:var(--blue-light)}
+#nav button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{html,body{overflow:visible;background:#fff}#stage{position:static;transform:none!important;box-shadow:none;width:auto;height:auto}.slide{display:flex!important;position:relative;width:1280px;height:720px;page-break-after:always;border-bottom:1px solid #ddd}#nav{display:none}.cover,.section{position:relative;height:720px}}
+@media (prefers-reduced-motion:reduce){#bar{transition:none}}
+</style></head><body><div id="stage">
+<section class="slide cover-slide" data-kind="cover" data-day="" id="s1"><div class="cover"><div class="brand">Utopios</div><h1>Les bases du C#</h1><p class="sub">Formation 4 jours — .NET 10 / C# 14</p><p class="meta">Programme v1.1 · 12 modules · fil rouge « Bibliothèque »</p></div></section>
+<section class="slide" data-kind="std" data-day="" id="s2"><h2>Programme des 4 jours</h2><div class="body"><table><thead><tr><th>Jour</th><th>Thème</th><th>Modules</th><th>Atelier</th></tr></thead><tbody><tr><td>J1</td><td>Prise en main et syntaxe de base</td><td>0 · 1 · 2 · 3</td><td>TP 1 — convertisseur d'unités</td></tr><tr><td>J2</td><td>Méthodes et introduction à la POO</td><td>4 · 5 · 6</td><td>TP 2 — fil rouge étape 1</td></tr><tr><td>J3</td><td>POO avancée et collections</td><td>7 · 8 · 9</td><td>TP 3 — fil rouge étape 2</td></tr><tr><td>J4</td><td>LINQ, erreurs, fichiers, projet final</td><td>10 · 11 · 12</td><td>TP 4 — fil rouge étape 3 (évalué)</td></tr></tbody></table><div class="note info">Évaluation : 3 quiz de rappel (30 %), projet fil rouge (50 %), restitution orale (20 %). Seuil de validation : 60 %.</div></div></section>
+<section class="slide" data-kind="std" data-day="Étape 0" id="s3"><h2>Étape zéro — installer l'environnement</h2><div class="body"><div class="two"><div><ul><li><b>SDK .NET 10 (LTS)</b> : contient le compilateur, le runtime et la CLI <code>dotnet</code>. À installer avant tout.</li><li><b>VS Code</b> + extension <b>C# Dev Kit</b> : IntelliSense, débogage, explorateur de solution.</li><li>Alternatives : Visual Studio 2022 (Windows), JetBrains Rider (multiplateforme).</li><li><b>Git</b> : chaque journée se termine par un commit du travail.</li></ul></div><div><div class="code"><div class="code-title">Terminal</div><pre><code data-lang="bash"># Vérifier l'installation
+dotnet --version
+# → 10.0.xxx
+
+# Lister les SDK et runtimes installés
+dotnet --list-sdks
+dotnet --list-runtimes
+
+# Vérifier Git
+git --version</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="Étape 0" id="s4"><h2>Étape zéro — créer la solution et le premier projet</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Terminal</div><pre><code data-lang="bash">mkdir formation-csharp &amp;&amp; cd formation-csharp
+
+# Solution = conteneur de projets
+dotnet new sln -n FormationCSharp
+
+# Projet console pour le jour 1
+dotnet new console -n Jour1 -o src/Jour1
+
+# Rattacher le projet à la solution
+dotnet sln add src/Jour1/Jour1.csproj
+
+# Compiler puis exécuter
+dotnet run --project src/Jour1
+# → Hello, World!
+
+# Versionner
+git init
+dotnet new gitignore
+git add . &amp;&amp; git commit -m "init"</code></pre></div></div><div><ul><li>Une <b>solution</b> (<code>.sln</code>) regroupe plusieurs <b>projets</b> (<code>.csproj</code>).</li><li><code>dotnet new console</code> génère <code>Program.cs</code> et <code>Jour1.csproj</code>.</li><li><code>dotnet run</code> enchaîne restauration NuGet, compilation, exécution.</li><li>Chaque jour : nouveau projet <code>JourN</code> rattaché à la solution.</li><li>Le fil rouge <code>Bibliotheque</code> est créé en J2 selon le même schéma.</li></ul></div></div></div></section>
+<section class="slide section-slide" data-kind="section" data-day="Jour 1" id="s5"><div class="section"><div class="day">Jour 1</div><h1>Prise en main et syntaxe de base</h1><ul><li>Module 1 — Écosystème .NET</li><li>Module 2 — Types et variables</li><li>Module 3 — Opérateurs et structures de contrôle</li><li>TP 1 — Convertisseur d'unités</li></ul></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s6"><h2>Module 1 — Qu'est-ce que .NET ?</h2><div class="body"><div class="two"><div><ul><li><b>C#</b> : langage créé par Microsoft en 2000 (Anders Hejlsberg), typé statiquement, orienté objet, à syntaxe proche de Java/C++.</li><li><b>.NET</b> : plateforme d'exécution + bibliothèque standard (BCL) + outils.</li><li><b>.NET Framework</b> (2002–2019) : Windows uniquement, figé en 4.8.</li><li><b>.NET Core → .NET 5+</b> (2016–) : open source, multiplateforme (Windows, macOS, Linux), une version majeure par an.</li><li><b>.NET 10</b> : version LTS (support 3 ans), livrée avec <b>C# 14</b>.</li></ul></div><div><table><thead><tr><th>Version</th><th>Sortie</th><th>Support</th></tr></thead><tbody><tr><td>.NET 8</td><td>nov. 2023</td><td>LTS</td></tr><tr><td>.NET 9</td><td>nov. 2024</td><td>STS</td></tr><tr><td>.NET 10</td><td>nov. 2025</td><td>LTS</td></tr></tbody></table><div class="note info">Règle : en production, cibler une version LTS.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s7"><h2>Module 1 — Compilation : du C# au processeur</h2><div class="body"><div class="two"><div><ul><li>Le compilateur <b>Roslyn</b> transforme le C# en <b>IL</b> (Intermediate Language), stocké dans une DLL.</li><li>Au lancement, le <b>CLR</b> (Common Language Runtime) charge l'IL.</li><li>Le <b>JIT</b> (Just-In-Time) compile chaque méthode en code machine natif au premier appel.</li><li>Le CLR gère aussi la <b>mémoire</b> (Garbage Collector), la sécurité des types et les exceptions.</li><li>Conséquence : un même binaire tourne sur Windows, macOS et Linux tant qu'un runtime .NET est présent.</li></ul></div><div><div class="code"><div class="code-title">Chaîne de compilation</div><pre><code data-lang="text">Program.cs  ──(Roslyn)──▶  Jour1.dll (IL)
+                               │
+                          CLR charge la DLL
+                               │
+                          JIT ──▶ code natif x64 / ARM64
+                               │
+                          exécution</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s8"><h2>Module 1 — Anatomie d'un projet console</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Jour1.csproj</div><pre><code data-lang="xml">&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+    &lt;TargetFramework&gt;net10.0&lt;/TargetFramework&gt;
+    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+  &lt;/PropertyGroup&gt;
+
+&lt;/Project&gt;</code></pre></div><div class="code"><div class="code-title">Program.cs</div><pre><code data-lang="csharp">// Top-level statements : pas de classe Program ni de Main visibles
+Console.WriteLine("Hello, World!");</code></pre></div></div><div><ul><li><code>OutputType</code> : <code>Exe</code> (exécutable) ou <code>Library</code> (DLL).</li><li><code>TargetFramework</code> : version de .NET ciblée.</li><li><code>ImplicitUsings</code> : importe automatiquement <code>System</code>, <code>System.Linq</code>, <code>System.Collections.Generic</code>…</li><li><code>Nullable</code> : active l'analyse de nullabilité (module 12).</li><li><b>Top-level statements</b> (C# 9+) : le compilateur génère la classe <code>Program</code> et la méthode <code>Main</code> à votre place.</li><li>Dossiers générés : <code>bin/</code> (binaires), <code>obj/</code> (intermédiaires) — à ignorer dans Git.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s9"><h2>Module 1 — Les commandes essentielles de la CLI</h2><div class="body"><table><thead><tr><th>Commande</th><th>Rôle</th></tr></thead><tbody><tr><td><code>dotnet new console -n Nom -o dossier</code></td><td>Créer un projet console</td></tr><tr><td><code>dotnet new list</code></td><td>Lister tous les modèles disponibles</td></tr><tr><td><code>dotnet build</code></td><td>Compiler (produit <code>bin/Debug/net10.0/</code>)</td></tr><tr><td><code>dotnet run</code></td><td>Compiler puis exécuter</td></tr><tr><td><code>dotnet run -- arg1 arg2</code></td><td>Passer des arguments au programme (<code>args</code>)</td></tr><tr><td><code>dotnet add package Nom</code></td><td>Ajouter une dépendance NuGet</td></tr><tr><td><code>dotnet clean</code></td><td>Supprimer <code>bin/</code> et <code>obj/</code></td></tr><tr><td><code>dotnet publish -c Release</code></td><td>Produire un livrable optimisé</td></tr></tbody></table><div class="note info"><code>dotnet watch run</code> recompile et relance automatiquement à chaque sauvegarde : pratique pendant les exercices.</div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s10"><h2>Module 1 — namespaces, using et forme classique de Program</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Program.cs — forme explicite</div><pre><code data-lang="csharp">// Forme classique (générée par le compilateur en top-level)
+using System;                       // importe un namespace
+
+namespace Utopios.Formation;        // namespace de fichier (C# 10+)
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("Hello, World!");
+    }
+}</code></pre></div><div class="code"><div class="code-title">Namespaces</div><pre><code data-lang="csharp">// Un namespace regroupe des types ; il reflète le dossier
+namespace Bibliotheque.Modele;
+public record Livre(string Isbn, string Titre);
+
+// Ailleurs : importer ou qualifier
+using Bibliotheque.Modele;
+var l = new Livre("978-1", "Clean Code");
+var l2 = new Bibliotheque.Modele.Livre("978-2", "DDD");
+
+// global using : pour tout le projet (dans un fichier GlobalUsings.cs)
+global using Bibliotheque.Modele;</code></pre></div></div><div><ul><li><code>Main</code> est le <b>point d'entrée</b>. Avec les top-level statements, il est implicite ; les deux formes sont équivalentes.</li><li>Un <b>namespace</b> évite les collisions de noms (<code>System.Timers.Timer</code> vs <code>System.Threading.Timer</code>) et organise le code. Convention : <code>Societe.Produit.Couche</code>.</li><li><code>using</code> en tête de fichier importe un namespace ; <code>ImplicitUsings</code> ajoute les plus courants automatiquement.</li><li>Le namespace de fichier (<code>namespace X;</code> sans accolades) économise un niveau d'indentation.</li><li><b>Fil rouge</b> : dossiers <code>Modele/</code>, <code>Services/</code>, <code>Ui/</code> avec les namespaces correspondants.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s11"><h2>Module 2 — Types valeur et types référence</h2><div class="body"><div class="two"><div><ul><li>Toute donnée en C# a un <b>type</b> connu à la compilation.</li><li><b>Type valeur</b> : la variable <i>contient</i> la donnée (pile). Copie = duplication. Ex. <code>int</code>, <code>double</code>, <code>bool</code>, <code>struct</code>.</li><li><b>Type référence</b> : la variable contient une <i>adresse</i> vers l'objet (tas). Copie = deux variables pointent le même objet. Ex. <code>string</code>, <code>class</code>, tableaux.</li><li><code>string</code> est un type référence mais <b>immuable</b> : il se comporte comme une valeur.</li></ul></div><div><div class="code"><div class="code-title">Copie de valeur vs copie de référence</div><pre><code data-lang="csharp">int a = 10;
+int b = a;      // copie de la valeur
+b = 20;
+Console.WriteLine(a); // 10 — a n'a pas changé
+
+int[] t1 = { 1, 2, 3 };
+int[] t2 = t1;  // copie de la référence
+t2[0] = 99;
+Console.WriteLine(t1[0]); // 99 — même tableau !</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s12"><h2>Module 2 — Les types primitifs</h2><div class="body"><table><thead><tr><th>Type</th><th>Taille</th><th>Plage / usage</th><th>Littéral</th></tr></thead><tbody><tr><td><code>int</code></td><td>32 bits</td><td>-2 147 483 648 à 2 147 483 647</td><td><code>42</code></td></tr><tr><td><code>long</code></td><td>64 bits</td><td>±9,2 × 10<sup>18</sup></td><td><code>42L</code></td></tr><tr><td><code>double</code></td><td>64 bits</td><td>flottant, ~15 chiffres</td><td><code>3.14</code></td></tr><tr><td><code>float</code></td><td>32 bits</td><td>flottant, ~7 chiffres</td><td><code>3.14f</code></td></tr><tr><td><code>decimal</code></td><td>128 bits</td><td>monétaire, 28 chiffres exacts</td><td><code>19.99m</code></td></tr><tr><td><code>bool</code></td><td>1 octet</td><td><code>true</code> / <code>false</code></td><td><code>true</code></td></tr><tr><td><code>char</code></td><td>16 bits</td><td>un caractère Unicode</td><td><code>'A'</code></td></tr><tr><td><code>string</code></td><td>variable</td><td>chaîne de caractères</td><td><code>"Bonjour"</code></td></tr></tbody></table><div class="note info">Argent, prix, taux : toujours <code>decimal</code>. <code>double</code> introduit des erreurs d'arrondi (0.1 + 0.2 ≠ 0.3).</div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s13"><h2>Module 2 — Déclarer des variables</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Program.cs</div><pre><code data-lang="csharp">// Déclaration explicite
+int age = 30;
+string nom = "Alice";
+double taille = 1.72;
+
+// Inférence de type avec var (le type reste fixe !)
+var compteur = 0;        // int
+var message = "Salut";   // string
+// compteur = "abc";     // erreur de compilation
+
+// Constante : valeur connue à la compilation, jamais modifiée
+const double TauxTva = 0.20;
+
+// Plusieurs variables du même type
+int x = 1, y = 2, z = 3;
+
+// Déclaration sans initialisation : obligatoire d'affecter avant lecture
+int total;
+// Console.WriteLine(total); // erreur : non assignée
+total = 0;</code></pre></div></div><div><ul><li><code>var</code> demande au compilateur de <b>déduire</b> le type depuis la valeur. Ce n'est pas du typage dynamique.</li><li>Utiliser <code>var</code> quand le type est évident à droite, le type explicite sinon.</li><li><code>const</code> : pour les valeurs fixes (TVA, limites). Nommage en <code>PascalCase</code>.</li><li>Nommage : <code>camelCase</code> pour les variables locales, noms explicites (<code>nombreLivres</code>, pas <code>n</code>).</li><li>Le compilateur refuse de lire une variable non initialisée : source de bugs éliminée.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s14"><h2>Module 2 — Conversions de types</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Conversions</div><pre><code data-lang="csharp">// Implicite : sans perte, automatique
+int i = 100;
+long l = i;        // int → long
+double d = i;      // int → double
+
+// Explicite (cast) : perte possible, à demander
+double prix = 19.99;
+int arrondi = (int)prix;        // 19 (troncature)
+int ok = (int)Math.Round(prix); // 20
+
+long grand = 3_000_000_000;
+int debordement = (int)grand;   // -1294967296 !
+
+// Classe Convert : conversions entre types de base
+string s = "123";
+int n = Convert.ToInt32(s);     // 123
+bool b = Convert.ToBoolean("true");
+
+// checked : lève une exception en cas de débordement
+int sur = checked((int)grand);  // OverflowException</code></pre></div></div><div><ul><li><b>Implicite</b> : autorisée quand aucune information ne peut être perdue (petit → grand).</li><li><b>Explicite</b> : syntaxe <code>(Type)valeur</code>. Le développeur assume le risque de perte.</li><li>Le cast <code>double → int</code> <b>tronque</b> (ne pas arrondir). Utiliser <code>Math.Round</code>, <code>Math.Floor</code>, <code>Math.Ceiling</code>.</li><li>Le débordement (<i>overflow</i>) est silencieux par défaut : <code>checked</code> le rend explicite.</li><li><code>Convert.ToXxx</code> accepte des chaînes mais lève <code>FormatException</code> si le format est invalide.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s15"><h2>Module 2 — Parse et TryParse</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Saisie sécurisée</div><pre><code data-lang="csharp">// Parse : lève FormatException si l'entrée est invalide
+int n1 = int.Parse("42");
+// int n2 = int.Parse("abc"); // FormatException
+
+// TryParse : renvoie bool, résultat via paramètre out
+if (int.TryParse("42", out int n2))
+{
+    Console.WriteLine($"Nombre valide : {n2}");
+}
+else
+{
+    Console.WriteLine("Saisie invalide");
+}
+
+// Idiome courant pour une saisie utilisateur
+Console.Write("Votre âge : ");
+string saisie = Console.ReadLine() ?? "";
+while (!int.TryParse(saisie, out int age) || age &lt; 0)
+{
+    Console.Write("Entrée invalide, réessayez : ");
+    saisie = Console.ReadLine() ?? "";
+}</code></pre></div></div><div><ul><li><code>Parse</code> : quand on est <b>certain</b> du format (données internes).</li><li><code>TryParse</code> : quand la donnée vient de l'<b>extérieur</b> (clavier, fichier, réseau). Jamais d'exception.</li><li>Le paramètre <code>out</code> permet de déclarer la variable directement dans l'appel : <code>out int n</code>.</li><li>Disponible sur tous les types numériques, <code>bool</code>, <code>DateTime</code>, <code>Guid</code>, <code>enum</code>…</li><li>Attention à la culture : <code>double.Parse("3,14")</code> dépend des paramètres régionaux. Préférer <code>CultureInfo.InvariantCulture</code> pour les fichiers.</li></ul><div class="note warn"><b>Règle du TP 1</b> : aucune saisie utilisateur ne passe par <code>Parse</code>.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s16"><h2>Module 2 — Chaînes de caractères et interpolation</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Chaînes</div><pre><code data-lang="csharp">string prenom = "Alice";
+int age = 30;
+
+// Concaténation (à éviter au-delà de 2 morceaux)
+string s1 = "Bonjour " + prenom + ", " + age + " ans";
+
+// Interpolation : préfixe $, expressions entre accolades
+string s2 = $"Bonjour {prenom}, {age} ans";
+
+// Format numérique dans l'interpolation
+decimal prix = 1234.5m;
+Console.WriteLine($"{prix:C}");      // 1 234,50 €
+Console.WriteLine($"{prix:N2}");     // 1 234,50
+Console.WriteLine($"{0.256:P1}");    // 25,6 %
+Console.WriteLine($"{42:D5}");       // 00042
+
+// Alignement (largeur, négatif = à gauche)
+Console.WriteLine($"|{prenom,-10}|{age,5}|");
+// |Alice     |   30|
+
+// Chaîne verbatim : pas d'échappement des \
+string chemin = @"C:\Users\alice\docs";
+
+// Chaîne brute (C# 11+) : plusieurs lignes, guillemets libres
+string json = """
+    { "nom": "Alice" }
+    """;</code></pre></div></div><div><ul><li>Une <code>string</code> est <b>immuable</b> : chaque modification crée une nouvelle chaîne.</li><li>L'<b>interpolation</b> <code>$"…"</code> est la forme recommandée : lisible et performante.</li><li>Spécificateurs de format après <code>:</code> — <code>C</code> monnaie, <code>N</code> nombre, <code>P</code> pourcentage, <code>D</code> entier, <code>F2</code> deux décimales.</li><li><code>@"…"</code> désactive les séquences d'échappement (chemins Windows, regex).</li><li><code>"""…"""</code> (chaîne brute) : idéal pour JSON, SQL, HTML multi-lignes.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s17"><h2>Module 2 — Manipuler les chaînes, StringBuilder</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Méthodes usuelles</div><pre><code data-lang="csharp">string s = "  Formation C# Utopios  ";
+
+s.Length;                    // 24
+s.Trim();                    // "Formation C# Utopios"
+s.ToUpper();  s.ToLower();
+s.Contains("C#");            // true
+s.StartsWith("  For");       // true
+s.IndexOf("C#");             // 12
+s.Replace("Utopios", "MA-IT");
+s.Substring(2, 9);           // "Formation"
+s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+string.Join(", ", new[] { "a", "b", "c" }); // "a, b, c"
+string.IsNullOrWhiteSpace("   ");           // true
+
+// Comparaison sans casse
+string.Equals("abc", "ABC", StringComparison.OrdinalIgnoreCase);
+
+// StringBuilder : construire une grande chaîne efficacement
+var sb = new StringBuilder();
+for (int i = 1; i &lt;= 1000; i++)
+{
+    sb.Append("Ligne ").Append(i).AppendLine();
+}
+string resultat = sb.ToString();</code></pre></div></div><div><ul><li>Toutes ces méthodes <b>renvoient une nouvelle chaîne</b> : <code>s.Trim();</code> seul ne change rien, il faut <code>s = s.Trim();</code>.</li><li><code>Split</code> / <code>Join</code> : l'aller-retour tableau ↔ chaîne.</li><li><code>IsNullOrWhiteSpace</code> : le test de validation standard d'une saisie.</li><li><code>StringBuilder</code> (namespace <code>System.Text</code>) : à utiliser dès qu'on concatène dans une boucle. Évite de créer des milliers de chaînes intermédiaires.</li><li>Pour comparer, préférer <code>string.Equals(a, b, StringComparison.…)</code> à <code>==</code> quand la casse ou la culture comptent.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s18"><h2>Module 2 — Entrées et sorties console</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Console</div><pre><code data-lang="csharp">// Sortie
+Console.WriteLine("Avec retour à la ligne");
+Console.Write("Sans retour ");
+Console.Write("à la ligne\n");
+
+// Couleur
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("Succès");
+Console.ResetColor();
+
+// Entrée : ReadLine renvoie string? (null si flux fermé)
+Console.Write("Nom : ");
+string nom = Console.ReadLine() ?? "inconnu";
+
+// Lire une touche sans Entrée
+Console.Write("Continuer ? (o/n) ");
+ConsoleKeyInfo touche = Console.ReadKey();
+bool continuer = touche.KeyChar is 'o' or 'O';
+
+// Effacer l'écran
+Console.Clear();
+
+// Arguments de la ligne de commande
+// dotnet run -- alice 30
+if (args.Length == 2)
+    Console.WriteLine($"{args[0]} a {args[1]} ans");</code></pre></div></div><div><ul><li><code>Console.ReadLine()</code> renvoie <code>string?</code> : toujours traiter le cas <code>null</code> (<code>?? ""</code>).</li><li><code>ReadKey()</code> pour les menus « appuyez sur une touche ».</li><li><code>args</code> est disponible directement avec les top-level statements.</li><li>Séquences d'échappement : <code>\n</code> saut de ligne, <code>\t</code> tabulation, <code>\"</code> guillemet, <code>\\</code> antislash.</li><li>Pour un menu en boucle : <code>Console.Clear()</code> + affichage + <code>ReadLine()</code> + <code>switch</code> (module 3).</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s19"><h2>Module 3 — Opérateurs</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Opérateurs</div><pre><code data-lang="csharp">int a = 17, b = 5;
+
+// Arithmétiques
+a + b;  a - b;  a * b;
+a / b;    // 3  (division entière !)
+a % b;    // 2  (reste)
+17.0 / 5; // 3.4 (dès qu'un opérande est double)
+
+// Incrémentation
+int i = 0;
+i++;   // i = 1  (post : renvoie l'ancienne valeur)
+++i;   // i = 2  (pré : renvoie la nouvelle valeur)
+i += 10;  i -= 3;  i *= 2;  i /= 4;
+
+// Comparaison → bool
+a == b;  a != b;  a &gt; b;  a &gt;= b;
+
+// Logiques (court-circuit : le 2e terme n'est évalué que si nécessaire)
+bool majeur = age &gt;= 18 &amp;&amp; aPermis;
+bool acces = estAdmin || estProprietaire;
+bool ferme = !ouvert;
+
+// Priorité : * / % avant + -, comparaison avant &amp;&amp; puis ||
+int r = 2 + 3 * 4;      // 14
+int r2 = (2 + 3) * 4;   // 20</code></pre></div></div><div><ul><li><b>Piège n°1</b> : <code>int / int</code> donne un <code>int</code>. <code>7 / 2 == 3</code>. Convertir un opérande en <code>double</code> pour une division réelle.</li><li><code>%</code> (modulo) : tester la parité (<code>n % 2 == 0</code>), cycler dans un tableau, extraire des chiffres.</li><li><code>&&</code> et <code>||</code> court-circuitent : <code>obj != null && obj.Valide</code> est sûr.</li><li><code>=</code> affecte, <code>==</code> compare. Le compilateur refuse <code>if (a = 5)</code> car <code>int</code> n'est pas <code>bool</code>.</li><li>En cas de doute sur la priorité : des parenthèses.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s20"><h2>Module 3 — Opérateurs null et ternaire</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Null et ternaire</div><pre><code data-lang="csharp">string? saisie = Console.ReadLine();
+
+// ?? : valeur par défaut si null
+string nom = saisie ?? "anonyme";
+
+// ??= : affecte seulement si null
+saisie ??= "valeur par défaut";
+
+// ?. : accès sécurisé, renvoie null au lieu de lever
+int? longueur = saisie?.Length;
+string? majuscule = saisie?.Trim()?.ToUpper();
+
+// Combinaison classique
+int taille = saisie?.Length ?? 0;
+
+// Ternaire : condition ? siVrai : siFaux
+int age = 20;
+string statut = age &gt;= 18 ? "majeur" : "mineur";
+
+// Ternaire imbriqué : lisible seulement sur 2 niveaux max
+string cat = age &lt; 13 ? "enfant"
+           : age &lt; 18 ? "ado"
+           : "adulte";
+
+// Types nullable pour les valeurs : int?, double?, bool?
+int? score = null;
+if (score.HasValue) Console.WriteLine(score.Value);
+Console.WriteLine(score.GetValueOrDefault(-1)); // -1</code></pre></div></div><div><ul><li><code>null</code> = « absence de valeur ». Y accéder lève <code>NullReferenceException</code>, l'erreur n°1 en C#.</li><li><code>??</code> : « sinon ». Remplace un <code>if (x == null) x = …</code>.</li><li><code>?.</code> : « si non null, alors ». Toute la chaîne devient <code>null</code> dès le premier maillon <code>null</code>.</li><li><code>int?</code> est un raccourci pour <code>Nullable&lt;int&gt;</code> : un entier qui peut ne pas avoir de valeur (ex. colonne SQL nullable).</li><li>Le ternaire remplace un <code>if/else</code> qui n'affecte qu'une valeur. Au-delà de 2 niveaux, écrire un <code>switch</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s21"><h2>Module 3 — if / else et switch (instruction)</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Conditions</div><pre><code data-lang="csharp">int note = 14;
+
+if (note &gt;= 16)
+{
+    Console.WriteLine("Très bien");
+}
+else if (note &gt;= 12)
+{
+    Console.WriteLine("Bien");
+}
+else
+{
+    Console.WriteLine("À revoir");
+}
+
+// switch classique sur une valeur
+string choix = Console.ReadLine() ?? "";
+switch (choix)
+{
+    case "1":
+        Console.WriteLine("Ajouter");
+        break;
+    case "2":
+    case "3":                     // plusieurs étiquettes
+        Console.WriteLine("Lister ou rechercher");
+        break;
+    case "q":
+        return;                   // quitte le programme
+    default:
+        Console.WriteLine("Choix inconnu");
+        break;
+}</code></pre></div></div><div><ul><li>Accolades <b>toujours</b>, même pour une seule instruction : évite les erreurs lors d'ajouts ultérieurs.</li><li>Les conditions sont évaluées de haut en bas : ordonner du cas le plus restrictif au plus général.</li><li><code>switch</code> : chaque <code>case</code> doit se terminer par <code>break</code>, <code>return</code> ou <code>throw</code>. Pas de « fall-through » implicite comme en C.</li><li>Plusieurs étiquettes peuvent partager un bloc (<code>case "2": case "3":</code>).</li><li><code>default</code> : le cas « tout le reste ». À prévoir systématiquement dans un menu.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s22"><h2>Module 3 — switch expression et pattern matching</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Pattern matching</div><pre><code data-lang="csharp">// switch expression : renvoie une valeur, pas de break
+int note = 14;
+string mention = note switch
+{
+    &gt;= 16 =&gt; "Très bien",
+    &gt;= 14 =&gt; "Bien",
+    &gt;= 12 =&gt; "Assez bien",
+    &gt;= 10 =&gt; "Passable",
+    _     =&gt; "Insuffisant"     // _ = défaut
+};
+
+// Patterns combinés
+string categorie = age switch
+{
+    &lt; 0            =&gt; throw new ArgumentException("Âge négatif"),
+    &lt; 13           =&gt; "enfant",
+    &gt;= 13 and &lt; 18 =&gt; "ado",
+    &gt;= 65          =&gt; "senior",
+    _              =&gt; "adulte"
+};
+
+// Pattern sur tuple : plusieurs valeurs à la fois
+string acces = (role, heure) switch
+{
+    ("admin", _)               =&gt; "total",
+    ("user", &gt;= 8 and &lt;= 18)   =&gt; "horaires bureau",
+    ("user", _)                =&gt; "refusé",
+    _                          =&gt; "inconnu"
+};
+
+// is avec pattern
+if (saisie is not null and { Length: &gt; 0 })
+    Console.WriteLine("Saisie non vide");</code></pre></div></div><div><ul><li>La <b>switch expression</b> (C# 8+) est une <i>expression</i> : elle produit une valeur, s'affecte à une variable, se renvoie d'une méthode.</li><li>Les cas sont des <b>patterns</b> : constante, relationnel (<code>&gt;=</code>), combinés (<code>and</code>, <code>or</code>, <code>not</code>), tuple, type (module 7), propriété (<code>{ Length: &gt; 0 }</code>).</li><li>L'ordre compte : premier pattern qui correspond gagne. Le compilateur avertit si un cas est inatteignable ou si la couverture est incomplète.</li><li><code>_</code> est le <i>discard</i> : correspond à tout.</li><li>Préférer la switch expression au <code>switch</code> instruction dès qu'on <i>calcule</i> une valeur.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s23"><h2>Module 3 — Boucles</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Boucles</div><pre><code data-lang="csharp">// for : nombre d'itérations connu
+for (int i = 0; i &lt; 5; i++)
+{
+    Console.WriteLine(i);       // 0 1 2 3 4
+}
+
+// foreach : parcourir une collection (lecture seule)
+string[] noms = { "Alice", "Bob", "Chloé" };
+foreach (string nom in noms)
+{
+    Console.WriteLine(nom);
+}
+
+// while : condition testée avant chaque tour
+int essais = 0;
+while (essais &lt; 3 &amp;&amp; !Authentifier())
+{
+    essais++;
+}
+
+// do…while : exécuté au moins une fois (menus !)
+string choix;
+do
+{
+    Console.WriteLine("1) Ajouter  2) Lister  q) Quitter");
+    choix = Console.ReadLine() ?? "";
+} while (choix != "q");
+
+// Boucle inversée
+for (int i = noms.Length - 1; i &gt;= 0; i--)
+    Console.WriteLine(noms[i]);</code></pre></div></div><div><ul><li><code>for</code> : trois parties — initialisation ; condition ; incrément.</li><li><code>foreach</code> : la forme la plus sûre et la plus lisible pour parcourir. Impossible de modifier la collection pendant le parcours.</li><li><code>while</code> : « tant que ». Vérifier que la condition finit par devenir fausse (sinon boucle infinie).</li><li><code>do…while</code> : le corps s'exécute <b>avant</b> le test. C'est la structure naturelle d'un menu console.</li><li>Indices : un tableau de <code>n</code> éléments va de <code>0</code> à <code>n - 1</code>. <code>noms[3]</code> lève <code>IndexOutOfRangeException</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s24"><h2>Module 3 — break, continue et boucles imbriquées</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Contrôle de boucle</div><pre><code data-lang="csharp">// break : sortir immédiatement de la boucle
+foreach (var nom in noms)
+{
+    if (nom == "Bob")
+    {
+        Console.WriteLine("Trouvé !");
+        break;
+    }
+}
+
+// continue : passer directement au tour suivant
+for (int i = 1; i &lt;= 10; i++)
+{
+    if (i % 2 == 0) continue;   // saute les pairs
+    Console.WriteLine(i);       // 1 3 5 7 9
+}
+
+// Boucles imbriquées : table de multiplication
+for (int ligne = 1; ligne &lt;= 3; ligne++)
+{
+    for (int col = 1; col &lt;= 3; col++)
+    {
+        Console.Write($"{ligne * col,4}");
+    }
+    Console.WriteLine();
+}
+//    1   2   3
+//    2   4   6
+//    3   6   9
+
+// Sortir de deux boucles : drapeau ou méthode dédiée
+bool trouve = false;
+for (int i = 0; i &lt; 10 &amp;&amp; !trouve; i++)
+    for (int j = 0; j &lt; 10; j++)
+        if (grille[i, j] == cible) { trouve = true; break; }</code></pre></div></div><div><ul><li><code>break</code> ne sort que de la boucle <b>la plus interne</b>.</li><li><code>continue</code> évite un <code>if</code> englobant tout le corps : le code reste plat.</li><li>Pour quitter plusieurs niveaux : un drapeau booléen dans la condition, ou extraire la recherche dans une méthode et <code>return</code> (module 4).</li><li>Boucles imbriquées : complexité en <i>n × m</i>. Acceptable sur de petites données, à surveiller au-delà.</li><li>Dans un <code>switch</code> placé dans une boucle, <code>break</code> sort du <code>switch</code>, pas de la boucle.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s25"><h2>Module 3 — Exercices guidés</h2><div class="body"><div class="two"><div><ul><li><b>1. FizzBuzz</b> : afficher 1 à 100 ; multiples de 3 → « Fizz », de 5 → « Buzz », des deux → « FizzBuzz ». Une switch expression sur un tuple <code>(n % 3, n % 5)</code>.</li><li><b>2. Devine le nombre</b> : nombre aléatoire entre 1 et 100 (<code>Random.Shared.Next(1, 101)</code>), boucle jusqu'à trouver, indices « plus / moins », compteur d'essais, saisie sécurisée.</li><li><b>3. Somme des chiffres</b> : lire un entier, calculer la somme de ses chiffres avec <code>%</code> et <code>/</code>.</li><li><b>4. Palindrome</b> : lire un mot, indiquer s'il se lit dans les deux sens (boucle sur les indices ou <code>Reverse</code>).</li><li><b>5. Menu</b> : squelette <code>do…while</code> + <code>switch</code> avec 3 entrées et sortie propre — base du TP 1.</li><li>Durée : 45 min. Corrigés commentés en séance.</li></ul></div><div><div class="code"><div class="code-title">Corrigés partiels</div><pre><code data-lang="csharp">// Exercice 1 — FizzBuzz avec pattern sur tuple
+for (int n = 1; n &lt;= 100; n++)
+{
+    string s = (n % 3, n % 5) switch
+    {
+        (0, 0) =&gt; "FizzBuzz",
+        (0, _) =&gt; "Fizz",
+        (_, 0) =&gt; "Buzz",
+        _      =&gt; n.ToString()
+    };
+    Console.WriteLine(s);
+}
+
+// Exercice 2 — Devine le nombre (extrait)
+int cible = Random.Shared.Next(1, 101);
+int essais = 0;
+while (true)
+{
+    Console.Write("Proposition : ");
+    if (!int.TryParse(Console.ReadLine(), out int p)) continue;
+    essais++;
+    if (p == cible) { Console.WriteLine($"Trouvé en {essais} essais"); break; }
+    Console.WriteLine(p &lt; cible ? "Plus grand" : "Plus petit");
+}</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s26"><h2>TP 1 — Convertisseur d'unités</h2><div class="body"><div class="two"><div><ul><li><b>Objectif</b> : application console qui convertit des valeurs entre unités.</li><li><b>Menu</b> en boucle <code>do…while</code> : 1) km → miles, 2) °C → °F, 3) kg → lb, q) quitter.</li><li><b>Saisie</b> de la valeur avec <code>double.TryParse</code> ; redemander tant que l'entrée est invalide.</li><li><b>Calcul</b> et affichage formaté : <code>$"{resultat:F2}"</code>.</li><li><b>Bonus</b> : conversion dans les deux sens, historique des 5 dernières conversions dans un tableau.</li><li><b>Critères</b> : aucune exception possible sur saisie utilisateur, choix inconnu géré, code indenté et nommé clairement.</li><li><b>Livrable</b> : <code>git commit -m "TP1 convertisseur"</code>.</li></ul></div><div><div class="code"><div class="code-title">Squelette de départ</div><pre><code data-lang="csharp">string choix;
+do
+{
+    Console.WriteLine("=== Convertisseur ===");
+    Console.WriteLine("1) km → miles");
+    Console.WriteLine("2) °C → °F");
+    Console.WriteLine("q) Quitter");
+    Console.Write("Choix : ");
+    choix = Console.ReadLine() ?? "";
+
+    if (choix == "q") break;
+
+    Console.Write("Valeur : ");
+    if (!double.TryParse(Console.ReadLine(), out double v))
+    {
+        Console.WriteLine("Valeur invalide.");
+        continue;
+    }
+
+    double res = choix switch
+    {
+        "1" =&gt; v * 0.621371,
+        "2" =&gt; v * 9 / 5 + 32,
+        _   =&gt; double.NaN
+    };
+
+    Console.WriteLine(double.IsNaN(res)
+        ? "Choix inconnu."
+        : $"Résultat : {res:F2}");
+
+} while (true);</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s27"><h2>Récapitulatif — Jour 1</h2><div class="body"><div class="two"><div><ul><li>Un projet = <code>.csproj</code> + <code>Program.cs</code> ; la CLI <code>dotnet</code> fait tout (new, build, run).</li><li>Compilation C# → IL → JIT → natif, orchestrée par le CLR.</li><li>Types valeur (copie) vs types référence (adresse). <code>decimal</code> pour l'argent.</li><li><code>var</code> déduit un type fixe ; <code>const</code> pour les constantes.</li><li>Saisie utilisateur : <code>TryParse</code>, jamais <code>Parse</code>.</li><li>Interpolation <code>$"…"</code> et spécificateurs de format ; <code>StringBuilder</code> en boucle.</li><li>Division entière, court-circuit, <code>??</code> / <code>?.</code>.</li><li><code>switch</code> expression + patterns pour calculer une valeur.</li><li><code>do…while</code> pour les menus, <code>foreach</code> pour parcourir.</li></ul></div><div><div class="note info"><b>Quiz de rappel J1</b> demain matin : 10 questions, 15 minutes.<br><br>Questions types : que vaut <code>7 / 2</code> ? Différence <code>Parse</code>/<code>TryParse</code> ? Que fait <code>?.</code> sur <code>null</code> ?</div></div></div></div></section>
+<section class="slide section-slide" data-kind="section" data-day="Jour 2" id="s28"><div class="section"><div class="day">Jour 2</div><h1>Méthodes et introduction à la POO</h1><ul><li>Module 4 — Méthodes</li><li>Module 5 — Classes et objets</li><li>Module 6 — Encapsulation et héritage</li><li>TP 2 — Fil rouge étape 1</li></ul></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s29"><h2>Module 4 — Anatomie d'une méthode</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Méthodes</div><pre><code data-lang="csharp">// modificateurs  type-retour  Nom(paramètres)
+static int Additionner(int a, int b)
+{
+    return a + b;
+}
+
+// Sans valeur de retour : void
+static void Afficher(string message)
+{
+    Console.WriteLine($"[INFO] {message}");
+}
+
+// Appel
+int somme = Additionner(3, 4);   // 7
+Afficher("Démarrage");
+
+// Return anticipé (garde) : sortir tôt des cas invalides
+static double Diviser(double a, double b)
+{
+    if (b == 0) return double.NaN;
+    return a / b;
+}
+
+// Avec top-level statements, les méthodes se déclarent
+// après le code principal, dans le même fichier.</code></pre></div></div><div><ul><li>Une méthode <b>nomme</b> un bloc de code réutilisable. Verbe à l'infinitif en <code>PascalCase</code> : <code>CalculerTotal</code>, <code>EstValide</code>.</li><li><b>Signature</b> = nom + types des paramètres. Le type de retour n'en fait pas partie.</li><li><code>return</code> termine la méthode et fournit la valeur. Une méthode non-<code>void</code> doit retourner sur tous les chemins.</li><li>Les <b>gardes</b> (<i>early return</i>) en début de méthode évitent l'imbrication.</li><li><code>static</code> : la méthode appartient au type, pas à un objet (module 5). Obligatoire pour les méthodes déclarées à côté des top-level statements.</li><li>Règle de taille : une méthode fait <b>une chose</b>, tient sur un écran.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s30"><h2>Module 4 — Passage de paramètres : valeur, ref, out, in, params</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Modes de passage</div><pre><code data-lang="csharp">// Par valeur (défaut) : copie, l'original n'est pas modifié
+static void Incrementer(int n) { n++; }
+int x = 5; Incrementer(x); // x vaut toujours 5
+
+// ref : la méthode travaille sur la variable d'origine
+static void IncrementerRef(ref int n) { n++; }
+IncrementerRef(ref x);     // x vaut 6
+
+// out : la méthode DOIT affecter le paramètre (sortie)
+static bool Diviser(int a, int b, out int quotient)
+{
+    if (b == 0) { quotient = 0; return false; }
+    quotient = a / b;
+    return true;
+}
+if (Diviser(10, 3, out int q)) Console.WriteLine(q); // 3
+
+// in : lecture seule, évite la copie des gros structs
+static double Norme(in Vecteur v) =&gt; Math.Sqrt(v.X * v.X + v.Y * v.Y);
+
+// params : nombre variable d'arguments
+static int Somme(params int[] valeurs)
+{
+    int total = 0;
+    foreach (int v in valeurs) total += v;
+    return total;
+}
+Somme();  Somme(1);  Somme(1, 2, 3, 4);</code></pre></div></div><div><ul><li>Par défaut, un <b>type valeur</b> est copié : la méthode ne peut pas modifier l'original.</li><li>Un <b>type référence</b> est aussi passé par valeur… mais la valeur est l'adresse : la méthode peut modifier <i>le contenu</i> de l'objet (pas remplacer l'objet).</li><li><code>ref</code> : rare en pratique, utile pour échanger deux variables ou optimiser.</li><li><code>out</code> : le pattern <code>TryXxx</code> — un <code>bool</code> de succès + le résultat en sortie.</li><li><code>params</code> : doit être le dernier paramètre. Depuis C# 13, accepte aussi <code>params List&lt;T&gt;</code> ou <code>params ReadOnlySpan&lt;T&gt;</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s31"><h2>Module 4 — Paramètres optionnels, nommés, surcharge</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Souplesse d'appel</div><pre><code data-lang="csharp">// Optionnels : valeur par défaut, doivent être en dernier
+static void Saluer(string nom, string civilite = "M.", bool crier = false)
+{
+    string msg = $"Bonjour {civilite} {nom}";
+    Console.WriteLine(crier ? msg.ToUpper() : msg);
+}
+Saluer("Dupont");                       // Bonjour M. Dupont
+Saluer("Martin", "Mme");                // Bonjour Mme Martin
+Saluer("Martin", crier: true);          // argument nommé, saute civilite
+Saluer(civilite: "Dr", nom: "Leroy");   // ordre libre avec noms
+
+// Surcharge : même nom, paramètres différents
+static double Aire(double rayon) =&gt; Math.PI * rayon * rayon;
+static double Aire(double largeur, double hauteur) =&gt; largeur * hauteur;
+static double Aire(double a, double b, double c)  // triangle (Héron)
+{
+    double s = (a + b + c) / 2;
+    return Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+}
+
+Aire(2);        // disque
+Aire(3, 4);     // rectangle
+Aire(3, 4, 5);  // triangle</code></pre></div></div><div><ul><li>Les <b>paramètres optionnels</b> évitent de multiplier les surcharges pour des cas simples.</li><li>Les <b>arguments nommés</b> rendent l'appel lisible quand une méthode a plusieurs booléens : <code>Exporter(fichier, inclureEntetes: true)</code>.</li><li>La <b>surcharge</b> = plusieurs méthodes du même nom distinguées par le <i>nombre</i> ou le <i>type</i> des paramètres. Le compilateur choisit la meilleure correspondance.</li><li>Une surcharge ne peut pas différer seulement par le type de retour.</li><li>Éviter les surcharges ambiguës (<code>int</code>/<code>long</code>/<code>double</code>) : appels difficiles à prédire.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s32"><h2>Module 4 — Expression-bodied, fonctions locales, récursivité</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Formes avancées</div><pre><code data-lang="csharp">// Expression-bodied : méthode d'une seule expression
+static bool EstPair(int n) =&gt; n % 2 == 0;
+static string Nom(string p, string n) =&gt; $"{p} {n}";
+
+// Fonction locale : visible uniquement dans la méthode hôte
+static int SommeCarres(int[] valeurs)
+{
+    int total = 0;
+    foreach (var v in valeurs) total += Carre(v);
+    return total;
+
+    static int Carre(int x) =&gt; x * x;   // fonction locale
+}
+
+// Récursivité : une méthode qui s'appelle elle-même
+static long Factorielle(int n)
+{
+    if (n &lt;= 1) return 1;                // cas de base
+    return n * Factorielle(n - 1);       // cas récursif
+}
+Factorielle(5); // 120
+
+// Parcours récursif d'une arborescence
+static void Lister(string dossier, int niveau = 0)
+{
+    Console.WriteLine(new string(' ', niveau * 2) + Path.GetFileName(dossier));
+    foreach (var sous in Directory.GetDirectories(dossier))
+        Lister(sous, niveau + 1);
+}</code></pre></div></div><div><ul><li><code>=&gt;</code> (<i>expression-bodied</i>) : remplace <code>{ return …; }</code> pour les méthodes d'une ligne. Ne pas confondre avec les lambdas (module 10).</li><li><b>Fonction locale</b> : découper une méthode sans polluer la classe. <code>static</code> devant garantit qu'elle ne capture aucune variable externe.</li><li><b>Récursivité</b> : toujours un <b>cas de base</b> qui arrête l'appel. Sinon <code>StackOverflowException</code> (non rattrapable).</li><li>Cas d'usage naturels : arborescences (fichiers, menus, JSON), algorithmes « diviser pour régner ».</li><li>Une boucle est souvent plus simple et plus rapide qu'une récursion : réserver la récursion aux structures récursives.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s33"><h2>Module 5 — Classes et objets</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Livre.cs</div><pre><code data-lang="csharp">// Une classe décrit un type : données + comportements
+public class Livre
+{
+    // Champs (état) — privés par convention
+    private string _titre;
+    private int _nbPages;
+
+    // Constructeur : initialise l'objet
+    public Livre(string titre, int nbPages)
+    {
+        _titre = titre;
+        _nbPages = nbPages;
+    }
+
+    // Méthode (comportement)
+    public string Decrire()
+    {
+        return $"{_titre} ({_nbPages} pages)";
+    }
+}
+
+// Instanciation : new crée un objet sur le tas
+Livre l1 = new Livre("Clean Code", 464);
+var l2 = new Livre("Refactoring", 448);
+Livre l3 = new("Le Pragmatic Programmer", 352); // target-typed new
+
+Console.WriteLine(l1.Decrire());</code></pre></div></div><div><ul><li><b>Classe</b> = plan de construction. <b>Objet</b> (instance) = exemplaire concret créé avec <code>new</code>.</li><li>Chaque objet a son propre état (<code>_titre</code>, <code>_nbPages</code>) mais partage le code des méthodes.</li><li>Convention : un fichier par classe, nom du fichier = nom de la classe, <code>PascalCase</code>.</li><li>Champs privés préfixés <code>_</code> en <code>camelCase</code>.</li><li><code>public</code> sur la classe : utilisable depuis d'autres projets. Sans modificateur, une classe est <code>internal</code> (visible dans le projet).</li><li>Les objets sont des types référence : <code>var l4 = l1;</code> désigne le <b>même</b> livre.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s34"><h2>Module 5 — Propriétés</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Compte.cs</div><pre><code data-lang="csharp">public class Compte
+{
+    private decimal _solde;
+
+    // Propriété complète : get/set avec logique
+    public decimal Solde
+    {
+        get { return _solde; }
+        private set
+        {
+            if (value &lt; 0)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            _solde = value;
+        }
+    }
+
+    // Propriété automatique : le compilateur crée le champ
+    public string Titulaire { get; set; } = "";
+
+    // Lecture seule depuis l'extérieur
+    public DateTime Ouverture { get; } = DateTime.Now;
+
+    // Propriété calculée (expression-bodied)
+    public bool EstADecouvert =&gt; _solde &lt; 0;
+
+    public void Deposer(decimal montant) =&gt; Solde += montant;
+}
+
+var c = new Compte { Titulaire = "Alice" };
+c.Deposer(100);
+Console.WriteLine(c.Solde);      // 100
+// c.Solde = 50;                 // erreur : set privé</code></pre></div></div><div><ul><li>Une <b>propriété</b> expose une donnée avec une syntaxe de champ (<code>c.Solde</code>) mais passe par du code (<code>get</code>/<code>set</code>).</li><li><code>value</code> : mot-clé désignant la valeur affectée dans le <code>set</code>.</li><li><b>Auto-propriété</b> <code>{ get; set; }</code> : 90 % des cas. Le champ de stockage est invisible.</li><li><code>{ get; }</code> : affectable seulement dans le constructeur ou à la déclaration → immuable.</li><li><code>private set</code> : lisible partout, modifiable seulement par la classe elle-même. C'est l'<b>encapsulation</b> (module 6).</li><li><code>nameof(value)</code> renvoie la chaîne <code>"value"</code> : refactoring sûr.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s35"><h2>Module 5 — init, required et initialiseurs d'objet</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Membre.cs</div><pre><code data-lang="csharp">public class Membre
+{
+    // required : DOIT être renseigné à la création
+    public required string Nom { get; init; }
+    public required string Email { get; init; }
+
+    // init : modifiable uniquement pendant l'initialisation
+    public DateOnly Inscription { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+
+    // Modifiable à tout moment
+    public bool Actif { get; set; } = true;
+}
+
+// Initialiseur d'objet : { Prop = valeur, … }
+var m = new Membre
+{
+    Nom = "Alice Martin",
+    Email = "alice@exemple.fr",
+    Inscription = new DateOnly(2026, 9, 10)
+};
+
+// var m2 = new Membre();  // erreur : Nom et Email requis
+// m.Nom = "Bob";           // erreur : init uniquement
+
+m.Actif = false;            // OK</code></pre></div></div><div><ul><li><code>init</code> (C# 9+) : un <code>set</code> qui ne fonctionne que dans l'initialiseur ou le constructeur. L'objet devient immuable après construction.</li><li><code>required</code> (C# 11+) : le compilateur refuse la création si la propriété n'est pas fournie. Remplace un constructeur à N paramètres.</li><li><b>Initialiseur d'objet</b> : appelle le constructeur puis affecte les propriétés listées. Lisible, ordre libre, s'accorde avec <code>init</code>.</li><li>Combinaison typique : <code>required</code> + <code>init</code> pour les données obligatoires et immuables, <code>{ get; set; }</code> pour l'état qui évolue.</li><li><code>DateOnly</code> / <code>TimeOnly</code> : types dédiés (.NET 6+) quand l'heure ou la date n'ont pas de sens.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s36"><h2>Module 5 — Constructeurs</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Emprunt.cs</div><pre><code data-lang="csharp">public class Emprunt
+{
+    public Livre Livre { get; }
+    public Membre Membre { get; }
+    public DateOnly Date { get; }
+    public DateOnly Echeance { get; }
+
+    // Constructeur principal
+    public Emprunt(Livre livre, Membre membre, DateOnly date, int dureeJours)
+    {
+        ArgumentNullException.ThrowIfNull(livre);
+        ArgumentNullException.ThrowIfNull(membre);
+        if (dureeJours &lt;= 0)
+            throw new ArgumentOutOfRangeException(nameof(dureeJours));
+
+        Livre = livre;
+        Membre = membre;
+        Date = date;
+        Echeance = date.AddDays(dureeJours);
+    }
+
+    // Chaînage : ce constructeur délègue au précédent
+    public Emprunt(Livre livre, Membre membre)
+        : this(livre, membre, DateOnly.FromDateTime(DateTime.Today), 21)
+    {
+    }
+}
+
+// Constructeur primaire (C# 12+) : paramètres sur la classe
+public class Point(double x, double y)
+{
+    public double X { get; } = x;
+    public double Y { get; } = y;
+    public double Distance() =&gt; Math.Sqrt(X * X + Y * Y);
+}</code></pre></div></div><div><ul><li>Le constructeur porte le nom de la classe, sans type de retour. Il <b>garantit</b> qu'un objet est valide dès sa création.</li><li>Sans constructeur déclaré, C# fournit un constructeur sans paramètre. Dès qu'on en déclare un, ce défaut disparaît.</li><li><b>Validation</b> dans le constructeur : <code>ArgumentNullException.ThrowIfNull</code>, <code>ArgumentOutOfRangeException</code>. Un objet invalide ne doit pas exister.</li><li><code>: this(…)</code> chaîne les constructeurs : une seule logique d'initialisation.</li><li><b>Constructeur primaire</b> (C# 12+) : syntaxe compacte pour les classes simples. Les paramètres sont capturés, pas des propriétés.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s37"><h2>Module 5 — Membres statiques</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Statique</div><pre><code data-lang="csharp">public class Compteur
+{
+    // Champ statique : partagé par toutes les instances
+    private static int _total = 0;
+
+    // Champ d'instance : propre à chaque objet
+    public int Id { get; }
+
+    public Compteur()
+    {
+        _total++;
+        Id = _total;
+    }
+
+    // Propriété statique
+    public static int Total =&gt; _total;
+}
+
+var c1 = new Compteur();  // Id = 1
+var c2 = new Compteur();  // Id = 2
+Console.WriteLine(Compteur.Total);   // 2  (via le type, pas l'objet)
+
+// Classe statique : uniquement des membres statiques, pas de new
+public static class Conversions
+{
+    public const double KmParMile = 1.609344;
+    public static double VersMiles(double km) =&gt; km / KmParMile;
+}
+Conversions.VersMiles(10);
+
+// Exemples du framework
+Math.Max(3, 7);  Math.PI;  Console.WriteLine();  string.Join(", ", t);</code></pre></div></div><div><ul><li><code>static</code> = « appartient au type, pas à l'instance ». Un seul exemplaire en mémoire.</li><li>Accès via le nom du type : <code>Compteur.Total</code>, jamais <code>c1.Total</code>.</li><li>Usage légitime : compteurs globaux, constantes, méthodes utilitaires pures (<code>Math</code>, conversions).</li><li><b>Classe statique</b> : ne peut pas être instanciée ni héritée. Regroupe des fonctions utilitaires.</li><li>Attention : l'état statique est global — difficile à tester, source de bugs en multithread. Le réserver à ce qui est réellement partagé.</li><li><code>const</code> est implicitement statique.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s38"><h2>Module 6 — Encapsulation et modificateurs d'accès</h2><div class="body"><div class="two"><div><table><thead><tr><th>Modificateur</th><th>Visible depuis</th></tr></thead><tbody><tr><td><code>public</code></td><td>partout</td></tr><tr><td><code>private</code></td><td>la classe elle-même (défaut pour les membres)</td></tr><tr><td><code>protected</code></td><td>la classe et ses classes dérivées</td></tr><tr><td><code>internal</code></td><td>le même projet (assembly) — défaut pour les types</td></tr><tr><td><code>protected internal</code></td><td>dérivées <i>ou</i> même projet</td></tr><tr><td><code>private protected</code></td><td>dérivées <i>et</i> même projet</td></tr></tbody></table><ul><li><b>Encapsulation</b> : cacher l'état interne, n'exposer que des opérations qui maintiennent les <b>invariants</b>.</li><li>Règle : tout <code>private</code> par défaut, ouvrir au besoin.</li><li>Une classe qui expose des champs publics modifiables ne peut garantir aucune règle métier.</li></ul></div><div><div class="code"><div class="code-title">Stock.cs — état protégé</div><pre><code data-lang="csharp">public class Stock
+{
+    private readonly Dictionary&lt;string, int&gt; _quantites = new();
+
+    // Invariant : une quantité n'est jamais négative
+    public void Retirer(string ref_, int qte)
+    {
+        if (qte &lt;= 0)
+            throw new ArgumentOutOfRangeException(nameof(qte));
+
+        int actuelle = _quantites.GetValueOrDefault(ref_);
+        if (actuelle &lt; qte)
+            throw new InvalidOperationException(
+                $"Stock insuffisant pour {ref_} : {actuelle} &lt; {qte}");
+
+        _quantites[ref_] = actuelle - qte;
+    }
+
+    public int Quantite(string ref_) =&gt; _quantites.GetValueOrDefault(ref_);
+
+    // readonly : la référence ne peut plus changer après le constructeur
+    // (le contenu du dictionnaire, lui, reste modifiable)
+}</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s39"><h2>Module 6 — Héritage</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Hiérarchie Document</div><pre><code data-lang="csharp">// Classe de base (parent)
+public class Document
+{
+    public string Titre { get; }
+    public int Annee { get; }
+
+    public Document(string titre, int annee)
+    {
+        Titre = titre;
+        Annee = annee;
+    }
+
+    public string Decrire() =&gt; $"{Titre} ({Annee})";
+}
+
+// Classe dérivée (enfant) : hérite de tout ce qui n'est pas private
+public class Livre : Document
+{
+    public string Isbn { get; }
+
+    // base(…) appelle le constructeur du parent
+    public Livre(string titre, int annee, string isbn)
+        : base(titre, annee)
+    {
+        Isbn = isbn;
+    }
+}
+
+public class Revue : Document
+{
+    public int Numero { get; }
+    public Revue(string titre, int annee, int numero)
+        : base(titre, annee) =&gt; Numero = numero;
+}
+
+var l = new Livre("Clean Code", 2008, "978-0132350884");
+Console.WriteLine(l.Decrire());   // méthode héritée
+Document d = l;                    // un Livre EST un Document</code></pre></div></div><div><ul><li><code>class Enfant : Parent</code> : l'enfant reçoit les membres publics et protégés du parent.</li><li>Relation « <b>est un</b> » : un livre <i>est un</i> document. Si la phrase est fausse, ne pas hériter (préférer la composition « <i>a un</i> »).</li><li>Le constructeur de l'enfant doit appeler celui du parent avec <code>: base(…)</code> (sinon C# appelle <code>base()</code> sans argument, qui doit exister).</li><li>Une classe n'hérite que d'<b>une seule</b> classe (héritage simple). Les interfaces (module 7) lèvent cette limite.</li><li>Toute classe hérite implicitement de <code>object</code>.</li><li><code>protected</code> : le compromis pour les membres réservés aux enfants.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s40"><h2>Module 6 — virtual, override, sealed</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Redéfinition</div><pre><code data-lang="csharp">public class Document
+{
+    public string Titre { get; }
+    public Document(string titre) =&gt; Titre = titre;
+
+    // virtual : l'enfant PEUT redéfinir
+    public virtual decimal FraisRetard(int jours) =&gt; jours * 0.10m;
+
+    public virtual string Decrire() =&gt; $"Document : {Titre}";
+}
+
+public class Livre : Document
+{
+    public Livre(string titre) : base(titre) { }
+
+    // override : redéfinition
+    public override decimal FraisRetard(int jours) =&gt; jours * 0.25m;
+
+    // Réutiliser la version parente
+    public override string Decrire() =&gt; $"Livre — {base.Decrire()}";
+}
+
+public class LivreRare : Livre
+{
+    public LivreRare(string titre) : base(titre) { }
+
+    // sealed : plus personne ne pourra redéfinir en dessous
+    public sealed override decimal FraisRetard(int jours) =&gt; jours * 2m;
+}
+
+// Polymorphisme : la méthode appelée dépend du type RÉEL
+Document[] docs = { new Document("Note"), new Livre("Clean Code"), new LivreRare("Manuscrit") };
+foreach (var d in docs)
+    Console.WriteLine($"{d.Titre} : {d.FraisRetard(10)} €");
+// Note : 1,00 €   Clean Code : 2,50 €   Manuscrit : 20,00 €</code></pre></div></div><div><ul><li><code>virtual</code> sur le parent + <code>override</code> sur l'enfant = <b>polymorphisme</b> : le bon comportement est choisi à l'exécution selon le type concret.</li><li>Sans <code>virtual</code>, une méthode ne peut pas être redéfinie (le compilateur refuse <code>override</code>).</li><li><code>base.Methode()</code> : appeler la version du parent depuis la redéfinition (enrichir plutôt que remplacer).</li><li><code>sealed override</code> : verrouille la chaîne. <code>sealed class</code> : interdit tout héritage de la classe.</li><li><code>new</code> (masquage) existe aussi mais casse le polymorphisme : à éviter.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s41"><h2>Module 6 — Classes abstraites</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Forme.cs</div><pre><code data-lang="csharp">// abstract : incomplète, ne peut pas être instanciée
+public abstract class Forme
+{
+    public string Nom { get; }
+    protected Forme(string nom) =&gt; Nom = nom;
+
+    // Méthode abstraite : pas de corps, l'enfant DOIT l'implémenter
+    public abstract double Aire();
+
+    // Méthode concrète : partagée, s'appuie sur l'abstraite
+    public string Decrire() =&gt; $"{Nom} : aire = {Aire():F2}";
+}
+
+public class Cercle : Forme
+{
+    public double Rayon { get; }
+    public Cercle(double rayon) : base("Cercle") =&gt; Rayon = rayon;
+    public override double Aire() =&gt; Math.PI * Rayon * Rayon;
+}
+
+public class Rectangle : Forme
+{
+    public double L { get; }
+    public double H { get; }
+    public Rectangle(double l, double h) : base("Rectangle") { L = l; H = h; }
+    public override double Aire() =&gt; L * H;
+}
+
+// var f = new Forme("?");  // erreur : classe abstraite
+Forme[] formes = { new Cercle(1), new Rectangle(2, 3) };
+foreach (var f in formes) Console.WriteLine(f.Decrire());</code></pre></div></div><div><ul><li>Une classe <code>abstract</code> définit un <b>contrat partiel</b> : du code commun + des trous (<code>abstract</code>) que chaque enfant remplit.</li><li>Une méthode abstraite est implicitement <code>virtual</code> et se redéfinit avec <code>override</code>.</li><li>Un enfant qui n'implémente pas toutes les méthodes abstraites doit lui-même être <code>abstract</code>.</li><li>Pattern <i>Template Method</i> : la méthode concrète <code>Decrire()</code> orchestre, l'abstraite <code>Aire()</code> varie.</li><li>Abstraite vs interface (module 7) : la classe abstraite fournit de l'<b>implémentation</b> et un constructeur ; l'interface ne définit que la forme.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s42"><h2>Module 6 — ToString, Equals, GetHashCode</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Membres hérités d'object</div><pre><code data-lang="csharp">public class Livre
+{
+    public string Isbn { get; }
+    public string Titre { get; }
+    public Livre(string isbn, string titre) { Isbn = isbn; Titre = titre; }
+
+    // Affichage lisible (Console.WriteLine, interpolation, débogueur)
+    public override string ToString() =&gt; $"{Titre} [{Isbn}]";
+
+    // Égalité métier : deux livres sont égaux si même ISBN
+    public override bool Equals(object? obj)
+        =&gt; obj is Livre autre &amp;&amp; autre.Isbn == Isbn;
+
+    // Obligatoire avec Equals : même clé ⇒ même hash
+    public override int GetHashCode() =&gt; Isbn.GetHashCode();
+}
+
+var a = new Livre("978-1", "Clean Code");
+var b = new Livre("978-1", "Clean Code (2e éd.)");
+
+Console.WriteLine(a);            // Clean Code [978-1]
+Console.WriteLine(a == b);       // false : références différentes
+Console.WriteLine(a.Equals(b));  // true  : même ISBN
+Console.WriteLine(ReferenceEquals(a, b)); // false
+
+var set = new HashSet&lt;Livre&gt; { a, b };
+Console.WriteLine(set.Count);    // 1 — grâce à GetHashCode + Equals</code></pre></div></div><div><ul><li>Toute classe hérite de <code>object</code>, donc de <code>ToString()</code>, <code>Equals()</code>, <code>GetHashCode()</code>, <code>GetType()</code>.</li><li>Par défaut, <code>ToString()</code> renvoie le nom du type : redéfinir pour un affichage utile.</li><li>Par défaut, <code>Equals</code> compare les <b>références</b>. Redéfinir pour comparer une <b>identité métier</b> (ISBN, id).</li><li><b>Règle</b> : redéfinir <code>Equals</code> ⇒ redéfinir <code>GetHashCode</code>, sinon <code>Dictionary</code> et <code>HashSet</code> se comportent mal.</li><li>Les <code>record</code> (module 8) génèrent tout cela automatiquement.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s43"><h2>TP 2 — Fil rouge étape 1 : le modèle objet</h2><div class="body"><div class="two"><div><ul><li><b>Créer le projet</b> : <code>dotnet new console -n Bibliotheque -o src/Bibliotheque</code> puis <code>dotnet sln add</code>.</li><li><b>Classes</b> (un fichier chacune) : <code>Livre</code> (Isbn, Titre, Auteur, Disponible), <code>Membre</code> (Id, Nom, Email), <code>Emprunt</code> (Livre, Membre, Date, Echeance).</li><li><b>Classe <code>Bibliotheque</code></b> : tableau interne <code>Livre[]</code> de capacité 100 + compteur ; méthodes <code>AjouterLivre</code>, <code>ListerLivres</code>, <code>Emprunter(isbn, membre)</code>, <code>Rendre(isbn)</code>.</li><li><b>Règles</b> : ISBN unique, impossible d'emprunter un livre indisponible, échéance à 21 jours.</li><li><b>Encapsulation</b> : tableau et compteur privés, propriétés en <code>{ get; init; }</code> ou <code>private set</code>.</li><li><b>Menu console</b> en <code>do…while</code> : ajouter, lister, emprunter, rendre, quitter.</li><li><b>ToString</b> redéfini sur les trois classes.</li></ul></div><div><div class="code"><div class="code-title">Bibliotheque.cs — point de départ</div><pre><code data-lang="csharp">public class Bibliotheque
+{
+    private readonly Livre[] _livres = new Livre[100];
+    private int _nb = 0;
+
+    public bool AjouterLivre(Livre livre)
+    {
+        if (_nb &gt;= _livres.Length) return false;
+        for (int i = 0; i &lt; _nb; i++)
+            if (_livres[i].Isbn == livre.Isbn) return false;
+        _livres[_nb++] = livre;
+        return true;
+    }
+
+    public void ListerLivres()
+    {
+        for (int i = 0; i &lt; _nb; i++)
+            Console.WriteLine(_livres[i]);
+    }
+
+    public bool Emprunter(string isbn, Membre membre)
+    {
+        // à compléter : chercher, vérifier Disponible,
+        // créer l'Emprunt, passer Disponible à false
+        throw new NotImplementedException();
+    }
+}</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J2" id="s44"><h2>Récapitulatif — Jour 2</h2><div class="body"><div class="two"><div><ul><li>Méthode = nom + paramètres + retour ; gardes en tête, une responsabilité.</li><li>Passage par valeur par défaut ; <code>out</code> pour le pattern <code>TryXxx</code> ; <code>params</code> pour N arguments.</li><li>Optionnels + nommés + surcharge = API souple.</li><li>Classe = plan, objet = instance créée par <code>new</code>.</li><li>Propriétés auto <code>{ get; set; }</code>, <code>init</code>, <code>required</code>, <code>private set</code>.</li><li>Constructeur = objet valide dès la naissance ; chaînage <code>: this(…)</code>.</li><li><code>static</code> : appartient au type.</li><li>Encapsulation : privé par défaut, invariants protégés.</li><li>Héritage <code>: Parent</code>, <code>base(…)</code>, <code>virtual</code>/<code>override</code>, <code>abstract</code>.</li><li><code>ToString</code> / <code>Equals</code> / <code>GetHashCode</code> vont ensemble.</li></ul></div><div><div class="note info"><b>Quiz de rappel J2</b> demain matin.<br><br>Questions types : différence <code>ref</code>/<code>out</code> ? Que se passe-t-il sans <code>virtual</code> ? Peut-on faire <code>new</code> sur une classe abstraite ?</div></div></div></div></section>
+<section class="slide section-slide" data-kind="section" data-day="Jour 3" id="s45"><div class="section"><div class="day">Jour 3</div><h1>POO avancée et collections</h1><ul><li>Module 7 — Interfaces et polymorphisme</li><li>Module 8 — Types spécialisés</li><li>Module 9 — Collections et génériques</li><li>TP 3 — Fil rouge étape 2</li></ul></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s46"><h2>Module 7 — Interfaces : définir un contrat</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">IEmpruntable.cs</div><pre><code data-lang="csharp">// Une interface décrit CE QUE fait un type, pas COMMENT
+public interface IEmpruntable
+{
+    bool Disponible { get; }
+    int DureeMaxJours { get; }
+    void Emprunter(Membre membre);
+    void Rendre();
+}
+
+public class Livre : IEmpruntable
+{
+    public bool Disponible { get; private set; } = true;
+    public int DureeMaxJours =&gt; 21;
+
+    public void Emprunter(Membre membre)
+    {
+        if (!Disponible) throw new InvalidOperationException("Déjà emprunté");
+        Disponible = false;
+    }
+
+    public void Rendre() =&gt; Disponible = true;
+}
+
+public class Dvd : IEmpruntable
+{
+    public bool Disponible { get; private set; } = true;
+    public int DureeMaxJours =&gt; 7;
+    public void Emprunter(Membre membre) =&gt; Disponible = false;
+    public void Rendre() =&gt; Disponible = true;
+}
+
+// Le code client ne dépend que de l'interface
+static void Preter(IEmpruntable item, Membre m)
+{
+    item.Emprunter(m);
+    Console.WriteLine($"À rendre sous {item.DureeMaxJours} jours");
+}</code></pre></div></div><div><ul><li>Une <b>interface</b> liste des membres (méthodes, propriétés, événements) <b>sans implémentation</b>. Préfixe <code>I</code> par convention.</li><li>Une classe qui « implémente » l'interface <b>s'engage</b> à fournir tous ses membres, en <code>public</code>.</li><li>Une classe peut implémenter <b>plusieurs</b> interfaces (contrairement à l'héritage simple).</li><li>Le code client (<code>Preter</code>) accepte <i>n'importe quel</i> <code>IEmpruntable</code>, présent ou futur : c'est le découplage.</li><li>Une interface n'a ni constructeur ni champ. Depuis C# 8, elle peut avoir des implémentations par défaut, mais c'est rare.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s47"><h2>Module 7 — Interfaces vs héritage, interfaces du framework</h2><div class="body"><div class="two"><div><table><thead><tr><th></th><th>Classe abstraite</th><th>Interface</th></tr></thead><tbody><tr><td>Relation</td><td>« est un »</td><td>« sait faire »</td></tr><tr><td>Nombre</td><td>une seule base</td><td>plusieurs</td></tr><tr><td>Contenu</td><td>champs, constructeurs, code</td><td>signatures (+ défauts rares)</td></tr><tr><td>Usage</td><td>partager du code entre proches</td><td>découpler, tester, brancher</td></tr></tbody></table><ul><li>Règle pratique : commencer par une interface ; introduire une classe abstraite seulement quand plusieurs implémentations partagent du code.</li><li>Interfaces standard à connaître : <code>IComparable&lt;T&gt;</code> (tri), <code>IEquatable&lt;T&gt;</code> (égalité typée), <code>IDisposable</code> (libération), <code>IEnumerable&lt;T&gt;</code> (parcours, module 9).</li></ul></div><div><div class="code"><div class="code-title">Implémenter IComparable / IEquatable</div><pre><code data-lang="csharp">public class Livre : IComparable&lt;Livre&gt;, IEquatable&lt;Livre&gt;
+{
+    public string Isbn { get; init; } = "";
+    public string Titre { get; init; } = "";
+
+    // Ordre naturel : par titre
+    public int CompareTo(Livre? autre)
+        =&gt; autre is null ? 1
+         : string.Compare(Titre, autre.Titre, StringComparison.OrdinalIgnoreCase);
+
+    // Égalité typée (évite le cast object)
+    public bool Equals(Livre? autre) =&gt; autre is not null &amp;&amp; autre.Isbn == Isbn;
+    public override bool Equals(object? o) =&gt; Equals(o as Livre);
+    public override int GetHashCode() =&gt; Isbn.GetHashCode();
+}
+
+var livres = new List&lt;Livre&gt; { /* … */ };
+livres.Sort();                 // utilise CompareTo
+livres.Contains(unLivre);      // utilise Equals(Livre)</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s48"><h2>Module 7 — is, as et pattern matching sur les types</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Tests de type</div><pre><code data-lang="csharp">object[] items = { new Livre("978-1", "Clean Code"), new Dvd("Matrix"), "chaîne", 42 };
+
+foreach (object item in items)
+{
+    // is : test de type
+    if (item is Livre)
+        Console.WriteLine("C'est un livre");
+
+    // is + déclaration : test ET cast en une fois
+    if (item is Livre livre)
+        Console.WriteLine($"Livre : {livre.Titre}");
+
+    // as : cast qui renvoie null au lieu de lever
+    Dvd? dvd = item as Dvd;
+    if (dvd != null) Console.WriteLine($"DVD : {dvd.Titre}");
+
+    // Cast explicite : lève InvalidCastException si faux
+    // Livre l = (Livre)item;  // dangereux ici
+
+    // switch sur le type : la forme la plus lisible
+    string description = item switch
+    {
+        Livre { Titre.Length: &gt; 20 } l =&gt; $"Livre au long titre : {l.Titre}",
+        Livre l                        =&gt; $"Livre : {l.Titre}",
+        Dvd d                          =&gt; $"DVD : {d.Titre}",
+        string s                       =&gt; $"Texte : {s}",
+        int n when n &gt; 0               =&gt; $"Entier positif : {n}",
+        null                           =&gt; "null",
+        _                              =&gt; $"Inconnu : {item.GetType().Name}"
+    };
+    Console.WriteLine(description);
+}</code></pre></div></div><div><ul><li><code>is Type variable</code> (C# 7+) : la forme à privilégier — teste, convertit et nomme en une expression.</li><li><code>as</code> : uniquement pour les types référence ou nullable ; renvoie <code>null</code> en cas d'échec. Toujours tester le résultat.</li><li>Cast <code>(Type)x</code> : à réserver aux cas où l'on est certain (sinon exception).</li><li>Le <code>switch</code> sur type combine test de type, pattern de propriété (<code>{ Titre.Length: &gt; 20 }</code>) et clause <code>when</code>.</li><li>Si vous testez souvent des types concrets, c'est souvent le signe qu'une méthode <code>virtual</code> ou une interface manque.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s49"><h2>Module 8 — struct vs class</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Point.cs</div><pre><code data-lang="csharp">// struct : type VALEUR — copié, alloué sur la pile
+public struct Point
+{
+    public double X { get; init; }
+    public double Y { get; init; }
+
+    public Point(double x, double y) { X = x; Y = y; }
+
+    public double Distance(Point autre)
+        =&gt; Math.Sqrt(Math.Pow(X - autre.X, 2) + Math.Pow(Y - autre.Y, 2));
+}
+
+Point p1 = new(1, 2);
+Point p2 = p1;          // COPIE : deux points indépendants
+p2 = p2 with { X = 10 }; // p1.X vaut toujours 1
+
+// readonly struct : garantit l'immuabilité (recommandé)
+public readonly struct Argent
+{
+    public decimal Montant { get; }
+    public string Devise { get; }
+    public Argent(decimal m, string d) { Montant = m; Devise = d; }
+    public Argent Plus(Argent a) =&gt; new(Montant + a.Montant, Devise);
+}
+
+// Exemples du framework : int, double, bool, DateTime, DateOnly,
+// TimeSpan, Guid, KeyValuePair&lt;,&gt;, Nullable&lt;T&gt;</code></pre></div></div><div><table><thead><tr><th></th><th>class</th><th>struct</th></tr></thead><tbody><tr><td>Sémantique</td><td>référence</td><td>valeur (copie)</td></tr><tr><td>Allocation</td><td>tas + GC</td><td>pile / inline</td></tr><tr><td>Héritage</td><td>oui</td><td>non (interfaces oui)</td></tr><tr><td><code>null</code></td><td>possible</td><td>non (sauf <code>T?</code>)</td></tr><tr><td>Défaut</td><td><code>null</code></td><td>tous champs à zéro</td></tr></tbody></table><ul><li>Choisir <code>struct</code> pour de <b>petites</b> valeurs (≤ 16 octets), <b>immuables</b>, à sémantique de valeur : coordonnées, montant, couleur.</li><li>Dans le doute : <code>class</code>. Les <code>struct</code> mutables sont une source classique de bugs (modification d'une copie).</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s50"><h2>Module 8 — record : données immuables sans cérémonie</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Records</div><pre><code data-lang="csharp">// Déclaration positionnelle : propriétés init + constructeur + déconstruction
+public record Livre(string Isbn, string Titre, string Auteur);
+
+var a = new Livre("978-1", "Clean Code", "R. Martin");
+var b = new Livre("978-1", "Clean Code", "R. Martin");
+
+Console.WriteLine(a);        // Livre { Isbn = 978-1, Titre = Clean Code, Auteur = R. Martin }
+Console.WriteLine(a == b);   // true : égalité par VALEUR
+Console.WriteLine(a.GetHashCode() == b.GetHashCode()); // true
+
+// with : copie modifiée (non-destructive mutation)
+var c = a with { Titre = "Clean Code, 2e éd." };
+
+// Déconstruction
+var (isbn, titre, _) = a;
+
+// Record avec corps : ajouter des membres ou de la validation
+public record Membre(string Nom, string Email)
+{
+    public string Nom { get; init; } = !string.IsNullOrWhiteSpace(Nom)
+        ? Nom : throw new ArgumentException("Nom requis");
+
+    public string Initiales =&gt; string.Concat(Nom.Split(' ').Select(m =&gt; m[0]));
+}
+
+// record struct : version type valeur
+public readonly record struct Coordonnee(double Lat, double Lon);</code></pre></div></div><div><ul><li>Un <code>record</code> (C# 9+) est une <b>classe</b> optimisée pour porter des <b>données</b> : le compilateur génère constructeur, propriétés <code>init</code>, <code>ToString</code>, <code>Equals</code>, <code>GetHashCode</code>, déconstruction.</li><li><b>Égalité par valeur</b> : deux records avec les mêmes propriétés sont égaux (contrairement aux classes).</li><li><code>with</code> : crée une copie en changeant certaines propriétés. L'original reste intact.</li><li>Idéal pour : DTO, résultats de requête, messages, configuration, clés composées.</li><li>Peut hériter d'un autre record, implémenter des interfaces, avoir des méthodes.</li><li><code>record struct</code> : même génération, sémantique valeur.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s51"><h2>Module 8 — Énumérations</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">EtatEmprunt.cs</div><pre><code data-lang="csharp">// Un ensemble fini de constantes nommées (int sous-jacent)
+public enum EtatEmprunt
+{
+    EnCours,     // 0
+    Rendu,       // 1
+    EnRetard,    // 2
+    Perdu = 10   // valeur explicite
+}
+
+EtatEmprunt etat = EtatEmprunt.EnCours;
+
+// Conversions
+int code = (int)etat;                         // 0
+EtatEmprunt e2 = (EtatEmprunt)2;              // EnRetard
+string nom = etat.ToString();                 // "EnCours"
+EtatEmprunt e3 = Enum.Parse&lt;EtatEmprunt&gt;("Rendu");
+bool ok = Enum.TryParse("Perdu", out EtatEmprunt e4);
+bool defini = Enum.IsDefined(typeof(EtatEmprunt), 5); // false
+
+// Parcourir toutes les valeurs
+foreach (var v in Enum.GetValues&lt;EtatEmprunt&gt;())
+    Console.WriteLine($"{(int)v} = {v}");
+
+// Dans un switch : le compilateur avertit si un cas manque
+string libelle = etat switch
+{
+    EtatEmprunt.EnCours  =&gt; "En cours",
+    EtatEmprunt.Rendu    =&gt; "Rendu",
+    EtatEmprunt.EnRetard =&gt; "En retard",
+    EtatEmprunt.Perdu    =&gt; "Perdu",
+    _ =&gt; throw new ArgumentOutOfRangeException()
+};
+
+// [Flags] : combinaisons binaires
+[Flags]
+public enum Droits { Aucun = 0, Lire = 1, Ecrire = 2, Supprimer = 4 }
+var d = Droits.Lire | Droits.Ecrire;
+bool peutEcrire = d.HasFlag(Droits.Ecrire);   // true</code></pre></div></div><div><ul><li>Un <code>enum</code> remplace les « nombres magiques » (<code>if (etat == 2)</code>) par des noms explicites.</li><li>Le type sous-jacent est <code>int</code> par défaut ; on peut le fixer : <code>enum Petit : byte</code>.</li><li>Le cast depuis un entier <b>ne vérifie rien</b> : <code>(EtatEmprunt)99</code> compile et s'exécute. Utiliser <code>Enum.IsDefined</code> pour valider des données externes.</li><li>La switch expression sur enum + <code>_ =&gt; throw</code> : tout nouveau cas oublié est détecté.</li><li><code>[Flags]</code> : valeurs en puissances de 2, combinables avec <code>|</code>, testables avec <code>HasFlag</code> ou <code>&amp;</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s52"><h2>Module 8 — Tuples et déconstruction</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Tuples</div><pre><code data-lang="csharp">// Tuple : regrouper plusieurs valeurs sans créer de type
+(string Nom, int Age) personne = ("Alice", 30);
+Console.WriteLine(personne.Nom);   // Alice
+
+// Retourner plusieurs valeurs depuis une méthode
+static (int Min, int Max, double Moyenne) Stats(int[] valeurs)
+{
+    int min = valeurs.Min(), max = valeurs.Max();
+    return (min, max, valeurs.Average());
+}
+
+var stats = Stats(new[] { 3, 9, 4 });
+Console.WriteLine($"{stats.Min} – {stats.Max}, moy {stats.Moyenne:F1}");
+
+// Déconstruction : éclater dans des variables
+var (min, max, moy) = Stats(new[] { 3, 9, 4 });
+(int mn, _, _) = Stats(new[] { 1, 2 });   // _ ignore une valeur
+
+// Échanger deux variables
+(a, b) = (b, a);
+
+// Déconstruire un objet : méthode Deconstruct
+public class Livre
+{
+    public string Isbn { get; init; } = "";
+    public string Titre { get; init; } = "";
+    public void Deconstruct(out string isbn, out string titre)
+        =&gt; (isbn, titre) = (Isbn, Titre);
+}
+var (isbn, titre) = unLivre;
+
+// Tuple dans un dictionnaire ou un pattern
+Dictionary&lt;(int X, int Y), string&gt; grille = new();
+grille[(0, 0)] = "départ";</code></pre></div></div><div><ul><li>Un tuple <code>(T1, T2, …)</code> est un <code>ValueTuple</code> : type valeur léger, nommage des éléments possible.</li><li>Usage principal : <b>retourner plusieurs valeurs</b> sans créer de classe, ou passer une clé composée.</li><li>Au-delà de 3 éléments ou si le tuple circule dans toute l'application : créer un <code>record</code>.</li><li>La <b>déconstruction</b> fonctionne sur les tuples, les records et toute classe qui expose <code>Deconstruct(out …)</code>.</li><li>Les tuples se comparent par valeur : <code>(1, "a") == (1, "a")</code> est <code>true</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s53"><h2>Module 9 — Tableaux et List<T></h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Collections de base</div><pre><code data-lang="csharp">// Tableau : taille FIXE, accès par index
+int[] notes = new int[5];          // 0 0 0 0 0
+int[] notes2 = { 12, 15, 9 };
+string[,] grille = new string[3, 3];   // 2 dimensions
+notes2[0] = 14;
+Console.WriteLine(notes2.Length);   // 3
+Array.Sort(notes2);
+int idx = Array.IndexOf(notes2, 15);
+
+// List&lt;T&gt; : taille DYNAMIQUE, la collection par défaut
+var livres = new List&lt;string&gt;();
+livres.Add("Clean Code");
+livres.Add("Refactoring");
+livres.AddRange(new[] { "DDD", "TDD" });
+livres.Insert(0, "Code Complete");
+
+livres.Count;                       // 5
+livres[1];                          // "Clean Code"
+livres.Contains("DDD");             // true
+livres.IndexOf("TDD");              // 4
+livres.Remove("DDD");               // par valeur
+livres.RemoveAt(0);                 // par index
+livres.RemoveAll(t =&gt; t.Length &lt; 4);
+livres.Sort();
+livres.Reverse();
+livres.Clear();
+
+// Collection expression (C# 12+)
+List&lt;int&gt; nombres = [1, 2, 3];
+int[] tableau = [.. nombres, 4, 5];   // spread</code></pre></div></div><div><ul><li><code>T[]</code> quand la taille est connue et fixe (matrice, buffer). Sinon <code>List&lt;T&gt;</code>.</li><li><code>List&lt;T&gt;</code> est un tableau redimensionnable : accès indexé O(1), <code>Add</code> amorti O(1), <code>Insert</code>/<code>Remove</code> au milieu O(n).</li><li><code>&lt;T&gt;</code> est le <b>paramètre de type</b> : <code>List&lt;Livre&gt;</code> ne contient que des <code>Livre</code>, vérifié à la compilation.</li><li>Ne jamais modifier une liste pendant un <code>foreach</code> dessus (<code>InvalidOperationException</code>). Utiliser <code>RemoveAll</code> ou une copie.</li><li><b>Fil rouge</b> : remplacer le tableau <code>Livre[100]</code> par <code>List&lt;Livre&gt;</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s54"><h2>Module 9 — Dictionary<TKey, TValue></h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Dictionnaire</div><pre><code data-lang="csharp">// Association clé → valeur, recherche O(1)
+var stock = new Dictionary&lt;string, int&gt;();
+stock["978-1"] = 3;              // ajouter ou remplacer
+stock.Add("978-2", 5);           // ajouter (exception si clé existe)
+stock["978-1"]++;                // 4
+
+// Lecture
+int q = stock["978-1"];          // KeyNotFoundException si absent !
+if (stock.TryGetValue("978-9", out int qte))
+    Console.WriteLine(qte);
+int q2 = stock.GetValueOrDefault("978-9", 0);   // 0
+bool existe = stock.ContainsKey("978-2");
+
+// Suppression
+stock.Remove("978-2");
+
+// Parcours
+foreach (var (isbn, quantite) in stock)
+    Console.WriteLine($"{isbn} : {quantite}");
+foreach (var kv in stock)            // KeyValuePair&lt;string,int&gt;
+    Console.WriteLine($"{kv.Key} : {kv.Value}");
+
+stock.Keys;  stock.Values;  stock.Count;
+
+// Initialiseur
+var codes = new Dictionary&lt;string, string&gt;
+{
+    ["FR"] = "France",
+    ["DE"] = "Allemagne"
+};
+
+// Compter les occurrences : l'idiome à connaître
+var occurrences = new Dictionary&lt;char, int&gt;();
+foreach (char ch in "bibliotheque")
+    occurrences[ch] = occurrences.GetValueOrDefault(ch) + 1;</code></pre></div></div><div><ul><li>Le dictionnaire répond à « <i>étant donné X, trouver Y</i> » : ISBN → livre, id → membre, mot → compteur.</li><li>La clé doit être <b>unique</b> et avoir <code>Equals</code>/<code>GetHashCode</code> cohérents (string, int, Guid, record, tuple : OK).</li><li><code>dict[cle]</code> en lecture lève une exception si la clé manque : préférer <code>TryGetValue</code> ou <code>GetValueOrDefault</code>.</li><li>L'ordre de parcours n'est <b>pas garanti</b> ; utiliser <code>SortedDictionary</code> si l'ordre par clé compte.</li><li><b>Fil rouge</b> : <code>Dictionary&lt;string, Livre&gt;</code> indexé par ISBN remplace la recherche linéaire.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s55"><h2>Module 9 — HashSet<T>, Queue<T>, Stack<T></h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Collections spécialisées</div><pre><code data-lang="csharp">// HashSet : ensemble sans doublons, test d'appartenance O(1)
+var isbns = new HashSet&lt;string&gt;();
+isbns.Add("978-1");          // true
+isbns.Add("978-1");          // false : déjà présent
+isbns.Contains("978-1");     // true
+
+var a = new HashSet&lt;int&gt; { 1, 2, 3 };
+var b = new HashSet&lt;int&gt; { 3, 4 };
+a.UnionWith(b);              // {1,2,3,4}
+a.IntersectWith(b);          // {3,4}
+a.ExceptWith(b);             // {}
+a.IsSubsetOf(b);
+
+// Queue : FIFO — premier arrivé, premier servi
+var attente = new Queue&lt;Membre&gt;();
+attente.Enqueue(alice);
+attente.Enqueue(bob);
+Membre suivant = attente.Dequeue();   // alice
+Membre apres = attente.Peek();        // bob (sans retirer)
+
+// Stack : LIFO — dernier arrivé, premier sorti
+var historique = new Stack&lt;string&gt;();
+historique.Push("page1");
+historique.Push("page2");
+string derniere = historique.Pop();   // page2
+historique.TryPeek(out string? top);
+
+// Vérifier avant de retirer
+if (attente.Count &gt; 0) attente.Dequeue();
+attente.TryDequeue(out Membre? m);</code></pre></div></div><div><ul><li><code>HashSet&lt;T&gt;</code> : « est-ce que j'ai déjà vu cet élément ? » et opérations ensemblistes. Pas d'index, pas d'ordre.</li><li><code>Queue&lt;T&gt;</code> : file d'attente, traitement dans l'ordre d'arrivée — réservations de livres, tâches à exécuter.</li><li><code>Stack&lt;T&gt;</code> : annuler/rétablir, historique de navigation, parcours en profondeur.</li><li><code>Dequeue</code>/<code>Pop</code> sur une collection vide lèvent une exception : utiliser <code>Count</code> ou les variantes <code>TryXxx</code>.</li><li><b>Fil rouge</b> : <code>Queue&lt;Membre&gt;</code> par livre pour les réservations (bonus).</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s56"><h2>Module 9 — IEnumerable, ICollection, IList : quelle interface exposer ?</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Hiérarchie</div><pre><code data-lang="text">IEnumerable&lt;T&gt;        // parcourir (foreach) — lecture seule, lazy
+   └─ ICollection&lt;T&gt;  // + Count, Add, Remove, Contains
+        └─ IList&lt;T&gt;   // + indexeur [i], Insert, RemoveAt
+
+IReadOnlyCollection&lt;T&gt; // Count, sans modification
+IReadOnlyList&lt;T&gt;       // + indexeur, sans modification</code></pre></div><div class="code"><div class="code-title">Bonne pratique d'API</div><pre><code data-lang="csharp">public class Bibliotheque
+{
+    private readonly List&lt;Livre&gt; _livres = new();
+
+    // Expose une vue en lecture seule : l'appelant ne peut pas
+    // faire _livres.Add(...) ni casser l'état interne
+    public IReadOnlyList&lt;Livre&gt; Livres =&gt; _livres;
+
+    // Paramètre : accepter le plus général possible
+    public void AjouterPlusieurs(IEnumerable&lt;Livre&gt; livres)
+    {
+        foreach (var l in livres) Ajouter(l);
+    }
+}
+
+// Ces appels fonctionnent tous :
+biblio.AjouterPlusieurs(new List&lt;Livre&gt; { … });
+biblio.AjouterPlusieurs(new Livre[] { … });
+biblio.AjouterPlusieurs(autresLivres.Where(l =&gt; l.Disponible));</code></pre></div></div><div><ul><li><code>List&lt;T&gt;</code>, <code>T[]</code>, <code>HashSet&lt;T&gt;</code>, <code>Dictionary</code>… implémentent tous <code>IEnumerable&lt;T&gt;</code> : c'est ce qui rend <code>foreach</code> et LINQ universels.</li><li><b>Paramètres</b> : accepter <code>IEnumerable&lt;T&gt;</code> (le plus large) sauf si on a besoin de <code>Count</code> ou d'un index.</li><li><b>Retours / propriétés</b> : exposer <code>IReadOnlyList&lt;T&gt;</code> plutôt que <code>List&lt;T&gt;</code> pour protéger l'état interne.</li><li>Ne pas exposer la <code>List&lt;T&gt;</code> privée directement : n'importe qui pourrait y faire <code>Clear()</code>.</li><li><code>IEnumerable&lt;T&gt;</code> peut être <b>paresseux</b> (calculé au parcours) : ne pas le parcourir deux fois sans réfléchir (module 10).</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s57"><h2>Module 9 — Génériques : classes génériques</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Boite.cs</div><pre><code data-lang="csharp">// Sans générique : une classe par type… ou object + casts
+public class Boite&lt;T&gt;
+{
+    private T? _contenu;
+    public bool EstVide =&gt; _contenu is null;
+
+    public void Ranger(T item) =&gt; _contenu = item;
+
+    public T Sortir()
+    {
+        if (_contenu is null) throw new InvalidOperationException("Vide");
+        T item = _contenu;
+        _contenu = default;    // valeur par défaut de T (null, 0, false…)
+        return item;
+    }
+}
+
+var b1 = new Boite&lt;Livre&gt;();
+b1.Ranger(new Livre("978-1", "Clean Code"));
+Livre l = b1.Sortir();          // pas de cast : le type est connu
+
+var b2 = new Boite&lt;int&gt;();
+b2.Ranger(42);
+// b2.Ranger("texte");         // erreur de compilation
+
+// Plusieurs paramètres de type
+public class Paire&lt;TCle, TValeur&gt;
+{
+    public TCle Cle { get; }
+    public TValeur Valeur { get; }
+    public Paire(TCle c, TValeur v) { Cle = c; Valeur = v; }
+}
+
+// Résultat typé : succès ou erreur
+public record Resultat&lt;T&gt;(bool Succes, T? Valeur, string? Erreur)
+{
+    public static Resultat&lt;T&gt; Ok(T v) =&gt; new(true, v, null);
+    public static Resultat&lt;T&gt; Echec(string e) =&gt; new(false, default, e);
+}</code></pre></div></div><div><ul><li>Un <b>générique</b> est un type paramétré par un autre type : on écrit le code <b>une fois</b>, il fonctionne pour tout <code>T</code>.</li><li>Le compilateur vérifie les types : pas de cast, pas d'erreur à l'exécution, pas de boxing pour les types valeur.</li><li><code>default</code> : la valeur par défaut de <code>T</code> (<code>null</code> pour les références, zéro pour les valeurs).</li><li>Nommage : <code>T</code> seul, ou <code>TCle</code>, <code>TValeur</code> quand il y en a plusieurs.</li><li>Tout <code>List&lt;T&gt;</code>, <code>Dictionary&lt;K,V&gt;</code>, <code>Task&lt;T&gt;</code> du framework est construit ainsi.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s58"><h2>Module 9 — Méthodes génériques et contraintes</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Génériques avancés</div><pre><code data-lang="csharp">// Méthode générique : le paramètre de type est sur la méthode
+static void Echanger&lt;T&gt;(ref T a, ref T b)
+{
+    (a, b) = (b, a);
+}
+int x = 1, y = 2;
+Echanger(ref x, ref y);          // T déduit = int
+Echanger&lt;string&gt;(ref s1, ref s2); // explicite
+
+// Contrainte where : restreindre T pour utiliser ses membres
+static T Max&lt;T&gt;(T a, T b) where T : IComparable&lt;T&gt;
+    =&gt; a.CompareTo(b) &gt;= 0 ? a : b;
+
+Max(3, 7);              // 7
+Max("pomme", "poire");  // "pomme"
+// Max(new Livre(), …)  // OK seulement si Livre : IComparable&lt;Livre&gt;
+
+// Contraintes courantes
+where T : class           // type référence
+where T : struct          // type valeur
+where T : new()           // constructeur sans paramètre
+where T : Document        // hérite de Document
+where T : IEmpruntable    // implémente l'interface
+where T : notnull         // pas nullable
+where T : IEmpruntable, new()   // plusieurs
+
+// Exemple : dépôt générique (pattern Repository)
+public class Depot&lt;T&gt; where T : class, IIdentifiable
+{
+    private readonly Dictionary&lt;int, T&gt; _items = new();
+    public void Ajouter(T item) =&gt; _items[item.Id] = item;
+    public T? Trouver(int id) =&gt; _items.GetValueOrDefault(id);
+    public IEnumerable&lt;T&gt; Tous() =&gt; _items.Values;
+}
+public interface IIdentifiable { int Id { get; } }</code></pre></div></div><div><ul><li>Une méthode peut être générique sans que sa classe le soit. Le type est le plus souvent <b>déduit</b> des arguments.</li><li>Sans contrainte, on ne peut appeler sur <code>T</code> que les membres d'<code>object</code>. <code>where</code> ouvre les membres de l'interface ou de la base indiquée.</li><li><code>where T : new()</code> permet <code>new T()</code> dans le code générique.</li><li>Le <b>Repository générique</b> factorise le CRUD : un seul <code>Depot&lt;T&gt;</code> pour livres, membres, emprunts.</li><li><b>Fil rouge</b> : <code>Depot&lt;Livre&gt;</code> et <code>Depot&lt;Membre&gt;</code> derrière <code>IBibliotheque</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s59"><h2>TP 3 — Fil rouge étape 2 : interfaces et collections</h2><div class="body"><div class="two"><div><ul><li><b>Refactoring 1</b> : <code>Livre</code> devient un <code>record</code> positionnel (Isbn, Titre, Auteur) ; la disponibilité passe dans un état séparé ou un <code>with</code>.</li><li><b>Refactoring 2</b> : <code>EtatEmprunt</code> en <code>enum</code> (EnCours, Rendu, EnRetard).</li><li><b>Refactoring 3</b> : le tableau <code>Livre[100]</code> devient <code>Dictionary&lt;string, Livre&gt;</code> (clé ISBN) ; les membres en <code>List&lt;Membre&gt;</code> ; les emprunts en <code>List&lt;Emprunt&gt;</code>.</li><li><b>Interface</b> <code>IBibliotheque</code> : <code>AjouterLivre</code>, <code>TrouverLivre(isbn)</code>, <code>Emprunter</code>, <code>Rendre</code>, <code>Livres</code> (<code>IReadOnlyCollection</code>).</li><li><b>Menu</b> : ne manipule que <code>IBibliotheque</code>.</li><li><b>Bonus</b> : <code>Depot&lt;T&gt;</code> générique ; <code>Queue&lt;Membre&gt;</code> de réservation par livre.</li><li><b>Vérification</b> : impossible d'ajouter deux fois le même ISBN (test du dictionnaire), <code>Rendre</code> sur un livre non emprunté renvoie <code>false</code>.</li></ul></div><div><div class="code"><div class="code-title">IBibliotheque.cs / BibliothequeEnMemoire.cs</div><pre><code data-lang="csharp">public interface IBibliotheque
+{
+    IReadOnlyCollection&lt;Livre&gt; Livres { get; }
+    bool AjouterLivre(Livre livre);
+    Livre? TrouverLivre(string isbn);
+    bool Emprunter(string isbn, Membre membre);
+    bool Rendre(string isbn);
+}
+
+public class BibliothequeEnMemoire : IBibliotheque
+{
+    private readonly Dictionary&lt;string, Livre&gt; _livres = new();
+    private readonly List&lt;Emprunt&gt; _emprunts = new();
+
+    public IReadOnlyCollection&lt;Livre&gt; Livres =&gt; _livres.Values;
+
+    public bool AjouterLivre(Livre livre)
+        =&gt; _livres.TryAdd(livre.Isbn, livre);
+
+    public Livre? TrouverLivre(string isbn)
+        =&gt; _livres.GetValueOrDefault(isbn);
+
+    public bool Emprunter(string isbn, Membre membre)
+    {
+        // à compléter : vérifier qu'aucun emprunt EnCours
+        // n'existe pour cet ISBN, puis ajouter l'Emprunt
+        throw new NotImplementedException();
+    }
+
+    public bool Rendre(string isbn) =&gt; throw new NotImplementedException();
+}</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J3" id="s60"><h2>Récapitulatif — Jour 3</h2><div class="body"><div class="two"><div><ul><li>Interface = contrat sans code ; une classe en implémente plusieurs ; le client dépend de l'interface.</li><li><code>IComparable&lt;T&gt;</code> pour trier, <code>IEquatable&lt;T&gt;</code> pour comparer.</li><li><code>is Type v</code> pour tester + convertir ; <code>switch</code> sur type avec patterns.</li><li><code>struct</code> : petite valeur immuable ; <code>class</code> par défaut.</li><li><code>record</code> : données immuables, égalité par valeur, <code>with</code>.</li><li><code>enum</code> : constantes nommées ; valider avec <code>IsDefined</code>.</li><li>Tuples pour retourner plusieurs valeurs ; déconstruction.</li><li><code>List&lt;T&gt;</code> par défaut, <code>Dictionary</code> pour clé → valeur, <code>HashSet</code> pour l'unicité, <code>Queue</code>/<code>Stack</code>.</li><li>Exposer <code>IReadOnlyList</code>, accepter <code>IEnumerable</code>.</li><li>Génériques : <code>Boite&lt;T&gt;</code>, <code>where T : …</code>.</li></ul></div><div><div class="note info"><b>Quiz de rappel J3</b> demain matin.<br><br>Questions types : que renvoie <code>dict[cle]</code> si la clé est absente ? Différence <code>==</code> entre deux classes et deux records ? Pourquoi <code>IReadOnlyList</code> ?</div></div></div></div></section>
+<section class="slide section-slide" data-kind="section" data-day="Jour 4" id="s61"><div class="section"><div class="day">Jour 4</div><h1>LINQ, erreurs, fichiers et projet final</h1><ul><li>Module 10 — LINQ</li><li>Module 11 — Gestion des exceptions</li><li>Module 12 — Nullabilité et fichiers</li><li>TP 4 — Fil rouge étape 3 (évalué)</li></ul></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s62"><h2>Module 10 — Delegates : Func, Action, Predicate</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Delegates</div><pre><code data-lang="csharp">// Un delegate est un type qui référence une méthode
+// Func&lt;entrées…, sortie&gt;   Action&lt;entrées…&gt; (void)   Predicate&lt;T&gt; (→ bool)
+
+Func&lt;int, int, int&gt; additionner = Additionner;
+Func&lt;int, int, int&gt; multiplier = (a, b) =&gt; a * b;
+Action&lt;string&gt; afficher = msg =&gt; Console.WriteLine($"&gt; {msg}");
+Predicate&lt;int&gt; estPair = n =&gt; n % 2 == 0;
+
+additionner(2, 3);       // 5
+multiplier(2, 3);        // 6
+afficher("Bonjour");
+estPair(4);              // true
+
+static int Additionner(int a, int b) =&gt; a + b;
+
+// Passer un comportement en paramètre
+static List&lt;T&gt; Filtrer&lt;T&gt;(IEnumerable&lt;T&gt; source, Func&lt;T, bool&gt; critere)
+{
+    var resultat = new List&lt;T&gt;();
+    foreach (var item in source)
+        if (critere(item)) resultat.Add(item);
+    return resultat;
+}
+
+var pairs = Filtrer(new[] { 1, 2, 3, 4 }, n =&gt; n % 2 == 0);        // [2, 4]
+var longs = Filtrer(livres, l =&gt; l.Titre.Length &gt; 10);
+
+// Stocker des actions à exécuter plus tard
+var commandes = new Dictionary&lt;string, Action&gt;
+{
+    ["1"] = () =&gt; biblio.ListerLivres(),
+    ["2"] = () =&gt; Console.WriteLine("Ajout…"),
+    ["q"] = () =&gt; Environment.Exit(0)
+};
+commandes.GetValueOrDefault(choix, () =&gt; Console.WriteLine("?"))();</code></pre></div></div><div><ul><li>Un <b>delegate</b> permet de traiter une méthode comme une valeur : la stocker, la passer, la renvoyer.</li><li><code>Func&lt;…, TResult&gt;</code> : le dernier type est le retour. <code>Action&lt;…&gt;</code> : pas de retour. <code>Predicate&lt;T&gt;</code> ≡ <code>Func&lt;T, bool&gt;</code>.</li><li>C'est le mécanisme derrière <b>LINQ</b> : <code>Where(l =&gt; …)</code> reçoit un <code>Func&lt;Livre, bool&gt;</code>.</li><li>Le menu par dictionnaire d'<code>Action</code> remplace un long <code>switch</code> et s'étend sans modifier la boucle.</li><li>Les <code>event</code> (hors périmètre) sont des delegates multi-abonnés.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s63"><h2>Module 10 — Expressions lambda</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Lambdas</div><pre><code data-lang="csharp">// Syntaxe : (paramètres) =&gt; expression   ou   (paramètres) =&gt; { bloc }
+Func&lt;int, int&gt; carre = x =&gt; x * x;              // 1 paramètre : parenthèses optionnelles
+Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;      // 2 paramètres
+Func&lt;string&gt; hello = () =&gt; "Hello";             // 0 paramètre
+Action&lt;int&gt; log = n =&gt; { var t = DateTime.Now; Console.WriteLine($"{t:T} {n}"); };
+
+// Types explicites si l'inférence échoue
+Func&lt;double, double&gt; demi = (double x) =&gt; x / 2;
+
+// Capture de variables (closure) : la lambda "voit" son contexte
+int seuil = 10;
+Func&lt;int, bool&gt; depasse = n =&gt; n &gt; seuil;
+seuil = 100;                 // la lambda utilise la valeur ACTUELLE
+depasse(50);                 // false
+
+// Piège classique de capture dans une boucle (résolu avec foreach)
+var actions = new List&lt;Action&gt;();
+foreach (int i in Enumerable.Range(0, 3))
+    actions.Add(() =&gt; Console.WriteLine(i));
+foreach (var a in actions) a();   // 0 1 2
+
+// Lambda vs méthode : même chose pour LINQ
+livres.Where(l =&gt; l.Disponible);
+livres.Where(EstDisponible);
+static bool EstDisponible(Livre l) =&gt; l.Disponible;
+
+// Lambda statique : interdit toute capture (performance, clarté)
+Func&lt;int, int&gt; doubler = static x =&gt; x * 2;</code></pre></div></div><div><ul><li>Une <b>lambda</b> est une méthode anonyme écrite en ligne. Les types des paramètres sont déduits du delegate cible.</li><li><code>=&gt;</code> se lit « va vers » : <i>x va vers x au carré</i>.</li><li><b>Closure</b> : la lambda capture les variables de son entourage <i>par référence</i>. Utile (compteurs, configuration), mais surprenant si la variable change ensuite.</li><li>Une lambda longue (&gt; 3 lignes) mérite de devenir une méthode nommée : plus lisible, testable, réutilisable.</li><li>Ne pas confondre : <code>=&gt;</code> d'une méthode <i>expression-bodied</i> (module 4) et <code>=&gt;</code> d'une lambda — même symbole, contextes différents.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s64"><h2>Module 10 — LINQ : interroger n'importe quelle collection</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Premier contact</div><pre><code data-lang="csharp">var livres = new List&lt;Livre&gt;
+{
+    new("978-1", "Clean Code", "Martin", 2008, true),
+    new("978-2", "Refactoring", "Fowler", 2018, false),
+    new("978-3", "DDD", "Evans", 2003, true),
+    new("978-4", "Clean Architecture", "Martin", 2017, true),
+};
+
+// Syntaxe méthode (la plus utilisée)
+var disponibles = livres
+    .Where(l =&gt; l.Disponible)
+    .OrderBy(l =&gt; l.Titre)
+    .Select(l =&gt; l.Titre)
+    .ToList();
+// ["Clean Architecture", "Clean Code", "DDD"]
+
+// Syntaxe requête (équivalente, style SQL)
+var disponibles2 =
+    from l in livres
+    where l.Disponible
+    orderby l.Titre
+    select l.Titre;
+
+// Sans LINQ, la même chose :
+var resultat = new List&lt;string&gt;();
+foreach (var l in livres)
+    if (l.Disponible) resultat.Add(l.Titre);
+resultat.Sort();</code></pre></div></div><div><ul><li><b>LINQ</b> (Language Integrated Query) : un ensemble de <b>méthodes d'extension</b> sur <code>IEnumerable&lt;T&gt;</code> qui décrivent <i>quoi</i> obtenir plutôt que <i>comment</i> boucler.</li><li>Chaque méthode reçoit une lambda et renvoie un nouvel <code>IEnumerable</code> : les appels s'<b>enchaînent</b> (pipeline).</li><li>Fonctionne sur tableaux, listes, dictionnaires, chaînes, résultats de fichiers… et, avec Entity Framework, sur des bases de données.</li><li>Syntaxe méthode vs requête : même moteur. La méthode est plus courante ; la requête peut être plus lisible pour les jointures.</li><li>Nécessite <code>using System.Linq;</code> — déjà présent grâce aux <code>ImplicitUsings</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s65"><h2>Module 10 — Where, Select, OrderBy</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Les trois fondamentaux</div><pre><code data-lang="csharp">// Where : filtrer (garde les éléments pour lesquels la lambda est true)
+livres.Where(l =&gt; l.Annee &gt;= 2010)
+livres.Where(l =&gt; l.Auteur == "Martin" &amp;&amp; l.Disponible)
+livres.Where((l, index) =&gt; index % 2 == 0)     // avec l'index
+
+// Select : projeter (transformer chaque élément)
+livres.Select(l =&gt; l.Titre)                     // IEnumerable&lt;string&gt;
+livres.Select(l =&gt; l.Titre.ToUpper())
+livres.Select(l =&gt; new { l.Titre, Age = 2026 - l.Annee })   // type anonyme
+livres.Select(l =&gt; (l.Isbn, l.Titre))           // tuple
+livres.Select(l =&gt; new LivreDto(l.Isbn, l.Titre)) // record
+
+// OrderBy / ThenBy : trier
+livres.OrderBy(l =&gt; l.Annee)                    // croissant
+livres.OrderByDescending(l =&gt; l.Annee)
+livres.OrderBy(l =&gt; l.Auteur).ThenBy(l =&gt; l.Titre)
+livres.OrderBy(l =&gt; l.Titre, StringComparer.OrdinalIgnoreCase)
+
+// Enchaîner : filtrer AVANT de projeter (on projette moins)
+var recents = livres
+    .Where(l =&gt; l.Annee &gt;= 2010)
+    .OrderByDescending(l =&gt; l.Annee)
+    .Select(l =&gt; $"{l.Annee} — {l.Titre}");
+
+foreach (var ligne in recents) Console.WriteLine(ligne);
+
+// Distinct, Skip/Take (pagination), Reverse
+livres.Select(l =&gt; l.Auteur).Distinct()
+livres.OrderBy(l =&gt; l.Titre).Skip(10).Take(10)   // page 2</code></pre></div></div><div><ul><li><code>Where</code> ne change pas le type des éléments ; <code>Select</code> le change souvent.</li><li><b>Type anonyme</b> <code>new { … }</code> : pratique dans une requête, mais ne sort pas de la méthode (pas de nom). Pour renvoyer, utiliser un <code>record</code>.</li><li><code>OrderBy</code> puis <code>ThenBy</code> pour les tris multi-critères. Deux <code>OrderBy</code> successifs : seul le dernier compte.</li><li>L'ordre du pipeline a un impact : <code>Where</code> tôt, <code>Select</code> tard, <code>OrderBy</code> sur le plus petit ensemble possible.</li><li><code>Skip</code>/<code>Take</code> : la pagination en une ligne.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s66"><h2>Module 10 — GroupBy, agrégats, First/Single/Any</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Agréger et sélectionner</div><pre><code data-lang="csharp">// Agrégats : renvoient une valeur, pas une séquence
+livres.Count()                          // 4
+livres.Count(l =&gt; l.Disponible)         // 3
+livres.Sum(l =&gt; l.Pages)
+livres.Average(l =&gt; l.Annee)
+livres.Min(l =&gt; l.Annee);  livres.Max(l =&gt; l.Annee)
+livres.MaxBy(l =&gt; l.Annee)              // le livre le plus récent (.NET 6+)
+
+// Tests : renvoient bool
+livres.Any()                            // au moins un élément ?
+livres.Any(l =&gt; l.Auteur == "Evans")    // au moins un qui… ?
+livres.All(l =&gt; l.Annee &gt; 2000)         // tous… ?
+livres.Contains(unLivre)
+
+// Récupérer UN élément
+livres.First()                          // 1er, exception si vide
+livres.First(l =&gt; l.Disponible)         // 1er qui correspond
+livres.FirstOrDefault(l =&gt; l.Isbn == "999")   // null si aucun
+livres.Single(l =&gt; l.Isbn == "978-1")   // exactement un, sinon exception
+livres.SingleOrDefault(l =&gt; l.Isbn == "978-1")
+livres.Last();  livres.ElementAt(2)
+
+// GroupBy : regrouper par clé
+var parAuteur = livres.GroupBy(l =&gt; l.Auteur);
+foreach (var groupe in parAuteur)
+{
+    Console.WriteLine($"{groupe.Key} : {groupe.Count()} livre(s)");
+    foreach (var l in groupe) Console.WriteLine($"  - {l.Titre}");
+}
+
+// GroupBy + projection : statistiques
+var stats = livres
+    .GroupBy(l =&gt; l.Auteur)
+    .Select(g =&gt; new { Auteur = g.Key, Nb = g.Count(), Dernier = g.Max(l =&gt; l.Annee) })
+    .OrderByDescending(s =&gt; s.Nb);
+
+// ToDictionary / ToLookup
+var parIsbn = livres.ToDictionary(l =&gt; l.Isbn);</code></pre></div></div><div><ul><li><code>First</code> vs <code>FirstOrDefault</code> : le premier lève si rien ne correspond, le second renvoie <code>null</code>/<code>default</code>. Choisir selon que l'absence est une <i>erreur</i> ou un <i>cas normal</i>.</li><li><code>Single</code> : affirme l'unicité — exception s'il y a 0 ou 2+ résultats. Idéal pour une recherche par clé.</li><li><code>Any(condition)</code> est plus rapide et plus lisible que <code>Count(condition) &gt; 0</code>.</li><li><code>GroupBy</code> renvoie des <code>IGrouping&lt;TKey, T&gt;</code> : chaque groupe a une <code>Key</code> et se parcourt.</li><li><b>Fil rouge</b> : top emprunteurs = <code>emprunts.GroupBy(e =&gt; e.Membre).OrderByDescending(g =&gt; g.Count())</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s67"><h2>Module 10 — Join, SelectMany, Aggregate, Zip</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Opérateurs complémentaires</div><pre><code data-lang="csharp">// Join : croiser deux séquences sur une clé (comme en SQL)
+var lignes = emprunts.Join(
+    livres,
+    e =&gt; e.Isbn,               // clé côté emprunts
+    l =&gt; l.Isbn,               // clé côté livres
+    (e, l) =&gt; new { l.Titre, e.Membre.Nom, e.Echeance });
+
+// Syntaxe requête, souvent plus lisible pour les jointures
+var lignes2 =
+    from e in emprunts
+    join l in livres on e.Isbn equals l.Isbn
+    select new { l.Titre, e.Membre.Nom, e.Echeance };
+
+// SelectMany : aplatir une liste de listes
+var auteurs = new List&lt;Auteur&gt; { /* chaque auteur a List&lt;Livre&gt; Livres */ };
+IEnumerable&lt;Livre&gt; tous = auteurs.SelectMany(a =&gt; a.Livres);
+IEnumerable&lt;string&gt; mots = titres.SelectMany(t =&gt; t.Split(' '));
+
+// Aggregate : réduction personnalisée
+int produit = new[] { 1, 2, 3, 4 }.Aggregate((acc, n) =&gt; acc * n);   // 24
+string csv = titres.Aggregate((acc, t) =&gt; acc + ";" + t);
+// (pour concaténer, string.Join est plus simple)
+
+// Zip : apparier deux séquences élément par élément
+var noms = new[] { "Alice", "Bob" };
+var ages = new[] { 30, 25 };
+var paires = noms.Zip(ages, (n, a) =&gt; $"{n} ({a})");  // "Alice (30)", "Bob (25)"
+
+// Chunk, Index, Range, Repeat
+var pages = livres.Chunk(10);                      // paquets de 10
+foreach (var (i, l) in livres.Index()) …           // (.NET 9+)
+Enumerable.Range(1, 5);                            // 1..5
+Enumerable.Repeat("-", 20);</code></pre></div></div><div><ul><li><code>Join</code> : jointure interne — seuls les éléments ayant une correspondance des deux côtés sont conservés. <code>GroupJoin</code> pour une jointure « gauche ».</li><li><code>SelectMany</code> : quand chaque élément produit <i>plusieurs</i> résultats (un auteur → ses livres). <code>Select</code> donnerait une liste de listes.</li><li><code>Aggregate</code> : la forme générale de <code>Sum</code>, <code>Count</code>, <code>Max</code>… À réserver aux réductions sans opérateur dédié.</li><li><code>Zip</code> s'arrête à la plus courte des deux séquences.</li><li><code>Enumerable.Range</code> remplace un <code>for</code> quand on veut produire une séquence à passer à LINQ.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s68"><h2>Module 10 — Exécution différée et matérialisation</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Lazy evaluation</div><pre><code data-lang="csharp">var nombres = new List&lt;int&gt; { 1, 2, 3 };
+
+// Rien n'est calculé ici : on construit une "recette"
+IEnumerable&lt;int&gt; pairs = nombres.Where(n =&gt;
+{
+    Console.WriteLine($"test {n}");
+    return n % 2 == 0;
+});
+
+Console.WriteLine("Avant parcours");
+nombres.Add(4);                 // ajouté APRÈS la définition de la requête
+
+foreach (var p in pairs)        // exécution ici : test 1..4 → 2, 4
+    Console.WriteLine(p);
+
+// Parcourir deux fois = calculer deux fois
+Console.WriteLine(pairs.Count());   // ré-exécute les tests !
+
+// Matérialiser : figer le résultat dans une collection
+List&lt;int&gt; liste = pairs.ToList();   // calcul une seule fois
+int[] tableau = pairs.ToArray();
+var dict = livres.ToDictionary(l =&gt; l.Isbn, l =&gt; l.Titre);
+
+// Immédiat par nature : Count, Sum, First, Any, ToList…
+// Différé : Where, Select, OrderBy, GroupBy, Skip, Take, Distinct…
+
+// Piège : source modifiée pendant l'énumération
+foreach (var l in biblio.Livres.Where(l =&gt; !l.Disponible))
+    biblio.Supprimer(l);        // InvalidOperationException
+// Correct : matérialiser d'abord
+foreach (var l in biblio.Livres.Where(l =&gt; !l.Disponible).ToList())
+    biblio.Supprimer(l);</code></pre></div></div><div><ul><li>Les opérateurs de <b>séquence</b> (Where, Select…) ne font rien tant que personne ne parcourt le résultat : c'est l'<b>exécution différée</b>.</li><li>Avantage : composer des requêtes sans coût, ne calculer que ce qui est consommé (<code>Take(5)</code> s'arrête après 5).</li><li>Inconvénient : re-calcul à chaque parcours, et résultat qui « voit » les modifications ultérieures de la source.</li><li><code>ToList()</code> / <code>ToArray()</code> <b>matérialisent</b> : à faire dès qu'on parcourt plusieurs fois, qu'on modifie la source, ou qu'on renvoie le résultat hors de la méthode.</li><li>Règle : type de retour <code>IEnumerable&lt;T&gt;</code> = « paresseux, à consommer une fois » ; <code>List&lt;T&gt;</code> = « calculé, stable ».</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s69"><h2>Module 11 — Exceptions : try, catch, finally</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Gestion des erreurs</div><pre><code data-lang="csharp">try
+{
+    Console.Write("Fichier : ");
+    string chemin = Console.ReadLine() ?? "";
+    string contenu = File.ReadAllText(chemin);
+    int nombre = int.Parse(contenu);
+    Console.WriteLine(100 / nombre);
+}
+catch (FileNotFoundException ex)
+{
+    Console.WriteLine($"Introuvable : {ex.FileName}");
+}
+catch (FormatException)
+{
+    Console.WriteLine("Le fichier ne contient pas un entier.");
+}
+catch (DivideByZeroException)
+{
+    Console.WriteLine("Le nombre est zéro.");
+}
+catch (IOException ex) when (ex.Message.Contains("denied"))
+{
+    Console.WriteLine("Accès refusé.");        // filtre d'exception
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Erreur inattendue : {ex.GetType().Name} — {ex.Message}");
+    throw;                                      // relancer sans perdre la pile
+}
+finally
+{
+    Console.WriteLine("Toujours exécuté (nettoyage).");
+}</code></pre></div></div><div><ul><li>Une <b>exception</b> est un objet (<code>Exception</code> ou dérivée) qui interrompt le flux normal quand une opération ne peut pas se terminer.</li><li><code>try</code> encadre le code risqué ; <code>catch</code> traite ; <code>finally</code> s'exécute <b>toujours</b> (même après <code>return</code> ou une exception non rattrapée).</li><li>Ordre des <code>catch</code> : du <b>plus spécifique</b> au plus général. <code>catch (Exception)</code> en premier masquerait les autres (erreur de compilation).</li><li><code>when</code> : condition supplémentaire pour n'attraper que certains cas.</li><li><code>throw;</code> (sans argument) relance en conservant la <i>stack trace</i>. <code>throw ex;</code> la réinitialise : à éviter.</li><li>Ne pas attraper ce qu'on ne sait pas traiter ; ne jamais laisser un <code>catch</code> vide.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s70"><h2>Module 11 — Lever des exceptions, exceptions personnalisées</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">throw et exceptions métier</div><pre><code data-lang="csharp">// Lever une exception du framework avec un message utile
+public void Emprunter(string isbn, Membre membre)
+{
+    ArgumentException.ThrowIfNullOrWhiteSpace(isbn);
+    ArgumentNullException.ThrowIfNull(membre);
+
+    var livre = TrouverLivre(isbn)
+        ?? throw new KeyNotFoundException($"Aucun livre avec l'ISBN {isbn}");
+
+    if (!livre.Disponible)
+        throw new LivreIndisponibleException(isbn, livre.Titre);
+    …
+}
+
+// Exception personnalisée : hériter d'Exception, suffixe "Exception"
+public class LivreIndisponibleException : Exception
+{
+    public string Isbn { get; }
+
+    public LivreIndisponibleException(string isbn, string titre)
+        : base($"Le livre « {titre} » ({isbn}) est déjà emprunté.")
+    {
+        Isbn = isbn;
+    }
+
+    public LivreIndisponibleException(string isbn, string titre, Exception inner)
+        : base($"Le livre « {titre} » ({isbn}) est déjà emprunté.", inner)
+    {
+        Isbn = isbn;
+    }
+}
+
+// Côté appelant (le menu) : traduire en message utilisateur
+try { biblio.Emprunter(isbn, membre); }
+catch (LivreIndisponibleException ex) { Console.WriteLine($"⚠ {ex.Message}"); }
+catch (KeyNotFoundException ex)       { Console.WriteLine($"⚠ {ex.Message}"); }</code></pre></div></div><div><table><thead><tr><th>Situation</th><th>Exception à lever</th></tr></thead><tbody><tr><td>argument <code>null</code></td><td><code>ArgumentNullException</code></td></tr><tr><td>argument hors bornes</td><td><code>ArgumentOutOfRangeException</code></td></tr><tr><td>argument invalide (autre)</td><td><code>ArgumentException</code></td></tr><tr><td>état de l'objet incompatible</td><td><code>InvalidOperationException</code></td></tr><tr><td>clé introuvable</td><td><code>KeyNotFoundException</code></td></tr><tr><td>non implémenté</td><td><code>NotImplementedException</code></td></tr><tr><td>règle métier violée</td><td>exception personnalisée</td></tr></tbody></table><ul><li>Une exception personnalisée porte un <b>nom parlant</b> et des <b>données de contexte</b> (l'ISBN) que l'appelant peut exploiter.</li><li>Exceptions = cas <i>exceptionnels</i>. Pour un flux attendu (livre absent lors d'une recherche), préférer <code>null</code>, <code>bool</code> ou <code>TryXxx</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s71"><h2>Module 11 — using et IDisposable</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Libération déterministe</div><pre><code data-lang="csharp">// Certains objets tiennent des ressources non gérées par le GC :
+// fichiers, connexions réseau/BD, sockets… Ils implémentent IDisposable.
+
+// Forme classique : Dispose() garanti à la fin du bloc
+using (var lecteur = new StreamReader("livres.csv"))
+{
+    string? ligne;
+    while ((ligne = lecteur.ReadLine()) != null)
+        Console.WriteLine(ligne);
+}   // ← lecteur.Dispose() appelé ici, même en cas d'exception
+
+// Forme déclaration (C# 8+) : Dispose() à la fin de la portée
+using var writer = new StreamWriter("journal.log", append: true);
+writer.WriteLine($"{DateTime.Now:O} démarrage");
+// … Dispose() à la fin de la méthode / du bloc englobant
+
+// Équivalent sans using (à ne pas écrire à la main)
+var w = new StreamWriter("x.txt");
+try { w.WriteLine("…"); }
+finally { w.Dispose(); }
+
+// Implémenter IDisposable dans sa propre classe
+public class Session : IDisposable
+{
+    private readonly StreamWriter _log = new("session.log");
+    public void Ecrire(string m) =&gt; _log.WriteLine(m);
+
+    public void Dispose()
+    {
+        _log.Dispose();
+        GC.SuppressFinalize(this);
+    }
+}
+
+using var s = new Session();</code></pre></div></div><div><ul><li>Le <b>Garbage Collector</b> libère la mémoire, mais <i>quand il veut</i>. Un fichier ouvert doit être fermé <i>immédiatement</i> : c'est le rôle de <code>Dispose()</code>.</li><li><code>using</code> = <code>try/finally { Dispose(); }</code> écrit par le compilateur. Fonctionne pour tout <code>IDisposable</code>.</li><li>Règle : dès qu'un type expose <code>Dispose()</code>, l'utiliser avec <code>using</code>. <code>StreamReader</code>, <code>StreamWriter</code>, <code>FileStream</code>, <code>HttpClient</code>, <code>SqlConnection</code>…</li><li><code>using var</code> : plus court, se termine à la fin du bloc englobant. Attention à ne pas garder la ressource ouverte trop longtemps.</li><li>Si votre classe <i>possède</i> un <code>IDisposable</code>, elle doit elle-même être <code>IDisposable</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s72"><h2>Module 12 — Nullable reference types</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Nullabilité</div><pre><code data-lang="csharp">// &lt;Nullable&gt;enable&lt;/Nullable&gt; dans le .csproj (activé par défaut)
+
+string nom = null;          // ⚠ avertissement CS8600
+string? surnom = null;      // OK : explicitement nullable
+
+// Le compilateur suit l'état "peut être null"
+Console.WriteLine(surnom.Length);        // ⚠ CS8602 : déréférencement possible de null
+
+if (surnom != null)
+    Console.WriteLine(surnom.Length);    // OK : flux analysé
+
+if (surnom is { Length: &gt; 0 })
+    Console.WriteLine(surnom.ToUpper()); // OK
+
+// ! (null-forgiving) : "je sais ce que je fais" — à utiliser rarement
+string sur = surnom!;
+
+// Propriétés : obligatoires ou nullable, pas d'entre-deux
+public class Membre
+{
+    public required string Nom { get; init; }   // jamais null
+    public string? Telephone { get; init; }      // peut manquer
+}
+
+// Méthodes : signature honnête
+public Livre? TrouverLivre(string isbn)        // peut renvoyer null
+public Livre ObtenirLivre(string isbn)         // ne renvoie jamais null (lève sinon)
+    =&gt; TrouverLivre(isbn) ?? throw new KeyNotFoundException(isbn);
+
+// Attributs d'aide au compilateur
+static bool TryTrouver(string isbn, [NotNullWhen(true)] out Livre? livre) { … }
+if (TryTrouver("978-1", out var l)) Console.WriteLine(l.Titre); // l non null ici</code></pre></div></div><div><ul><li>Avec <code>Nullable</code> activé, <code>string</code> signifie « jamais null » et <code>string?</code> « peut être null ». Le compilateur <b>avertit</b> quand on ignore cette distinction.</li><li>Ce sont des <b>avertissements</b>, pas des erreurs : le programme compile, mais chaque warning est un <code>NullReferenceException</code> potentiel.</li><li>Objectif : <b>zéro warning</b> (critère de la grille d'évaluation). Traiter la nullabilité aux frontières (saisie, fichier, recherche) et propager des types non nullables ensuite.</li><li><code>!</code> désactive l'analyse pour une expression : réservé aux cas où l'on a une preuve que le compilateur ne voit pas.</li><li>Types valeur : <code>int?</code> reste un vrai <code>Nullable&lt;int&gt;</code> (module 3).</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s73"><h2>Module 12 — Fichiers et chemins : System.IO</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">System.IO</div><pre><code data-lang="csharp">// Path : manipuler des chemins sans se soucier de / ou \\
+string dossier = Path.Combine(AppContext.BaseDirectory, "data");
+string fichier = Path.Combine(dossier, "livres.json");
+Path.GetFileName(fichier);         // livres.json
+Path.GetExtension(fichier);        // .json
+Path.GetDirectoryName(fichier);
+Path.ChangeExtension(fichier, ".bak");
+
+// Directory
+Directory.CreateDirectory(dossier);           // sans erreur si existe
+Directory.Exists(dossier);
+string[] fichiers = Directory.GetFiles(dossier, "*.json");
+
+// File : lecture / écriture en une ligne
+File.WriteAllText(fichier, "contenu");
+File.AppendAllText(fichier, "\nligne ajoutée");
+string tout = File.ReadAllText(fichier);
+string[] lignes = File.ReadAllLines(fichier);
+File.WriteAllLines("export.txt", livres.Select(l =&gt; l.Titre));
+File.Exists(fichier);  File.Delete(fichier);  File.Copy(src, dst, overwrite: true);
+
+// Gros fichiers : ligne par ligne, sans tout charger
+foreach (string ligne in File.ReadLines("gros.csv"))
+    if (ligne.Contains("Martin")) Console.WriteLine(ligne);
+
+// CSV minimal (sans guillemets ni virgules internes)
+var livresCsv = File.ReadLines("livres.csv")
+    .Skip(1)                              // en-tête
+    .Select(l =&gt; l.Split(';'))
+    .Select(c =&gt; new Livre(c[0], c[1], c[2]))
+    .ToList();
+
+// Toujours gérer les erreurs d'E/S
+try { tout = File.ReadAllText(fichier); }
+catch (FileNotFoundException) { tout = ""; }
+catch (UnauthorizedAccessException ex) { Console.WriteLine(ex.Message); }</code></pre></div></div><div><ul><li><code>Path.Combine</code> : <b>jamais</b> de concaténation manuelle de chemins (<code>dossier + "/" + nom</code>) — portabilité Windows/Linux/macOS.</li><li><code>AppContext.BaseDirectory</code> : dossier de l'exécutable. Le répertoire courant (<code>Directory.GetCurrentDirectory()</code>) dépend d'où on lance la commande.</li><li><code>File.ReadAllText</code> / <code>WriteAllText</code> : suffisant pour des fichiers de configuration ou de sauvegarde. <code>ReadLines</code> (paresseux) pour les gros volumes.</li><li>Les méthodes <code>File.*</code> ouvrent et ferment le fichier elles-mêmes ; <code>StreamReader/Writer</code> (module 11) pour un contrôle fin.</li><li>Toute E/S peut échouer : <code>FileNotFoundException</code>, <code>DirectoryNotFoundException</code>, <code>UnauthorizedAccessException</code>, <code>IOException</code>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s74"><h2>Module 12 — Sérialisation JSON avec System.Text.Json</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">JSON</div><pre><code data-lang="csharp">using System.Text.Json;
+using System.Text.Json.Serialization;
+
+public record Livre(string Isbn, string Titre, string Auteur, bool Disponible);
+
+var livres = new List&lt;Livre&gt; { new("978-1", "Clean Code", "Martin", true) };
+
+// Options : indentation lisible, camelCase, enums en texte
+var options = new JsonSerializerOptions
+{
+    WriteIndented = true,
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    Converters = { new JsonStringEnumConverter() }
+};
+
+// Objet → JSON (sérialiser)
+string json = JsonSerializer.Serialize(livres, options);
+File.WriteAllText("livres.json", json);
+/* [
+     {
+       "isbn": "978-1",
+       "titre": "Clean Code",
+       "auteur": "Martin",
+       "disponible": true
+     }
+   ] */
+
+// JSON → objet (désérialiser)
+string lu = File.ReadAllText("livres.json");
+List&lt;Livre&gt; charges = JsonSerializer.Deserialize&lt;List&lt;Livre&gt;&gt;(lu, options) ?? new();
+
+// Ignorer / renommer une propriété
+public class Membre
+{
+    [JsonPropertyName("nom_complet")] public string Nom { get; set; } = "";
+    [JsonIgnore] public string MotDePasse { get; set; } = "";
+}
+
+// Sauvegarde robuste dans le fil rouge
+public void Sauvegarder(string chemin)
+{
+    var etat = new EtatBibliotheque(_livres.Values.ToList(), _membres, _emprunts);
+    File.WriteAllText(chemin, JsonSerializer.Serialize(etat, options));
+}
+public static BibliothequeEnMemoire Charger(string chemin)
+{
+    if (!File.Exists(chemin)) return new();
+    var etat = JsonSerializer.Deserialize&lt;EtatBibliotheque&gt;(File.ReadAllText(chemin), options)
+               ?? throw new InvalidDataException("JSON invalide");
+    return new(etat);
+}</code></pre></div></div><div><ul><li><code>System.Text.Json</code> est intégré à .NET : pas de package à ajouter. (Newtonsoft.Json existe encore mais n'est plus le défaut.)</li><li><code>Serialize</code> écrit les <b>propriétés publiques</b> ; les champs privés sont ignorés. Les records positionnels fonctionnent directement.</li><li><code>Deserialize&lt;T&gt;</code> renvoie <code>T?</code> : traiter le cas <code>null</code> (JSON vide ou <code>"null"</code>).</li><li>Les noms de propriétés JSON sont sensibles à la casse par défaut : fixer une <code>PropertyNamingPolicy</code> ou <code>PropertyNameCaseInsensitive = true</code>.</li><li>Un JSON malformé lève <code>JsonException</code> : à rattraper au chargement.</li><li><b>Fil rouge</b> : un <code>record EtatBibliotheque</code> regroupe tout l'état à sauvegarder ; chargement au démarrage, sauvegarde à la sortie du menu.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s75"><h2>TP 4 — Fil rouge étape 3 : LINQ, exceptions, persistance (évalué)</h2><div class="body"><div class="two"><div><ul><li><b>Recherches LINQ</b> (nouvelles entrées de menu) : livres disponibles triés par titre ; livres d'un auteur ; recherche par mot du titre (insensible à la casse).</li><li><b>Statistiques LINQ</b> : nombre de livres par auteur (<code>GroupBy</code>) ; top 3 des emprunteurs ; emprunts en retard (<code>Echeance &lt; aujourd'hui</code> et état <code>EnCours</code>).</li><li><b>Exceptions</b> : <code>LivreIndisponibleException</code> levée par <code>Emprunter</code> ; <code>KeyNotFoundException</code> si l'ISBN est inconnu ; le menu rattrape et affiche un message clair. Aucun crash possible depuis le menu.</li><li><b>Persistance</b> : sauvegarde JSON à la sortie (option « q »), chargement au démarrage si le fichier existe ; chemin via <code>Path.Combine</code>.</li><li><b>Nullabilité</b> : compilation sans aucun warning.</li><li><b>Livraison</b> : commit final, puis restitution de 5 minutes (démo + une question du formateur sur le code).</li><li>Durée : 2 h 15. Priorité : fonctionnel &gt; complet &gt; joli.</li></ul></div><div><div class="code"><div class="code-title">Extraits attendus</div><pre><code data-lang="csharp">// Extrait attendu : statistiques
+public IEnumerable&lt;(Membre Membre, int Nb)&gt; TopEmprunteurs(int n) =&gt;
+    _emprunts
+        .GroupBy(e =&gt; e.Membre)
+        .Select(g =&gt; (g.Key, g.Count()))
+        .OrderByDescending(t =&gt; t.Item2)
+        .Take(n);
+
+public IEnumerable&lt;Emprunt&gt; EnRetard(DateOnly aujourdhui) =&gt;
+    _emprunts.Where(e =&gt; e.Etat == EtatEmprunt.EnCours
+                      &amp;&amp; e.Echeance &lt; aujourdhui);
+
+public IEnumerable&lt;Livre&gt; Rechercher(string mot) =&gt;
+    _livres.Values
+        .Where(l =&gt; l.Titre.Contains(mot, StringComparison.OrdinalIgnoreCase))
+        .OrderBy(l =&gt; l.Titre);
+
+// Extrait attendu : menu robuste
+try
+{
+    biblio.Emprunter(isbn, membre);
+    Console.WriteLine("Emprunt enregistré.");
+}
+catch (LivreIndisponibleException ex) { Console.WriteLine($"⚠ {ex.Message}"); }
+catch (KeyNotFoundException ex)       { Console.WriteLine($"⚠ {ex.Message}"); }</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s76"><h2>Grille d'évaluation du fil rouge</h2><div class="body"><table><thead><tr><th>Critère</th><th>Points</th><th>Ce qui est vérifié</th></tr></thead><tbody><tr><td>Compilation sans warning, exécution sans crash</td><td>4</td><td><code>dotnet build</code> propre ; tout le menu testé avec des saisies invalides</td></tr><tr><td>Modèle objet cohérent</td><td>5</td><td>encapsulation, <code>IBibliotheque</code>, <code>record Livre</code>, <code>enum EtatEmprunt</code>, <code>ToString</code></td></tr><tr><td>Collections génériques pertinentes</td><td>3</td><td><code>Dictionary</code> par ISBN, <code>List</code>, exposition en <code>IReadOnly…</code></td></tr><tr><td>Requêtes LINQ correctes</td><td>3</td><td>recherche, tri, <code>GroupBy</code>, top N, retards</td></tr><tr><td>Exceptions et nullabilité</td><td>3</td><td>exception métier, <code>catch</code> ciblés dans le menu, zéro warning</td></tr><tr><td>Persistance JSON</td><td>2</td><td>sauvegarde + rechargement fidèle, fichier manquant géré</td></tr><tr><td><b>Total</b></td><td><b>20</b></td><td></td></tr></tbody></table><div class="note info">Pondération globale : quiz 30 % · fil rouge 50 % · restitution 20 %. Seuil de validation : 60 %.</div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s77"><h2>Bonnes pratiques à emporter</h2><div class="body"><div class="two"><div><table><thead><tr><th>Élément</th><th>Convention</th></tr></thead><tbody><tr><td>Classes, méthodes, propriétés, enums</td><td><code>PascalCase</code></td></tr><tr><td>Variables locales, paramètres</td><td><code>camelCase</code></td></tr><tr><td>Champs privés</td><td><code>_camelCase</code></td></tr><tr><td>Interfaces</td><td><code>IPascalCase</code></td></tr><tr><td>Constantes</td><td><code>PascalCase</code></td></tr><tr><td>Méthodes booléennes</td><td><code>EstXxx</code>, <code>PeutXxx</code>, <code>AXxx</code></td></tr><tr><td>Méthodes asynchrones (plus tard)</td><td>suffixe <code>Async</code></td></tr></tbody></table></div><div><ul><li>Une classe par fichier, un fichier par classe, nom identique.</li><li>Tout <code>private</code> par défaut ; exposer le minimum ; <code>IReadOnly…</code> vers l'extérieur.</li><li>Valider dans les constructeurs et les méthodes publiques ; lever tôt, rattraper tard (au niveau du menu / de l'API).</li><li>Préférer <code>record</code> pour les données, <code>class</code> pour les comportements, <code>struct</code> rarement.</li><li>LINQ pour interroger, boucles pour agir ; matérialiser avec <code>ToList()</code> quand nécessaire.</li><li>Zéro warning nullable : chaque <code>?</code> est une décision.</li><li>Un <code>.editorconfig</code> à la racine impose ces règles automatiquement (<code>dotnet new editorconfig</code>).</li><li>Commits petits et fréquents avec un message qui décrit le <i>pourquoi</i>.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s78"><h2>Pour aller plus loin</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Prochaine étape naturelle</div><pre><code data-lang="bash">// Tests unitaires avec xUnit
+dotnet new xunit -n Bibliotheque.Tests -o tests/Bibliotheque.Tests
+dotnet add tests/Bibliotheque.Tests reference src/Bibliotheque
+dotnet test</code></pre></div><div class="code"><div class="code-title">Aperçu xUnit</div><pre><code data-lang="csharp">public class BibliothequeTests
+{
+    [Fact]
+    public void Emprunter_LivreDisponible_LeRendIndisponible()
+    {
+        var biblio = new BibliothequeEnMemoire();
+        biblio.AjouterLivre(new Livre("978-1", "Clean Code", "Martin"));
+
+        biblio.Emprunter("978-1", new Membre("Alice", "a@x.fr"));
+
+        Assert.False(biblio.TrouverLivre("978-1")!.Disponible);
+    }
+
+    [Fact]
+    public void Emprunter_LivreIndisponible_LeveException()
+    {
+        var biblio = …;
+        Assert.Throws&lt;LivreIndisponibleException&gt;(
+            () =&gt; biblio.Emprunter("978-1", membre));
+    }
+}</code></pre></div></div><div><ul><li><b>Tests unitaires</b> (xUnit) : automatiser ce que vous avez vérifié à la main pendant les TP.</li><li><b>Asynchrone</b> : <code>async</code>/<code>await</code>, <code>Task&lt;T&gt;</code>, <code>HttpClient</code> — indispensable pour le web et les E/S.</li><li><b>ASP.NET Core</b> : exposer la bibliothèque en API REST (<code>dotnet new webapi</code>) ; Minimal APIs.</li><li><b>Entity Framework Core</b> : remplacer le JSON par une base SQL avec les mêmes requêtes LINQ.</li><li><b>Injection de dépendances</b> : <code>IBibliotheque</code> fournie par un conteneur plutôt que <code>new</code>.</li><li><b>Blazor / MAUI</b> : interfaces web ou mobiles en C#.</li><li>Certification Microsoft : chercher les parcours « C# » sur Microsoft Learn.</li></ul></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J4" id="s79"><h2>Ressources</h2><div class="body"><div class="two"><div><ul><li><b>Documentation officielle C#</b> — <code>learn.microsoft.com/dotnet/csharp</code> : référence du langage, guides, nouveautés par version.</li><li><b>Parcours « C# for beginners »</b> — <code>learn.microsoft.com/training/paths/csharp-first-steps</code> : exercices interactifs gratuits.</li><li><b>Référence CLI .NET</b> — <code>learn.microsoft.com/dotnet/core/tools</code>.</li><li><b>Nouveautés C# 14</b> — <code>learn.microsoft.com/dotnet/csharp/whats-new/csharp-14</code>.</li><li><b>Bibliothèque de classes .NET</b> — <code>learn.microsoft.com/dotnet/api</code> : chaque classe, chaque méthode.</li><li><b>101 LINQ Samples</b> — exemples couvrant tous les opérateurs.</li><li><b>SharpLab</b> — <code>sharplab.io</code> : voir le code généré par le compilateur (records, lambdas, top-level statements).</li><li><b>.NET Fiddle</b> — <code>dotnetfiddle.net</code> : tester un extrait sans installer.</li></ul></div><div><div class="note info"><b>Le dépôt de la formation</b> contient : ce support, le programme v1.1, les corrigés des TP 1 à 4 (livrés après la restitution) et le <code>.editorconfig</code> de référence.<br><br>Toutes les questions restent ouvertes après la formation : le fil rouge peut continuer avec les pistes de la slide précédente.</div></div></div></div></section>
+<section class="slide cover-slide" data-kind="cover" data-day="" id="s80"><div class="cover"><div class="brand">Utopios</div><h1>Merci</h1><p class="sub">Questions, retours, évaluation à chaud</p><p class="meta">Les bases du C# — .NET 10 / C# 14</p></div></section>
+<div id="bar"></div><div id="foot"><span class="tag" id="tag"></span><span>Les bases du C# · Utopios</span><span id="cnt"></span></div></div>
+<div id="nav"><button id="prev" aria-label="Précédent" title="Précédent (←, PageUp)">‹</button><button id="next" aria-label="Suivant" title="Suivant (→, espace, PageDown)">›</button></div>
+<script>
+(function(){
+const slides=[...document.querySelectorAll('.slide')],n=slides.length;
+const stage=document.getElementById('stage'),bar=document.getElementById('bar'),cnt=document.getElementById('cnt'),tag=document.getElementById('tag');
+let i=0;
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${s})`;}
+function shrink(sl){const b=sl.querySelector('.body');if(!b)return;let f=1;sl.style.setProperty('--fit',1);
+  const boxes=[b,...sl.querySelectorAll('.two>div')];
+  const over=()=>boxes.some(x=>x.scrollHeight>x.clientHeight+2);
+  while(over()&&f>0.8){f-=0.04;sl.style.setProperty('--fit',f.toFixed(2));}
+  boxes.slice(1).forEach(x=>{if(x.scrollHeight>x.clientHeight+2)x.classList.add('scroll');});
+  if(boxes.length===1&&over())b.classList.add('scroll');}
+function go(k){i=Math.max(0,Math.min(n-1,k));slides.forEach((s,j)=>s.classList.toggle('active',j===i));
+  const s=slides[i];document.body.classList.toggle('dark',s.dataset.kind!=='std');
+  cnt.textContent=(i+1)+' / '+n;tag.textContent=s.dataset.day||'';bar.style.width=((i+1)/n*100)+'%';
+  history.replaceState(null,'','#'+(i+1));if(!s.dataset.fitted){shrink(s);s.dataset.fitted=1;}}
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1);}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1);}
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(n-1);});
+document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)go(dx<0?i+1:i-1);x0=null;});
+addEventListener('resize',fit);
+// syntax highlighting
+const KW=/\b(abstract|as|async|await|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|get|global|goto|if|implicit|in|init|int|interface|internal|is|lock|long|nameof|namespace|new|not|null|object|operator|or|and|out|override|params|private|protected|public|readonly|record|ref|required|return|sbyte|sealed|set|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|var|virtual|void|volatile|when|where|while|with|yield|from|select|orderby|join|on|equals|group|by|into|let|value)\b/g;
+const TY=/\b([A-Z][A-Za-z0-9]*)(?=\s*[<(.\[]|\b)/g;
+function hl(src,lang){
+  if(lang==='text')return src;
+  if(lang==='bash'){return src.replace(/(#.*)$/gm,'<span class="c">$1</span>').replace(/^(\s*)(dotnet|git|mkdir|cd|ls)\b/gm,'$1<span class="k">$2</span>');}
+  if(lang==='xml'){return src.replace(/(&lt;\/?)([A-Za-z.]+)/g,'$1<span class="t">$2</span>').replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="c">$1</span>');}
+  const tokens=[];const keep=(cls,m)=>{tokens.push('<span class="'+cls+'">'+m+'</span>');return '\u0000'+String(tokens.length-1).replace(/\d/g,d=>'abcdefghij'[d])+'\u0000';};
+  let s=src.replace(/\/\*[\s\S]*?\*\//g,m=>keep('c',m))
+           .replace(/\/\/.*$/gm,m=>keep('c',m))
+           .replace(/\$?@?&quot;(?:[^&]|&(?!quot;))*?&quot;|&quot;&quot;&quot;[\s\S]*?&quot;&quot;&quot;|'(?:\\.|[^'\\])'/g,m=>keep('s',m))
+           .replace(/\[(\w+)\]/g,m=>keep('a',m));
+  s=s.replace(KW,'<span class="k">$1</span>').replace(TY,'<span class="t">$1</span>').replace(/\b(\d[\d_.]*[mfdLu]?)\b/g,'<span class="n">$1</span>');
+  return s.replace(/\u0000([a-j]+)\u0000/g,(_,k)=>tokens[+k.replace(/[a-j]/g,ch=>'abcdefghij'.indexOf(ch))]);
+}
+document.querySelectorAll('.two').forEach(t=>{const [a,b]=t.children;const ca=!!a.querySelector('.code'),cb=!!b.querySelector('.code');if(ca&&!cb)t.style.gridTemplateColumns='1.25fr 1fr';else if(cb&&!ca)t.style.gridTemplateColumns='1fr 1.25fr';});
+document.querySelectorAll('pre code').forEach(el=>{el.innerHTML=hl(el.innerHTML,el.dataset.lang);});
+fit();const h=parseInt(location.hash.slice(1));go(isNaN(h)?0:h-1);
+})();
+</script></body></html>
