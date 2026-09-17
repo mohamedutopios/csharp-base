@@ -29,6 +29,9 @@ th{background:var(--blue-light);color:var(--blue-dark);font-weight:600}
 tr:nth-child(even) td{background:#FAFCFF}
 .note{border-left:4px solid var(--blue);background:var(--blue-light);padding:12px 16px;border-radius:0 8px 8px 0;font-size:.95em;margin-top:6px}
 .note.warn{border-color:var(--warn);background:var(--warn-bg)}
+.diag{width:100%;height:auto;display:block}
+.diag text{font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif}
+.diag .mono{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
 .cover,.section{position:absolute;inset:0;background:linear-gradient(135deg,var(--blue-dark),var(--blue) 60%,var(--blue-mid));color:#fff;padding:80px 96px;display:flex;flex-direction:column;justify-content:center}
 .brand{font-size:22px;letter-spacing:.06em;opacity:.85;margin-bottom:28px}
 .cover h1{font-size:72px;font-weight:700;line-height:1.05;margin-bottom:20px}
@@ -54,42 +57,108 @@ tr:nth-child(even) td{background:#FAFCFF}
 <section class="slide cover-slide" data-kind="cover" data-day="" id="s1"><div class="cover"><div class="brand">Utopios</div><h1>Les bases du C#</h1><p class="sub">Formation 4 jours — .NET 10 / C# 14</p><p class="meta">Programme v1.1 · 12 modules · fil rouge « Bibliothèque »</p></div></section>
 <section class="slide" data-kind="std" data-day="" id="s2"><h2>Programme des 4 jours</h2><div class="body"><table><thead><tr><th>Jour</th><th>Thème</th><th>Modules</th><th>Atelier</th></tr></thead><tbody><tr><td>J1</td><td>Prise en main et syntaxe de base</td><td>0 · 1 · 2 · 3</td><td>TP 1 — convertisseur d'unités</td></tr><tr><td>J2</td><td>Méthodes et introduction à la POO</td><td>4 · 5 · 6</td><td>TP 2 — fil rouge étape 1</td></tr><tr><td>J3</td><td>POO avancée et collections</td><td>7 · 8 · 9</td><td>TP 3 — fil rouge étape 2</td></tr><tr><td>J4</td><td>LINQ, erreurs, fichiers, projet final</td><td>10 · 11 · 12</td><td>TP 4 — fil rouge étape 3 (évalué)</td></tr></tbody></table><div class="note info">Évaluation : 3 quiz de rappel (30 %), projet fil rouge (50 %), restitution orale (20 %). Seuil de validation : 60 %.</div></div></section>
 <section class="slide section-slide" data-kind="section" data-day="Jour 1" id="i1"><div class="section"><div class="day">Jour 1 — Matin</div><h1>Introduction — La plateforme .NET</h1><ul><li>Présentation et rôle du framework .NET</li><li>.NET Framework vs .NET Core</li><li>CLR · assemblys · JIT · CTS</li><li>Le garbage collector</li><li>Évolutions du framework .NET / Core</li><li>TP indicatif — décompilation d'un assembly</li></ul></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i2"><h2>Présentation et rôle du framework .NET</h2><div class="body"><div class="two"><div><ul><li><b>.NET</b> est une <b>plateforme de développement et d'exécution</b> : un runtime (le CLR), une bibliothèque de classes (BCL), des compilateurs et une CLI.</li><li>Son rôle : exécuter du <b>code managé</b> — le runtime prend en charge la mémoire, la sécurité des types et les exceptions à la place du développeur.</li><li><b>Multi-langages</b> : C#, F#, VB.NET compilent tous vers le même langage intermédiaire (IL).</li><li><b>Multi-usages</b> : console, web (ASP.NET Core), API, desktop (WPF, MAUI), mobile, cloud, jeux (Unity).</li><li>Ce que la BCL fournit déjà : collections, fichiers, réseau, JSON, dates, cryptographie…</li></ul></div><div><div class="code"><div class="code-title">La pile .NET</div><pre><code data-lang="text">┌──────────────────────────────┐
-│   Votre code (C#, F#, VB)    │
-├──────────────────────────────┤
-│  BCL — bibliothèque de base  │
-│  (collections, IO, JSON…)    │
-├──────────────────────────────┤
-│  CLR — le runtime            │
-│  (JIT, GC, types, sécurité)  │
-├──────────────────────────────┤
-│  OS : Windows / macOS / Linux│
-└──────────────────────────────┘</code></pre></div><div class="note info">« Managé » = géré <i>par le runtime</i> : pas de gestion manuelle de la mémoire comme en C/C++.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="i2"><h2>Présentation et rôle du framework .NET</h2><div class="body"><div class="two"><div><ul><li><b>.NET</b> est une <b>plateforme de développement et d'exécution</b> : un runtime (le CLR), une bibliothèque de classes (BCL), des compilateurs et une CLI.</li><li>Son rôle : exécuter du <b>code managé</b> — le runtime prend en charge la mémoire, la sécurité des types et les exceptions à la place du développeur.</li><li><b>Multi-langages</b> : C#, F#, VB.NET compilent tous vers le même langage intermédiaire (IL).</li><li><b>Multi-usages</b> : console, web (ASP.NET Core), API, desktop (WPF, MAUI), mobile, cloud, jeux (Unity).</li><li>Ce que la BCL fournit déjà : collections, fichiers, réseau, JSON, dates, cryptographie…</li></ul></div><div><svg class="diag" viewBox="0 0 560 424" role="img" aria-label="La pile .NET">
+<rect x="16" y="10" width="392" height="84" rx="10" fill="#fff" stroke="#2F6FBF" stroke-width="2"/>
+<text x="36" y="42" font-size="19" font-weight="700" fill="#083A73">Votre code</text>
+<rect x="36" y="56" width="52" height="26" rx="13" fill="#E7F0FB"/><text x="62" y="74" font-size="14" font-weight="600" fill="#0B4F9C" text-anchor="middle">C#</text>
+<rect x="96" y="56" width="52" height="26" rx="13" fill="#E7F0FB"/><text x="122" y="74" font-size="14" font-weight="600" fill="#0B4F9C" text-anchor="middle">F#</text>
+<rect x="156" y="56" width="52" height="26" rx="13" fill="#E7F0FB"/><text x="182" y="74" font-size="14" font-weight="600" fill="#0B4F9C" text-anchor="middle">VB</text>
+<text x="392" y="74" font-size="13" fill="#5A6B80" text-anchor="end">compilé en IL</text>
+<polygon points="204,98 220,98 212,110" fill="#2F6FBF"/>
+<rect x="16" y="114" width="392" height="84" rx="10" fill="#E7F0FB" stroke="#D5DFEC"/>
+<text x="36" y="146" font-size="19" font-weight="700" fill="#083A73">BCL — bibliothèque de classes</text>
+<text x="36" y="176" font-size="14" fill="#5A6B80">collections · fichiers · JSON · réseau · dates · maths…</text>
+<polygon points="204,202 220,202 212,214" fill="#2F6FBF"/>
+<rect x="16" y="218" width="392" height="110" rx="10" fill="#0B4F9C"/>
+<text x="36" y="250" font-size="19" font-weight="700" fill="#fff">CLR — le runtime</text>
+<rect x="36" y="264" width="60" height="26" rx="13" fill="#ffffff" opacity="0.16"/><text x="66" y="282" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">JIT</text>
+<rect x="104" y="264" width="60" height="26" rx="13" fill="#ffffff" opacity="0.16"/><text x="134" y="282" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">GC</text>
+<rect x="172" y="264" width="84" height="26" rx="13" fill="#ffffff" opacity="0.16"/><text x="214" y="282" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">types sûrs</text>
+<rect x="264" y="264" width="98" height="26" rx="13" fill="#ffffff" opacity="0.16"/><text x="313" y="282" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">exceptions</text>
+<text x="36" y="314" font-size="13" fill="#CFE0F5">exécute l'IL, gère la mémoire à votre place</text>
+<polygon points="204,332 220,332 212,344" fill="#2F6FBF"/>
+<rect x="16" y="348" width="392" height="66" rx="10" fill="#083A73"/>
+<text x="36" y="376" font-size="17" font-weight="700" fill="#fff">Système d'exploitation</text>
+<text x="36" y="400" font-size="14" fill="#CFE0F5">Windows · macOS · Linux</text>
+<path d="M424,12 h8 v80 h-8" fill="none" stroke="#5A6B80" stroke-width="1.5"/>
+<text x="442" y="56" font-size="14" fill="#5A6B80">vous l'écrivez</text>
+<path d="M424,116 h8 v210 h-8" fill="none" stroke="#0B4F9C" stroke-width="1.5"/>
+<text x="442" y="212" font-size="14" font-weight="600" fill="#0B4F9C">fourni par .NET</text>
+<path d="M424,350 h8 v62 h-8" fill="none" stroke="#5A6B80" stroke-width="1.5"/>
+<text x="442" y="386" font-size="14" fill="#5A6B80">la machine</text>
+</svg><div class="note info">« Managé » = géré <i>par le runtime</i> : pas de gestion manuelle de la mémoire comme en C/C++.</div></div></div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="i3"><h2>.NET Framework vs .NET Core</h2><div class="body"><table><thead><tr><th></th><th>.NET Framework</th><th>.NET Core → .NET 5+</th></tr></thead><tbody><tr><td>Première version</td><td>2002</td><td>2016</td></tr><tr><td>Systèmes</td><td>Windows uniquement</td><td>Windows, macOS, Linux</td></tr><tr><td>Open source</td><td>Non</td><td>Oui (GitHub, fondation .NET)</td></tr><tr><td>Installation</td><td>Globale à la machine (GAC)</td><td>Côte à côte : chaque application embarque ou cible sa version</td></tr><tr><td>Évolution</td><td><b>Figé en 4.8</b> (correctifs seulement)</td><td>Une version majeure <b>chaque novembre</b></td></tr><tr><td>Performance</td><td>—</td><td>Nettement supérieure (benchmarks TechEmpower)</td></tr><tr><td>Usage aujourd'hui</td><td>Maintenance d'applications existantes</td><td><b>Tout nouveau projet</b></td></tr></tbody></table><div class="note info">Depuis 2020, « Core » a disparu du nom : .NET Core 3.1 → .NET 5 → … → <b>.NET 10</b>. Quand on dit « .NET » aujourd'hui, on parle de cette lignée.</div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i4"><h2>Le Common Language Runtime (CLR)</h2><div class="body"><div class="two"><div><ul><li>Le CLR est la <b>machine virtuelle</b> de .NET : c'est lui qui exécute le programme.</li><li>Ses responsabilités :<ul><li><b>charger</b> les assemblys et leurs dépendances ;</li><li><b>vérifier</b> les types avant exécution (type safety) ;</li><li><b>compiler</b> l'IL en code machine (JIT) ;</li><li><b>gérer la mémoire</b> (garbage collector) ;</li><li>propager les <b>exceptions</b>, gérer les threads.</li></ul></li><li>Un même binaire IL tourne partout où un CLR existe : c'est lui qui apporte la portabilité.</li></ul></div><div><div class="code"><div class="code-title">Cycle d'exécution</div><pre><code data-lang="text">dotnet run
-   │
-   ▼
-CLR : charge Jour1.dll (IL)
-   │  vérifie les types
-   ▼
-JIT : Main() → code machine
-   │  (méthode par méthode)
-   ▼
-CPU exécute · GC surveille la mémoire</code></pre></div><div class="note info">À comparer : la JVM joue le même rôle pour Java. IL ≈ bytecode.</div></div></div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i5"><h2>Les assemblys</h2><div class="body"><div class="two"><div><ul><li>L'<b>assembly</b> est l'unité de compilation, de déploiement et de versionnement de .NET : concrètement un fichier <code>.dll</code> (ou <code>.exe</code> lanceur).</li><li>Un projet compilé = un assembly : <code>Jour1.csproj</code> → <code>Jour1.dll</code>.</li><li>Contenu d'un assembly :<ul><li>le <b>manifeste</b> : nom, version, culture, dépendances ;</li><li>les <b>métadonnées</b> : description complète des types ;</li><li>le <b>code IL</b> de chaque méthode ;</li><li>d'éventuelles ressources (images, textes…).</li></ul></li><li>Les métadonnées rendent l'assembly <b>auto-descriptif</b> : c'est ce qui permet IntelliSense… et la décompilation.</li></ul></div><div><div class="code"><div class="code-title">Où est mon assembly ?</div><pre><code data-lang="bash">dotnet build
-ls bin/Debug/net10.0/
-# Jour1.dll        ← l'assembly (IL + métadonnées)
-# Jour1.exe        ← petit lanceur natif (Windows)
-# Jour1.deps.json  ← dépendances
-# Jour1.runtimeconfig.json ← runtime ciblé</code></pre></div><div class="note info">Référencer l'assembly d'un autre projet : <code>dotnet add reference ../Outils/Outils.csproj</code>.</div></div></div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i6"><h2>La compilation Just-In-Time (JIT)</h2><div class="body"><div class="two"><div><ul><li>La compilation .NET se fait en <b>deux temps</b> : C# → IL (Roslyn, à la build), puis IL → code machine (JIT, à l'exécution).</li><li>Le JIT compile <b>méthode par méthode, au premier appel</b>, puis garde le code natif en mémoire : les appels suivants sont directs.</li><li><b>Compilation étagée</b> (tiered) : une méthode très appelée est recompilée avec plus d'optimisations.</li><li>Avantage : le code natif est optimisé <b>pour le CPU réel</b> de la machine (instructions vectorielles, etc.).</li><li>Alternative : <b>AOT</b> (Ahead-Of-Time, <code>PublishAot</code>) — tout est compilé en natif à l'avance : démarrage instantané, binaire autonome.</li></ul></div><div><div class="code"><div class="code-title">Deux temps</div><pre><code data-lang="text">ÉCRITURE / BUILD (une fois)
-Program.cs ──(Roslyn)──▶ Jour1.dll (IL)
-
-EXÉCUTION (à chaque lancement)
-Jour1.dll ──(JIT du CLR)──▶ code machine
-            · au 1er appel de chaque méthode
-            · mis en cache en mémoire
-            · re-optimisé si « chaude »</code></pre></div><div class="note info">C'est pour ça que le tout premier <code>dotnet run</code> d'une démo est plus lent que les suivants.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="i4"><h2>Le Common Language Runtime (CLR)</h2><div class="body"><div class="two"><div><ul><li>Le CLR est la <b>machine virtuelle</b> de .NET : c'est lui qui exécute le programme.</li><li>Ses responsabilités :<ul><li><b>charger</b> les assemblys et leurs dépendances ;</li><li><b>vérifier</b> les types avant exécution (type safety) ;</li><li><b>compiler</b> l'IL en code machine (JIT) ;</li><li><b>gérer la mémoire</b> (garbage collector) ;</li><li>propager les <b>exceptions</b>, gérer les threads.</li></ul></li><li>Un même binaire IL tourne partout où un CLR existe : c'est lui qui apporte la portabilité.</li></ul></div><div><svg class="diag" viewBox="0 0 560 408" role="img" aria-label="Cycle d'exécution du CLR">
+<rect x="16" y="10" width="320" height="50" rx="8" fill="#083A73"/>
+<text x="36" y="41" font-size="16" font-weight="600" fill="#fff" class="mono">$ dotnet run</text>
+<polygon points="168,64 184,64 176,78" fill="#2F6FBF"/>
+<rect x="16" y="82" width="320" height="56" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
+<text x="36" y="106" font-size="16" font-weight="700" fill="#083A73">1 · Le CLR charge l'assembly</text>
+<text x="36" y="128" font-size="13" fill="#5A6B80" class="mono">Jour1.dll  (IL + métadonnées)</text>
+<polygon points="168,142 184,142 176,156" fill="#2F6FBF"/>
+<rect x="16" y="160" width="320" height="56" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
+<text x="36" y="184" font-size="16" font-weight="700" fill="#083A73">2 · Vérification des types</text>
+<text x="36" y="206" font-size="13" fill="#5A6B80">l'IL douteux est rejeté avant d'être exécuté</text>
+<polygon points="168,220 184,220 176,234" fill="#2F6FBF"/>
+<rect x="16" y="238" width="320" height="62" rx="8" fill="#0B4F9C"/>
+<text x="36" y="263" font-size="16" font-weight="700" fill="#fff">3 · JIT : IL → code machine</text>
+<text x="36" y="286" font-size="13" fill="#CFE0F5">méthode par méthode, au premier appel</text>
+<polygon points="168,304 184,304 176,318" fill="#2F6FBF"/>
+<rect x="16" y="322" width="320" height="50" rx="8" fill="#083A73"/>
+<text x="36" y="353" font-size="16" font-weight="700" fill="#fff">4 · Le CPU exécute</text>
+<rect x="372" y="160" width="172" height="140" rx="10" fill="#fff" stroke="#2F6FBF" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="392" y="190" font-size="15" font-weight="700" fill="#0B4F9C">En tâche de fond</text>
+<text x="392" y="216" font-size="14" font-weight="600" fill="#1A2433">Garbage Collector</text>
+<text x="392" y="238" font-size="13" fill="#5A6B80">surveille le tas,</text>
+<text x="392" y="256" font-size="13" fill="#5A6B80">libère les objets</text>
+<text x="392" y="274" font-size="13" fill="#5A6B80">non référencés</text>
+<path d="M372,270 C352,290 350,300 340,320" fill="none" stroke="#2F6FBF" stroke-width="1.5" stroke-dasharray="4 4"/>
+</svg><div class="note info">À comparer : la JVM joue le même rôle pour Java. IL ≈ bytecode.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="i5"><h2>Les assemblys</h2><div class="body"><div class="two"><div><ul><li>L'<b>assembly</b> est l'unité de compilation, de déploiement et de versionnement de .NET : concrètement un fichier <code>.dll</code> (ou <code>.exe</code> lanceur).</li><li>Un projet compilé = un assembly : <code>Jour1.csproj</code> → <code>Jour1.dll</code>.</li><li>Contenu d'un assembly :<ul><li>le <b>manifeste</b> : nom, version, culture, dépendances ;</li><li>les <b>métadonnées</b> : description complète des types ;</li><li>le <b>code IL</b> de chaque méthode ;</li><li>d'éventuelles ressources (images, textes…).</li></ul></li><li>Les métadonnées rendent l'assembly <b>auto-descriptif</b> : c'est ce qui permet IntelliSense… et la décompilation.</li></ul></div><div><svg class="diag" viewBox="0 0 560 404" role="img" aria-label="Anatomie d'un assembly">
+<text x="280" y="28" font-size="18" font-weight="700" fill="#083A73" text-anchor="middle" class="mono">Jour1.dll</text>
+<text x="280" y="50" font-size="13" fill="#5A6B80" text-anchor="middle">produit par dotnet build → bin/Debug/net10.0/</text>
+<rect x="70" y="62" width="420" height="322" rx="14" fill="#fff" stroke="#0B4F9C" stroke-width="2"/>
+<rect x="90" y="82" width="380" height="64" rx="8" fill="#0B4F9C"/>
+<text x="110" y="108" font-size="16" font-weight="700" fill="#fff">Manifeste</text>
+<text x="110" y="130" font-size="13" fill="#CFE0F5">nom · version · culture · dépendances</text>
+<rect x="90" y="156" width="380" height="64" rx="8" fill="#2F6FBF"/>
+<text x="110" y="182" font-size="16" font-weight="700" fill="#fff">Métadonnées</text>
+<text x="110" y="204" font-size="13" fill="#DCE9F8">description complète des types (classes, méthodes…)</text>
+<rect x="90" y="230" width="380" height="64" rx="8" fill="#E7F0FB"/>
+<text x="110" y="256" font-size="16" font-weight="700" fill="#083A73">Code IL</text>
+<text x="110" y="278" font-size="13" fill="#5A6B80">le corps de chaque méthode, prêt pour le JIT</text>
+<rect x="90" y="304" width="380" height="64" rx="8" fill="#fff" stroke="#D5DFEC" stroke-dasharray="6 4"/>
+<text x="110" y="330" font-size="16" font-weight="700" fill="#5A6B80">Ressources (optionnel)</text>
+<text x="110" y="352" font-size="13" fill="#5A6B80">images, textes, fichiers embarqués</text>
+</svg><div class="note info">Manifeste + métadonnées rendent l'assembly auto-descriptif : IntelliSense, <code>dotnet add reference</code> et les décompilateurs s'appuient dessus.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="i6"><h2>La compilation Just-In-Time (JIT)</h2><div class="body"><div class="two"><div><ul><li>La compilation .NET se fait en <b>deux temps</b> : C# → IL (Roslyn, à la build), puis IL → code machine (JIT, à l'exécution).</li><li>Le JIT compile <b>méthode par méthode, au premier appel</b>, puis garde le code natif en mémoire : les appels suivants sont directs.</li><li><b>Compilation étagée</b> (tiered) : une méthode très appelée est recompilée avec plus d'optimisations.</li><li>Avantage : le code natif est optimisé <b>pour le CPU réel</b> de la machine (instructions vectorielles, etc.).</li><li>Alternative : <b>AOT</b> (Ahead-Of-Time, <code>PublishAot</code>) — tout est compilé en natif à l'avance : démarrage instantané, binaire autonome.</li></ul></div><div><svg class="diag" viewBox="0 0 560 412" role="img" aria-label="Les deux temps de la compilation">
+<rect x="10" y="10" width="540" height="150" rx="12" fill="#F7F9FD" stroke="#D5DFEC"/>
+<text x="30" y="42" font-size="16" font-weight="700" fill="#083A73">1 · À LA BUILD <tspan font-weight="400" fill="#5A6B80">— une seule fois</tspan></text>
+<rect x="30" y="66" width="180" height="58" rx="8" fill="#fff" stroke="#2F6FBF" stroke-width="2"/>
+<text x="120" y="92" font-size="15" font-weight="600" fill="#083A73" text-anchor="middle" class="mono">Program.cs</text>
+<text x="120" y="112" font-size="12" fill="#5A6B80" text-anchor="middle">votre C#</text>
+<line x1="216" y1="95" x2="330" y2="95" stroke="#2F6FBF" stroke-width="2.5"/><polygon points="330,88 344,95 330,102" fill="#2F6FBF"/>
+<text x="280" y="82" font-size="13" font-weight="600" fill="#0B4F9C" text-anchor="middle">Roslyn</text>
+<rect x="350" y="66" width="180" height="58" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
+<text x="440" y="92" font-size="15" font-weight="600" fill="#083A73" text-anchor="middle" class="mono">Jour1.dll</text>
+<text x="440" y="112" font-size="12" fill="#5A6B80" text-anchor="middle">code IL portable</text>
+<rect x="10" y="176" width="540" height="226" rx="12" fill="#F7F9FD" stroke="#D5DFEC"/>
+<text x="30" y="208" font-size="16" font-weight="700" fill="#083A73">2 · À L'EXÉCUTION <tspan font-weight="400" fill="#5A6B80">— à chaque lancement</tspan></text>
+<rect x="30" y="232" width="150" height="58" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
+<text x="105" y="258" font-size="15" font-weight="600" fill="#083A73" text-anchor="middle" class="mono">Jour1.dll</text>
+<text x="105" y="278" font-size="12" fill="#5A6B80" text-anchor="middle">IL</text>
+<line x1="186" y1="261" x2="264" y2="261" stroke="#0B4F9C" stroke-width="2.5"/><polygon points="264,254 278,261 264,268" fill="#0B4F9C"/>
+<text x="228" y="248" font-size="13" font-weight="700" fill="#0B4F9C" text-anchor="middle">JIT</text>
+<rect x="284" y="232" width="150" height="58" rx="8" fill="#0B4F9C"/>
+<text x="359" y="258" font-size="15" font-weight="600" fill="#fff" text-anchor="middle">code machine</text>
+<text x="359" y="278" font-size="12" fill="#CFE0F5" text-anchor="middle">x64 / ARM64</text>
+<line x1="440" y1="261" x2="466" y2="261" stroke="#0B4F9C" stroke-width="2.5"/><polygon points="466,254 480,261 466,268" fill="#0B4F9C"/>
+<rect x="486" y="232" width="52" height="58" rx="8" fill="#083A73"/>
+<text x="512" y="266" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">CPU</text>
+<text x="42" y="326" font-size="14" fill="#1A2433">• compile <tspan font-weight="600">au premier appel</tspan> de chaque méthode</text>
+<text x="42" y="352" font-size="14" fill="#1A2433">• garde le code natif <tspan font-weight="600">en cache mémoire</tspan></text>
+<text x="42" y="378" font-size="14" fill="#1A2433">• ré-optimise les méthodes « chaudes » (compilation étagée)</text>
+</svg><div class="note info">C'est pour ça que le tout premier <code>dotnet run</code> d'une démo est plus lent que les suivants.</div></div></div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="i7"><h2>Le Common Type System (CTS)</h2><div class="body"><div class="two"><div><ul><li>Le CTS définit <b>l'ensemble des types partagés</b> par tous les langages .NET : c'est le contrat commun qui rend C#, F# et VB interopérables.</li><li>Tout type hérite de <code>System.Object</code> ; le CTS distingue <b>types valeur</b> et <b>types référence</b> (on y revient au module 2).</li><li>Les mots-clés C# sont des <b>alias</b> de types du CTS : écrire <code>int</code> ou <code>System.Int32</code> est strictement équivalent.</li><li>Conséquence : une classe écrite en C# s'utilise telle quelle depuis F# ou VB — même représentation mémoire, mêmes règles.</li><li>Le <b>CLS</b> (Common Language Specification) est le sous-ensemble du CTS garanti compréhensible par tous les langages.</li></ul></div><div><table><thead><tr><th>Alias C#</th><th>Type CTS</th><th>Nature</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>System.Int32</code></td><td>valeur</td></tr><tr><td><code>double</code></td><td><code>System.Double</code></td><td>valeur</td></tr><tr><td><code>bool</code></td><td><code>System.Boolean</code></td><td>valeur</td></tr><tr><td><code>char</code></td><td><code>System.Char</code></td><td>valeur</td></tr><tr><td><code>string</code></td><td><code>System.String</code></td><td>référence</td></tr><tr><td><code>object</code></td><td><code>System.Object</code></td><td>référence</td></tr></tbody></table><div class="note info"><code>42.ToString()</code> fonctionne : même un littéral est un objet du CTS.</div></div></div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="i8"><h2>Le garbage collector (GC)</h2><div class="body"><div class="two"><div><ul><li>Le GC gère le <b>tas managé</b> : il libère automatiquement la mémoire des objets qui ne sont <b>plus référencés</b>.</li><li>Pas de <code>free()</code> / <code>delete</code> en C# : on crée avec <code>new</code>, le GC s'occupe du reste.</li><li>Fonctionnement par <b>générations</b> : gén. 0 (objets jeunes, collectés souvent), gén. 1, gén. 2 (objets durables) — « les jeunes meurent jeunes ».</li><li>Déclenchement <b>automatique</b> et non déterministe : on ne sait pas <i>quand</i> un objet précis sera libéré.</li><li>Limite : le GC ne gère que la mémoire. Fichiers ouverts, connexions… se libèrent avec <code>IDisposable</code> / <code>using</code> (module 11).</li></ul></div><div><div class="code"><div class="code-title">Éligible ou pas ?</div><pre><code data-lang="csharp">var a = new int[1_000_000];
 var b = a;      // 2 références, 1 objet
@@ -98,7 +167,40 @@ a = null!;      // il reste b : objet vivant
 b = null!;      // plus AUCUNE référence
                 // → éligible au GC,
                 //   libéré à sa prochaine passe</code></pre></div><div class="note warn">Ne jamais appeler <code>GC.Collect()</code> soi-même : le GC sait mieux que nous quand passer.</div></div></div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i9"><h2>Évolutions du framework .NET / Core</h2><div class="body"><table><thead><tr><th>Année</th><th>Version</th><th>À retenir</th></tr></thead><tbody><tr><td>2002</td><td>.NET Framework 1.0</td><td>Naissance de la plateforme et de C#</td></tr><tr><td>2019</td><td>.NET Framework 4.8</td><td>Dernière version — maintenance uniquement</td></tr><tr><td>2016</td><td>.NET Core 1.0</td><td>Réécriture open source et multiplateforme</td></tr><tr><td>2019</td><td>.NET Core 3.1 (LTS)</td><td>Maturité : WPF/WinForms portés</td></tr><tr><td>2020</td><td>.NET 5</td><td>Unification — « Core » disparaît du nom</td></tr><tr><td>2021 / 2023</td><td>.NET 6 / .NET 8 (LTS)</td><td>Cadence annuelle installée, performances</td></tr><tr><td>2024</td><td>.NET 9 (STS)</td><td>Support court (18 mois)</td></tr><tr><td><b>2025</b></td><td><b>.NET 10 (LTS) + C# 14</b></td><td><b>La version de cette formation</b> — support 3 ans</td></tr></tbody></table><div class="note info">Rythme : une version majeure chaque novembre ; LTS (paire) = 3 ans de support, STS (impaire) = 18 mois. En production : LTS.</div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="i9"><h2>Évolutions du framework .NET / Core</h2><div class="body"><svg class="diag" viewBox="0 0 1120 366" role="img" aria-label="Frise chronologique .NET">
+<line x1="82" y1="66" x2="82" y2="330" stroke="#E7F0FB" stroke-width="2"/>
+<line x1="414" y1="66" x2="414" y2="330" stroke="#E7F0FB" stroke-width="2"/>
+<line x1="664" y1="66" x2="664" y2="330" stroke="#E7F0FB" stroke-width="2"/>
+<line x1="830" y1="66" x2="830" y2="330" stroke="#E7F0FB" stroke-width="2"/>
+<line x1="1038" y1="66" x2="1038" y2="330" stroke="#E7F0FB" stroke-width="2"/>
+<text x="82" y="352" font-size="14" fill="#5A6B80" text-anchor="middle">2002</text>
+<text x="414" y="352" font-size="14" fill="#5A6B80" text-anchor="middle">2010</text>
+<text x="664" y="352" font-size="14" fill="#5A6B80" text-anchor="middle">2016</text>
+<text x="830" y="352" font-size="14" fill="#5A6B80" text-anchor="middle">2020</text>
+<text x="1038" y="352" font-size="14" fill="#5A6B80" text-anchor="middle">2025</text>
+<text x="852" y="36" font-size="14" fill="#1A2433">● LTS — 3 ans</text>
+<text x="988" y="36" font-size="14" fill="#1A2433">○ STS — 18 mois</text>
+<text x="40" y="70" font-size="17" font-weight="700" fill="#083A73">.NET Framework <tspan font-weight="400" fill="#5A6B80">— Windows uniquement</tspan></text>
+<line x1="82" y1="110" x2="789" y2="110" stroke="#8896A8" stroke-width="4" stroke-linecap="round"/>
+<circle cx="82" cy="110" r="8" fill="#8896A8"/><text x="82" y="92" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">1.0</text>
+<circle cx="206" cy="110" r="8" fill="#8896A8"/><text x="206" y="92" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">2.0</text>
+<circle cx="414" cy="110" r="8" fill="#8896A8"/><text x="414" y="92" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">4.0</text>
+<circle cx="789" cy="110" r="8" fill="#8896A8"/><text x="789" y="92" font-size="14" font-weight="700" fill="#1A2433" text-anchor="middle">4.8</text>
+<text x="756" y="142" font-size="13" font-weight="600" fill="#B45309" text-anchor="end">figé — correctifs seulement</text>
+<path d="M800,118 C820,180 830,190 830,238" fill="none" stroke="#2F6FBF" stroke-width="2" stroke-dasharray="6 4"/><polygon points="824,236 836,236 830,248" fill="#2F6FBF"/>
+<text x="40" y="212" font-size="17" font-weight="700" fill="#083A73">.NET Core → .NET <tspan font-weight="400" fill="#5A6B80">— open source · multiplateforme</tspan></text>
+<line x1="664" y1="250" x2="1078" y2="250" stroke="#0B4F9C" stroke-width="4" stroke-linecap="round"/><polygon points="1078,242 1094,250 1078,258" fill="#0B4F9C"/>
+<circle cx="664" cy="250" r="8" fill="#fff" stroke="#0B4F9C" stroke-width="2.5"/><text x="664" y="232" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">Core 1.0</text>
+<circle cx="789" cy="250" r="8" fill="#0B4F9C"/><text x="789" y="282" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">Core 3.1</text>
+<circle cx="830" cy="250" r="8" fill="#fff" stroke="#0B4F9C" stroke-width="2.5"/><text x="836" y="232" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">5 · unification</text>
+<circle cx="872" cy="250" r="8" fill="#0B4F9C"/><text x="872" y="282" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">6</text>
+<circle cx="955" cy="250" r="8" fill="#0B4F9C"/><text x="955" y="232" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">8</text>
+<circle cx="997" cy="250" r="8" fill="#fff" stroke="#0B4F9C" stroke-width="2.5"/><text x="997" y="282" font-size="14" font-weight="600" fill="#1A2433" text-anchor="middle">9</text>
+<circle cx="1038" cy="250" r="12" fill="#B45309"/><circle cx="1038" cy="250" r="5" fill="#fff"/>
+<line x1="1038" y1="262" x2="1038" y2="296" stroke="#B45309" stroke-width="1.5"/>
+<text x="1044" y="316" font-size="16" font-weight="700" fill="#B45309" text-anchor="end">.NET 10 LTS + C# 14</text>
+<text x="1044" y="336" font-size="13" fill="#5A6B80" text-anchor="end">la version de cette formation</text>
+</svg><div class="note info">Une version majeure <b>chaque novembre</b> : paire = LTS (3 ans), impaire = STS (18 mois) — en production, cibler une LTS. Repères : Core 3.1 porte WPF/WinForms, .NET 5 fait disparaître « Core » du nom.</div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="i10"><h2>TP indicatif — Décompilation d'un assembly</h2><div class="body"><div class="two"><div><ul><li><b>Objectif</b> : voir de ses yeux ce que contient un assembly — IL, métadonnées, manifeste — et démystifier la compilation.</li><li>Compiler un projet (<code>dotnet build</code>), puis ouvrir la <code>.dll</code> produite dans un décompilateur.</li><li>Outils : <b>ILSpy</b> (Windows), <b>ilspycmd</b> (CLI multiplateforme), Rider/dotPeek, ou <b>sharplab.io</b> en ligne.</li><li>À observer :<ul><li>le manifeste (nom, version, dépendances) ;</li><li>la classe <code>Program</code> et la méthode <code>Main</code> <b>générées</b> par les top-level statements ;</li><li>l'IL d'une méthode simple, puis le C# reconstruit.</li></ul></li><li>Question débrief : que reste-t-il de vos noms de variables ? De vos commentaires ?</li></ul></div><div><div class="code"><div class="code-title">Avec ilspycmd</div><pre><code data-lang="bash"># Installer l'outil (une fois)
 dotnet tool install -g ilspycmd
 
@@ -188,13 +290,25 @@ dotnet new gitignore
 git add . &amp;&amp; git commit -m "init"</code></pre></div></div><div><ul><li>Une <b>solution</b> (<code>.sln</code>) regroupe plusieurs <b>projets</b> (<code>.csproj</code>).</li><li><code>dotnet new console</code> génère <code>Program.cs</code> et <code>Jour1.csproj</code>.</li><li><code>dotnet run</code> enchaîne restauration NuGet, compilation, exécution.</li><li>Chaque jour : nouveau projet <code>JourN</code> rattaché à la solution.</li><li>Le fil rouge <code>Bibliotheque</code> est créé en J2 selon le même schéma.</li></ul></div></div></div></section>
 <section class="slide section-slide" data-kind="section" data-day="Jour 1" id="s5"><div class="section"><div class="day">Jour 1</div><h1>Prise en main et syntaxe de base</h1><ul><li>Module 1 — Écosystème .NET</li><li>Module 2 — Types et variables</li><li>Module 3 — Opérateurs et structures de contrôle</li><li>TP 1 — Convertisseur d'unités</li></ul></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="s6"><h2>Module 1 — Qu'est-ce que .NET ?</h2><div class="body"><div class="two"><div><ul><li><b>C#</b> : langage créé par Microsoft en 2000 (Anders Hejlsberg), typé statiquement, orienté objet, à syntaxe proche de Java/C++.</li><li><b>.NET</b> : plateforme d'exécution + bibliothèque standard (BCL) + outils.</li><li><b>.NET Framework</b> (2002–2019) : Windows uniquement, figé en 4.8.</li><li><b>.NET Core → .NET 5+</b> (2016–) : open source, multiplateforme (Windows, macOS, Linux), une version majeure par an.</li><li><b>.NET 10</b> : version LTS (support 3 ans), livrée avec <b>C# 14</b>.</li></ul></div><div><table><thead><tr><th>Version</th><th>Sortie</th><th>Support</th></tr></thead><tbody><tr><td>.NET 8</td><td>nov. 2023</td><td>LTS</td></tr><tr><td>.NET 9</td><td>nov. 2024</td><td>STS</td></tr><tr><td>.NET 10</td><td>nov. 2025</td><td>LTS</td></tr></tbody></table><div class="note info">Règle : en production, cibler une version LTS.</div></div></div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="s7"><h2>Module 1 — Compilation : du C# au processeur</h2><div class="body"><div class="two"><div><ul><li>Le compilateur <b>Roslyn</b> transforme le C# en <b>IL</b> (Intermediate Language), stocké dans une DLL.</li><li>Au lancement, le <b>CLR</b> (Common Language Runtime) charge l'IL.</li><li>Le <b>JIT</b> (Just-In-Time) compile chaque méthode en code machine natif au premier appel.</li><li>Le CLR gère aussi la <b>mémoire</b> (Garbage Collector), la sécurité des types et les exceptions.</li><li>Conséquence : un même binaire tourne sur Windows, macOS et Linux tant qu'un runtime .NET est présent.</li></ul></div><div><div class="code"><div class="code-title">Chaîne de compilation</div><pre><code data-lang="text">Program.cs  ──(Roslyn)──▶  Jour1.dll (IL)
-                               │
-                          CLR charge la DLL
-                               │
-                          JIT ──▶ code natif x64 / ARM64
-                               │
-                          exécution</code></pre></div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="s7"><h2>Module 1 — Compilation : du C# au processeur</h2><div class="body"><div class="two"><div><ul><li>Le compilateur <b>Roslyn</b> transforme le C# en <b>IL</b> (Intermediate Language), stocké dans une DLL.</li><li>Au lancement, le <b>CLR</b> (Common Language Runtime) charge l'IL.</li><li>Le <b>JIT</b> (Just-In-Time) compile chaque méthode en code machine natif au premier appel.</li><li>Le CLR gère aussi la <b>mémoire</b> (Garbage Collector), la sécurité des types et les exceptions.</li><li>Conséquence : un même binaire tourne sur Windows, macOS et Linux tant qu'un runtime .NET est présent.</li></ul></div><div><svg class="diag" viewBox="0 0 560 372" role="img" aria-label="Chaîne de compilation">
+<rect x="20" y="8" width="520" height="54" rx="8" fill="#fff" stroke="#2F6FBF" stroke-width="2"/>
+<text x="40" y="34" font-size="16" font-weight="600" fill="#083A73" class="mono">Program.cs</text>
+<text x="520" y="34" font-size="13" fill="#5A6B80" text-anchor="end">votre code C#</text>
+<line x1="280" y1="66" x2="280" y2="88" stroke="#2F6FBF" stroke-width="2.5"/><polygon points="272,88 288,88 280,100" fill="#2F6FBF"/>
+<text x="300" y="86" font-size="13" font-weight="600" fill="#0B4F9C">Roslyn · à la build</text>
+<rect x="20" y="104" width="520" height="54" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
+<text x="40" y="130" font-size="16" font-weight="600" fill="#083A73" class="mono">Jour1.dll</text>
+<text x="520" y="130" font-size="13" fill="#5A6B80" text-anchor="end">IL portable + métadonnées</text>
+<line x1="280" y1="162" x2="280" y2="184" stroke="#2F6FBF" stroke-width="2.5"/><polygon points="272,184 288,184 280,196" fill="#2F6FBF"/>
+<text x="300" y="182" font-size="13" font-weight="600" fill="#0B4F9C">le CLR charge · au lancement</text>
+<rect x="20" y="200" width="520" height="58" rx="8" fill="#0B4F9C"/>
+<text x="40" y="226" font-size="16" font-weight="700" fill="#fff">JIT — compilation à la volée</text>
+<text x="40" y="248" font-size="13" fill="#CFE0F5">méthode par méthode, au premier appel</text>
+<line x1="280" y1="262" x2="280" y2="284" stroke="#2F6FBF" stroke-width="2.5"/><polygon points="272,284 288,284 280,296" fill="#2F6FBF"/>
+<rect x="20" y="300" width="520" height="58" rx="8" fill="#083A73"/>
+<text x="40" y="326" font-size="16" font-weight="700" fill="#fff">Code natif x64 / ARM64</text>
+<text x="40" y="348" font-size="13" fill="#CFE0F5">exécuté par le CPU — même .dll sur Windows, macOS, Linux</text>
+</svg></div></div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="s8"><h2>Module 1 — Anatomie d'un projet console</h2><div class="body"><div class="two"><div><div class="code"><div class="code-title">Jour1.csproj</div><pre><code data-lang="xml">&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
 
   &lt;PropertyGroup&gt;
