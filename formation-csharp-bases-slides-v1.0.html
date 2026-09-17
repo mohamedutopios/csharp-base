@@ -88,33 +88,38 @@ tr:nth-child(even) td{background:#FAFCFF}
 <text x="442" y="386" font-size="14" fill="#5A6B80">la machine</text>
 </svg><div class="note info">« Managé » = géré <i>par le runtime</i> : pas de gestion manuelle de la mémoire comme en C/C++.</div></div></div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="i3"><h2>.NET Framework vs .NET Core</h2><div class="body"><table><thead><tr><th></th><th>.NET Framework</th><th>.NET Core → .NET 5+</th></tr></thead><tbody><tr><td>Première version</td><td>2002</td><td>2016</td></tr><tr><td>Systèmes</td><td>Windows uniquement</td><td>Windows, macOS, Linux</td></tr><tr><td>Open source</td><td>Non</td><td>Oui (GitHub, fondation .NET)</td></tr><tr><td>Installation</td><td>Globale à la machine (GAC)</td><td>Côte à côte : chaque application embarque ou cible sa version</td></tr><tr><td>Évolution</td><td><b>Figé en 4.8</b> (correctifs seulement)</td><td>Une version majeure <b>chaque novembre</b></td></tr><tr><td>Performance</td><td>—</td><td>Nettement supérieure (benchmarks TechEmpower)</td></tr><tr><td>Usage aujourd'hui</td><td>Maintenance d'applications existantes</td><td><b>Tout nouveau projet</b></td></tr></tbody></table><div class="note info">Depuis 2020, « Core » a disparu du nom : .NET Core 3.1 → .NET 5 → … → <b>.NET 10</b>. Quand on dit « .NET » aujourd'hui, on parle de cette lignée.</div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i4"><h2>Le Common Language Runtime (CLR)</h2><div class="body"><div class="two"><div><ul><li>Le CLR est la <b>machine virtuelle</b> de .NET : c'est lui qui exécute le programme.</li><li>Ses responsabilités :<ul><li><b>charger</b> les assemblys et leurs dépendances ;</li><li><b>vérifier</b> les types avant exécution (type safety) ;</li><li><b>compiler</b> l'IL en code machine (JIT) ;</li><li><b>gérer la mémoire</b> (garbage collector) ;</li><li>propager les <b>exceptions</b>, gérer les threads.</li></ul></li><li>Un même binaire IL tourne partout où un CLR existe : c'est lui qui apporte la portabilité.</li></ul></div><div><svg class="diag" viewBox="0 0 560 408" role="img" aria-label="Cycle d'exécution du CLR">
-<rect x="16" y="10" width="320" height="50" rx="8" fill="#083A73"/>
-<text x="36" y="41" font-size="16" font-weight="600" fill="#fff" class="mono">$ dotnet run</text>
-<polygon points="168,64 184,64 176,78" fill="#2F6FBF"/>
-<rect x="16" y="82" width="320" height="56" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
-<text x="36" y="106" font-size="16" font-weight="700" fill="#083A73">1 · Le CLR charge l'assembly</text>
-<text x="36" y="128" font-size="13" fill="#5A6B80" class="mono">Jour1.dll  (IL + métadonnées)</text>
-<polygon points="168,142 184,142 176,156" fill="#2F6FBF"/>
-<rect x="16" y="160" width="320" height="56" rx="8" fill="#E7F0FB" stroke="#D5DFEC"/>
-<text x="36" y="184" font-size="16" font-weight="700" fill="#083A73">2 · Vérification des types</text>
-<text x="36" y="206" font-size="13" fill="#5A6B80">l'IL douteux est rejeté avant d'être exécuté</text>
-<polygon points="168,220 184,220 176,234" fill="#2F6FBF"/>
-<rect x="16" y="238" width="320" height="62" rx="8" fill="#0B4F9C"/>
-<text x="36" y="263" font-size="16" font-weight="700" fill="#fff">3 · JIT : IL → code machine</text>
-<text x="36" y="286" font-size="13" fill="#CFE0F5">méthode par méthode, au premier appel</text>
-<polygon points="168,304 184,304 176,318" fill="#2F6FBF"/>
-<rect x="16" y="322" width="320" height="50" rx="8" fill="#083A73"/>
-<text x="36" y="353" font-size="16" font-weight="700" fill="#fff">4 · Le CPU exécute</text>
-<rect x="372" y="160" width="172" height="140" rx="10" fill="#fff" stroke="#2F6FBF" stroke-width="1.5" stroke-dasharray="6 4"/>
-<text x="392" y="190" font-size="15" font-weight="700" fill="#0B4F9C">En tâche de fond</text>
-<text x="392" y="216" font-size="14" font-weight="600" fill="#1A2433">Garbage Collector</text>
-<text x="392" y="238" font-size="13" fill="#5A6B80">surveille le tas,</text>
-<text x="392" y="256" font-size="13" fill="#5A6B80">libère les objets</text>
-<text x="392" y="274" font-size="13" fill="#5A6B80">non référencés</text>
-<path d="M372,270 C352,290 350,300 340,320" fill="none" stroke="#2F6FBF" stroke-width="1.5" stroke-dasharray="4 4"/>
+<section class="slide" data-kind="std" data-day="J1" id="i4"><h2>Le Common Language Runtime (CLR)</h2><div class="body"><div class="two"><div><ul><li>Le CLR est la <b>machine virtuelle</b> de .NET : c'est lui qui exécute le programme.</li><li>Ses responsabilités :<ul><li><b>charger</b> les assemblys et leurs dépendances ;</li><li><b>vérifier</b> les types avant exécution (type safety) ;</li><li><b>compiler</b> l'IL en code machine (JIT) ;</li><li><b>gérer la mémoire</b> (garbage collector) ;</li><li>propager les <b>exceptions</b>, gérer les threads.</li></ul></li><li>Un même binaire IL tourne partout où un CLR existe : c'est lui qui apporte la portabilité.</li></ul></div><div><svg class="diag" viewBox="0 0 560 440" role="img" aria-label="Cycle d'exécution : tout se passe dans le CLR">
+<rect x="16" y="8" width="300" height="44" rx="8" fill="#1A2433"/>
+<text x="36" y="36" font-size="15" font-weight="600" fill="#fff" class="mono">$ dotnet run</text>
+<polygon points="158,56 174,56 166,68" fill="#2F6FBF"/>
+<rect x="8" y="74" width="544" height="272" rx="14" fill="#F0F5FC" stroke="#0B4F9C" stroke-width="2.5"/>
+<text x="28" y="102" font-size="17" font-weight="700" fill="#0B4F9C">CLR — Common Language Runtime</text>
+<text x="544" y="102" font-size="12" fill="#5A6B80" text-anchor="end">tout ceci est le runtime</text>
+<rect x="28" y="116" width="300" height="50" rx="8" fill="#fff" stroke="#D5DFEC"/>
+<text x="44" y="137" font-size="15" font-weight="700" fill="#083A73">1 · Chargement de l'assembly</text>
+<text x="44" y="157" font-size="12.5" fill="#5A6B80" class="mono">Jour1.dll : disque → mémoire</text>
+<polygon points="170,170 186,170 178,182" fill="#2F6FBF"/>
+<rect x="28" y="186" width="300" height="50" rx="8" fill="#fff" stroke="#D5DFEC"/>
+<text x="44" y="207" font-size="15" font-weight="700" fill="#083A73">2 · Vérification des types</text>
+<text x="44" y="227" font-size="12.5" fill="#5A6B80">l'IL douteux est rejeté avant exécution</text>
+<polygon points="170,240 186,240 178,252" fill="#2F6FBF"/>
+<rect x="28" y="256" width="300" height="66" rx="8" fill="#0B4F9C"/>
+<text x="44" y="280" font-size="15" font-weight="700" fill="#fff">3 · JIT : IL → code machine</text>
+<text x="44" y="300" font-size="12.5" fill="#CFE0F5">le compilateur à la volée DU CLR,</text>
+<text x="44" y="316" font-size="12.5" fill="#CFE0F5">méthode par méthode, au premier appel</text>
+<rect x="352" y="186" width="184" height="136" rx="10" fill="#fff" stroke="#2F6FBF" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="370" y="212" font-size="14" font-weight="700" fill="#0B4F9C">Garbage Collector</text>
+<text x="370" y="234" font-size="12.5" fill="#5A6B80">l'autre service du CLR :</text>
+<text x="370" y="254" font-size="12.5" fill="#5A6B80">surveille le tas managé,</text>
+<text x="370" y="274" font-size="12.5" fill="#5A6B80">libère les objets</text>
+<text x="370" y="294" font-size="12.5" fill="#5A6B80">non référencés</text>
+<polygon points="170,350 186,350 178,362" fill="#2F6FBF"/>
+<text x="196" y="362" font-size="12.5" fill="#5A6B80">code machine natif</text>
+<rect x="16" y="368" width="536" height="50" rx="8" fill="#083A73"/>
+<text x="36" y="390" font-size="15" font-weight="700" fill="#fff">4 · Le CPU exécute</text>
+<text x="36" y="410" font-size="12.5" fill="#CFE0F5">le matériel — la seule étape hors du CLR</text>
 </svg><div class="note info">À comparer : la JVM joue le même rôle pour Java. IL ≈ bytecode.</div></div></div></div></section>
-<section class="slide" data-kind="std" data-day="J1" id="i5"><h2>Les assemblys</h2><div class="body"><div class="two"><div><ul><li>L'<b>assembly</b> est l'unité de compilation, de déploiement et de versionnement de .NET : concrètement un fichier <code>.dll</code> (ou <code>.exe</code> lanceur).</li><li>Un projet compilé = un assembly : <code>Jour1.csproj</code> → <code>Jour1.dll</code>.</li><li>Contenu d'un assembly :<ul><li>le <b>manifeste</b> : nom, version, culture, dépendances ;</li><li>les <b>métadonnées</b> : description complète des types ;</li><li>le <b>code IL</b> de chaque méthode ;</li><li>d'éventuelles ressources (images, textes…).</li></ul></li><li>Les métadonnées rendent l'assembly <b>auto-descriptif</b> : c'est ce qui permet IntelliSense… et la décompilation.</li></ul></div><div><svg class="diag" viewBox="0 0 560 404" role="img" aria-label="Anatomie d'un assembly">
+<section class="slide" data-kind="std" data-day="J1" id="i5"><h2>Les assemblys</h2><div class="body"><div class="two"><div><ul><li>L'<b>assembly</b> est l'unité de compilation, de déploiement et de versionnement de .NET : concrètement un fichier <code>.dll</code> (ou <code>.exe</code> lanceur).</li><li>Un projet compilé = un assembly : <code>Jour1.csproj</code> → <code>Jour1.dll</code>.</li><li><b>Où est-il stocké ?</b> C'est un fichier <b>sur le disque</b> :<ul><li>votre build : <code>bin/Debug/net10.0/Jour1.dll</code> ;</li><li>les paquets NuGet téléchargés : <code>~/.nuget/packages/</code> ;</li><li>la BCL : dans le dossier d'installation du SDK/runtime.</li></ul>Au lancement, le CLR le <b>charge du disque vers la mémoire</b>.</li><li>Contenu d'un assembly :<ul><li>le <b>manifeste</b> : nom, version, culture, dépendances ;</li><li>les <b>métadonnées</b> : description complète des types ;</li><li>le <b>code IL</b> de chaque méthode ;</li><li>d'éventuelles ressources (images, textes…).</li></ul></li><li>Les métadonnées rendent l'assembly <b>auto-descriptif</b> : c'est ce qui permet IntelliSense… et la décompilation.</li></ul></div><div><svg class="diag" viewBox="0 0 560 404" role="img" aria-label="Anatomie d'un assembly">
 <text x="280" y="28" font-size="18" font-weight="700" fill="#083A73" text-anchor="middle" class="mono">Jour1.dll</text>
 <text x="280" y="50" font-size="13" fill="#5A6B80" text-anchor="middle">produit par dotnet build → bin/Debug/net10.0/</text>
 <rect x="70" y="62" width="420" height="322" rx="14" fill="#fff" stroke="#0B4F9C" stroke-width="2"/>
@@ -131,6 +136,16 @@ tr:nth-child(even) td{background:#FAFCFF}
 <text x="110" y="330" font-size="16" font-weight="700" fill="#5A6B80">Ressources (optionnel)</text>
 <text x="110" y="352" font-size="13" fill="#5A6B80">images, textes, fichiers embarqués</text>
 </svg><div class="note info">Manifeste + métadonnées rendent l'assembly auto-descriptif : IntelliSense, <code>dotnet add reference</code> et les décompilateurs s'appuient dessus.</div></div></div></div></section>
+<section class="slide" data-kind="std" data-day="J1" id="i5b"><h2>De C# à l'IL — que fait le compilateur Roslyn ?</h2><div class="body"><div class="two"><div><ul><li><code>dotnet build</code> invoque <b>Roslyn</b>, le compilateur C# officiel (lui-même écrit en C#).</li><li>Trois étapes :<ul><li><b>1 · Analyse</b> : le texte devient un arbre de syntaxe ;</li><li><b>2 · Vérification sémantique</b> : types, noms, portées — c'est <b>ici</b> que naissent vos erreurs de compilation ;</li><li><b>3 · Émission</b> : génération de l'<b>IL</b> + métadonnées, écrits dans l'assembly (<code>Jour1.dll</code>).</li></ul></li><li>L'IL est un langage <b>à pile</b>, indépendant du processeur : ni x64, ni ARM — c'est le JIT qui fera la traduction finale (slide suivante).</li><li>Un seul binaire IL = déployable sur tous les OS.</li><li>Le voir soi-même : <b>sharplab.io</b> en ligne, ou <code>ilspycmd -il</code> (TP décompilation).</li></ul></div><div><div class="code"><div class="code-title">Votre C# (Program.cs)</div><pre><code data-lang="csharp">static int Additionner(int a, int b)
+{
+    return a + b;
+}</code></pre></div><div class="code"><div class="code-title">L'IL généré dans Jour1.dll (vue ilspycmd -il)</div><pre><code data-lang="text">.method static int32 Additionner(int32 a, int32 b)
+{
+  ldarg.0    // empile l'argument a
+  ldarg.1    // empile l'argument b
+  add        // dépile les deux, empile la somme
+  ret        // renvoie le sommet de pile
+}</code></pre></div><div class="note info">Même code, autre langage : l'IL décrit <i>quoi faire</i>, pas encore <i>avec quelles instructions CPU</i>.</div></div></div></div></section>
 <section class="slide" data-kind="std" data-day="J1" id="i6"><h2>La compilation Just-In-Time (JIT)</h2><div class="body"><div class="two"><div><ul><li>La compilation .NET se fait en <b>deux temps</b> : C# → IL (Roslyn, à la build), puis IL → code machine (JIT, à l'exécution).</li><li>Le JIT compile <b>méthode par méthode, au premier appel</b>, puis garde le code natif en mémoire : les appels suivants sont directs.</li><li><b>Compilation étagée</b> (tiered) : une méthode très appelée est recompilée avec plus d'optimisations.</li><li>Avantage : le code natif est optimisé <b>pour le CPU réel</b> de la machine (instructions vectorielles, etc.).</li><li>Alternative : <b>AOT</b> (Ahead-Of-Time, <code>PublishAot</code>) — tout est compilé en natif à l'avance : démarrage instantané, binaire autonome.</li></ul></div><div><svg class="diag" viewBox="0 0 560 412" role="img" aria-label="Les deux temps de la compilation">
 <rect x="10" y="10" width="540" height="150" rx="12" fill="#F7F9FD" stroke="#D5DFEC"/>
 <text x="30" y="42" font-size="16" font-weight="700" fill="#083A73">1 · À LA BUILD <tspan font-weight="400" fill="#5A6B80">— une seule fois</tspan></text>
@@ -148,7 +163,7 @@ tr:nth-child(even) td{background:#FAFCFF}
 <text x="105" y="258" font-size="15" font-weight="600" fill="#083A73" text-anchor="middle" class="mono">Jour1.dll</text>
 <text x="105" y="278" font-size="12" fill="#5A6B80" text-anchor="middle">IL</text>
 <line x1="186" y1="261" x2="264" y2="261" stroke="#0B4F9C" stroke-width="2.5"/><polygon points="264,254 278,261 264,268" fill="#0B4F9C"/>
-<text x="228" y="248" font-size="13" font-weight="700" fill="#0B4F9C" text-anchor="middle">JIT</text>
+<text x="228" y="248" font-size="13" font-weight="700" fill="#0B4F9C" text-anchor="middle">JIT (CLR)</text>
 <rect x="284" y="232" width="150" height="58" rx="8" fill="#0B4F9C"/>
 <text x="359" y="258" font-size="15" font-weight="600" fill="#fff" text-anchor="middle">code machine</text>
 <text x="359" y="278" font-size="12" fill="#CFE0F5" text-anchor="middle">x64 / ARM64</text>
@@ -302,7 +317,7 @@ git add . &amp;&amp; git commit -m "init"</code></pre></div></div><div><ul><li>U
 <line x1="280" y1="162" x2="280" y2="184" stroke="#2F6FBF" stroke-width="2.5"/><polygon points="272,184 288,184 280,196" fill="#2F6FBF"/>
 <text x="300" y="182" font-size="13" font-weight="600" fill="#0B4F9C">le CLR charge · au lancement</text>
 <rect x="20" y="200" width="520" height="58" rx="8" fill="#0B4F9C"/>
-<text x="40" y="226" font-size="16" font-weight="700" fill="#fff">JIT — compilation à la volée</text>
+<text x="40" y="226" font-size="16" font-weight="700" fill="#fff">JIT — compilation à la volée, au cœur du CLR</text>
 <text x="40" y="248" font-size="13" fill="#CFE0F5">méthode par méthode, au premier appel</text>
 <line x1="280" y1="262" x2="280" y2="284" stroke="#2F6FBF" stroke-width="2.5"/><polygon points="272,284 288,284 280,296" fill="#2F6FBF"/>
 <rect x="20" y="300" width="520" height="58" rx="8" fill="#083A73"/>
