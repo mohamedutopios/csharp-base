@@ -77,8 +77,41 @@ Console.WriteLine();
 Console.WriteLine(sb.ToString());
 
 // ---------------------------------------------------------------
+// Partie E — Par valeur ou par référence ?
+// ---------------------------------------------------------------
+Console.WriteLine("\n--- Partie E : par valeur ou par référence ? ---");
+
+// 11a. int est un type VALEUR : l'affectation COPIE la donnée
+int prixA = 10;
+int prixB = prixA;
+prixB = 99;
+Console.WriteLine($"int   : prixA = {prixA} (intact — prixB était une copie indépendante)");
+
+// 11b. Un tableau est un type RÉFÉRENCE : l'affectation copie l'ADRESSE
+int[] stockA = { 10, 20, 30 };
+int[] stockB = stockA;          // deux variables… UN SEUL tableau
+stockB[0] = 99;
+Console.WriteLine($"int[] : stockA[0] = {stockA[0]} (modifié ! stockA et stockB désignent le même objet)");
+
+// 12. En une phrase : affecter un type valeur COPIE la donnée ; affecter un
+//     type référence copie l'ADRESSE, donc les deux variables désignent le
+//     même OBJET et une modification via l'une se voit via l'autre.
+
+// 13. string : type référence, mais nomB = "thé" ne MODIFIE pas l'objet
+//     "café" — ça RÉ-AFFECTE la variable nomB vers un AUTRE objet.
+//     (Et string est immuable : aucune méthode ne modifie l'objet en place.)
+string nomA = "café";
+string nomB = nomA;
+nomB = "thé";
+Console.WriteLine($"string: nomA = {nomA} (intact — on a ré-affecté nomB, pas modifié l'objet)");
+
+// ---------------------------------------------------------------
 // Bonus
 // ---------------------------------------------------------------
-Console.WriteLine($"0.1 + 0.2 == 0.3 en double  : {0.1 + 0.2 == 0.3}   (approximation binaire !)");
+Console.WriteLine($"\n0.1 + 0.2 == 0.3 en double  : {0.1 + 0.2 == 0.3}   (approximation binaire !)");
 Console.WriteLine($"0.1 + 0.2 == 0.3 en decimal : {0.1m + 0.2m == 0.3m} → decimal pour l'argent");
 Console.WriteLine($"Aligné à droite sur 10 : |{prixUnitaire,10:C}|");
+
+int auMax = int.MaxValue;
+Console.WriteLine($"int.MaxValue + 1 = {auMax + 1} (dépassement SILENCIEUX : repart à MinValue)");
+// checked { Console.WriteLine(auMax + 1); }   // ← décommenter : OverflowException

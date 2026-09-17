@@ -55,6 +55,17 @@ int tronque = (int)pi;        // explicite (cast) : perte assumée → 3, pas 4 
 Console.WriteLine($"\n(int)3.99 = {tronque}  (troncature, pas d'arrondi)");
 Console.WriteLine($"Math.Round(3.99) = {Math.Round(3.99)}");
 
+// Trois outils qui ne font PAS pareil :
+Console.WriteLine($"(int)3.99 = {(int)pi} (cast : tronque) | Convert.ToInt32(3.99) = {Convert.ToInt32(pi)} (arrondit !)");
+Console.WriteLine($"Convert.ToInt32(null) = {Convert.ToInt32((string?)null)} — int.Parse(null) planterait, lui");
+
+// Dépassement de capacité (overflow) : SILENCIEUX par défaut !
+int auMax = int.MaxValue;
+Console.WriteLine($"\nint.MaxValue     = {auMax}");
+Console.WriteLine($"int.MaxValue + 1 = {auMax + 1}  ← repart à MinValue, sans erreur !");
+// Pour détecter : checked { auMax + 1 } → OverflowException. À montrer :
+// checked { Console.WriteLine(auMax + 1); }   // ← décommenter : crash contrôlé
+
 // ---------------------------------------------------------------
 // 5. Parse vs TryParse : convertir du texte en nombre
 // ---------------------------------------------------------------
@@ -72,20 +83,44 @@ else
     Console.WriteLine($"\"{saisieUtilisateur}\" n'est pas un nombre → TryParse renvoie false, pas de crash");
 
 // ---------------------------------------------------------------
-// 6. Types référence : la variable contient une ADRESSE
+// 6. Par VALEUR ou par RÉFÉRENCE : LA distinction fondamentale
 // ---------------------------------------------------------------
-int[] a = { 1, 2, 3 };
-int[] b = a;              // b pointe vers LE MÊME tableau
-b[0] = 99;
-Console.WriteLine($"\na[0] = {a[0]}  ← modifié via b : a et b référencent le même objet !");
+// Types VALEUR  (int, double, decimal, bool, char, struct, enum) :
+//   la variable CONTIENT la donnée → l'affectation COPIE la donnée.
+// Types RÉFÉRENCE (string, tableaux, classes, List…) :
+//   la variable contient l'ADRESSE d'un objet (sur le tas / heap)
+//   → l'affectation copie L'ADRESSE : deux variables, UN SEUL objet.
 
 int x = 1;
 int y = x;                // copie de la VALEUR
 y = 99;
-Console.WriteLine($"x = {x}  ← intact : les types valeur sont copiés");
+Console.WriteLine($"\nType valeur     : x = {x}  ← intact : y est une copie indépendante");
+
+int[] a = { 1, 2, 3 };
+int[] b = a;              // copie de l'ADRESSE : b pointe vers LE MÊME tableau
+b[0] = 99;
+Console.WriteLine($"Type référence  : a[0] = {a[0]}  ← modifié via b : a et b désignent le même objet !");
+
+// (Cette distinction revient au module 4 pour le passage de paramètres
+//  ref/out, et au module 8 pour struct vs class.)
 
 // ---------------------------------------------------------------
-// 7. Chaînes : immuables + méthodes usuelles
+// 7. Valeurs par défaut et premier contact avec null
+// ---------------------------------------------------------------
+// Chaque type a une valeur par défaut : default
+int entierDefaut = default;        // 0
+bool boolDefaut = default;         // false
+char charDefaut = default;         // '\0'
+Console.WriteLine($"\ndefault : int = {entierDefaut}, bool = {boolDefaut}, char = '{charDefaut}' (invisible)");
+
+// Pour les types RÉFÉRENCE, le défaut est null : « ne pointe vers rien »
+string? texte = null;              // le ? annonce : null possible (détail au module 12)
+Console.WriteLine($"string? à null : {(texte is null ? "null" : texte)}");
+// Console.WriteLine(texte.Length);   // ← décommenter : NullReferenceException,
+//                                    //   L'erreur n°1 du débutant. Module 12 : les armes anti-null.
+
+// ---------------------------------------------------------------
+// 8. Chaînes : immuables + méthodes usuelles
 // ---------------------------------------------------------------
 string nom = "  Marie Curie  ";
 Console.WriteLine($"\nLength: {nom.Length} | Trim: '{nom.Trim()}' | Upper: {nom.ToUpper()}");
@@ -101,8 +136,14 @@ Console.WriteLine($"Join  → {string.Join(" | ", fruits)}");
 double montant = 1234.5678;
 Console.WriteLine($"\nFormats : {montant:F2} (F2) | {montant:C} (C) | {montant:N0} (N0) | {0.856:P1} (P1)");
 
+// Échappements et chaînes spéciales
+Console.WriteLine("Échappements : saut\\n →\nici, tab\\t →\tlà, guillemet \\\" → \" ");
+string cheminWindows = @"C:\formation\csharp";        // verbatim @ : les \ sont littéraux
+string extraitJson = """{ "nom": "Alice" }""";        // raw string """ : guillemets sans échappement
+Console.WriteLine($"Verbatim : {cheminWindows} | Raw : {extraitJson}");
+
 // ---------------------------------------------------------------
-// 8. StringBuilder : concaténation efficace en boucle
+// 9. StringBuilder : concaténation efficace en boucle
 // ---------------------------------------------------------------
 // string est immuable : chaque « += » crée une NOUVELLE chaîne en mémoire.
 var sb = new StringBuilder();
@@ -111,7 +152,17 @@ for (int i = 1; i <= 5; i++)
 Console.WriteLine($"\nStringBuilder : {sb}");
 
 // ---------------------------------------------------------------
-// 9. Console.ReadLine : entrée utilisateur (décommenter en démo live)
+// 10. Portée (scope) : une variable vit dans son bloc { }
+// ---------------------------------------------------------------
+{
+    int locale = 42;               // n'existe QUE dans ce bloc
+    Console.WriteLine($"\nDans le bloc : locale = {locale}");
+}
+// Console.WriteLine(locale);      // ← ERREUR CS0103 : hors de portée
+// Même règle pour les variables déclarées dans un if, un for, une méthode.
+
+// ---------------------------------------------------------------
+// 11. Console.ReadLine : entrée utilisateur (décommenter en démo live)
 // ---------------------------------------------------------------
 // Console.Write("Votre âge ? ");
 // string? reponse = Console.ReadLine();          // peut être null !
@@ -120,4 +171,5 @@ Console.WriteLine($"\nStringBuilder : {sb}");
 // else
 //     Console.WriteLine("Saisie invalide.");
 
-Console.WriteLine("\n→ À retenir : decimal pour l'argent, TryParse pour les saisies, string est immuable.");
+Console.WriteLine("\n→ À retenir : decimal pour l'argent, TryParse pour les saisies, string est " +
+                  "immuable, l'affectation copie la valeur (types valeur) ou l'adresse (types référence).");

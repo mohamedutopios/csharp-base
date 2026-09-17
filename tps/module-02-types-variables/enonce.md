@@ -54,7 +54,40 @@ TOTAL TTC ........ 17,28 €
 
 10. L'afficher en une seule fois avec `Console.WriteLine(sb.ToString())`.
 
+### Partie E — Par valeur ou par référence ?
+
+11. Prédire **sur papier**, puis vérifier dans le code :
+
+```csharp
+int prixA = 10;
+int prixB = prixA;
+prixB = 99;
+// prixA vaut… ?
+
+int[] stockA = { 10, 20, 30 };
+int[] stockB = stockA;
+stockB[0] = 99;
+// stockA[0] vaut… ?
+```
+
+12. Expliquer la différence en une phrase avec les mots **copie**, **adresse**
+    et **objet**.
+13. `string` est un type **référence**… et pourtant il se comporte comme un
+    type valeur dans ce test :
+
+```csharp
+string nomA = "café";
+string nomB = nomA;
+nomB = "thé";
+// nomA vaut… ?
+```
+
+Pourquoi ? (indice : on n'a pas modifié l'objet, on a ré-affecté la variable —
+et `string` est de toute façon **immuable**.)
+
 ## Bonus
 
 - Vérifier avec `0.1 + 0.2 == 0.3` pourquoi `double` est banni pour l'argent.
 - Afficher le prix aligné à droite sur 10 caractères : `{prix,10:C}`.
+- Que vaut `int.MaxValue + 1` ? Tester (avec une variable), constater le
+  dépassement silencieux, puis l'entourer de `checked { }`.

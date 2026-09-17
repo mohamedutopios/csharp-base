@@ -153,7 +153,7 @@ dotnet project convert solution.cs
 | Jour | Dossier | TP | Notions travaillées |
 |---|---|---|---|
 | J1 | `module-01-ecosysteme/` | Ma première solution | CLI `dotnet`, sln/projets, build vs run, .gitignore |
-| J1 | `module-02-types-variables/` | La caisse enregistreuse | `decimal`, `const`, `TryParse`, chaînes, `StringBuilder` |
+| J1 | `module-02-types-variables/` | La caisse enregistreuse | `decimal`, `const`, `TryParse`, chaînes, `StringBuilder`, par valeur vs par référence, overflow |
 | J1 | `module-03-operateurs-controle/` | Le petit train des multiples | FizzBuzz, modulo, `do/while`, `foreach`, menu + `switch` |
 | J2 | `module-04-methodes/` | La boîte à outils | `out`, `params`, optionnels/nommés, surcharge, récursivité |
 | J2 | `module-05-classes-objets/` | Le compte bancaire | Encapsulation, propriétés validées, `static`, `required`/`init` |

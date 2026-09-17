@@ -143,7 +143,7 @@ dotnet project convert module-05-classes-objets.cs
 | Jour | Fichier | Module | Contenu démontré |
 |---|---|---|---|
 | J1 | `module-01-ecosysteme.cs` | 1. Écosystème .NET | Runtime, CLR, top-level statements, infos d'environnement |
-| J1 | `module-02-types-variables.cs` | 2. Types et variables | Types valeur/référence, `var`, conversions, `Parse`/`TryParse`, chaînes, `StringBuilder` |
+| J1 | `module-02-types-variables.cs` | 2. Types et variables | **Par valeur vs par référence**, `var`, conversions + overflow, `Parse`/`TryParse`/`Convert`, `default`/`null`, chaînes (échappements, verbatim, raw), `StringBuilder`, portée |
 | J1 | `module-03-operateurs-controle.cs` | 3. Opérateurs et contrôle | `??`, `?.`, ternaire, `if`/`switch` (instruction + expression), boucles, `break`/`continue`, squelette de menu |
 | J2 | `module-04-methodes.cs` | 4. Méthodes | Signature, `ref`/`out`/`params`, optionnels/nommés, surcharge, expression-bodied, récursivité |
 | J2 | `module-05-classes-objets.cs` | 5. Classes et objets | Champs, propriétés (`init`, `required`), constructeurs, `this`, `static`, object initializer |
